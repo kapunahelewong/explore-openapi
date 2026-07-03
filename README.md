@@ -11,9 +11,11 @@ the same way GitHub's own docs are.
 [`generate_docs_site.py`](generate_docs_site.py) fetches GitHub's published
 `api.github.com.json` OpenAPI spec, groups all ~1,200 endpoints by tag
 (`issues`, `repos`, `actions`, etc. — 47 tags in total), and renders one
-HTML page per tag — each endpoint's method, path, description, parameters,
-and possible responses, plus a linked table of contents. `index.html` lists
-every tag with a description and endpoint count, linking out to its page.
+HTML page per tag into [`docs/`](docs/) — each endpoint's method, path,
+description, parameters, and possible responses, plus a linked table of
+contents. `docs/index.html` lists every tag with a description and endpoint
+count, linking out to its page. GitHub Pages serves the site straight from
+that `docs/` folder.
 
 It's a small-scale version of what tools like Scalar, Redoc, or Swagger UI
 do at a much larger scale.
@@ -24,9 +26,9 @@ do at a much larger scale.
 python3 generate_docs_site.py
 ```
 
-This regenerates `index.html` plus one `{tag}.html` file per tag, from
-whatever spec GitHub has published at the time you run it — no local copy
-of the spec is stored or required.
+This regenerates `docs/index.html` plus one `docs/{tag}.html` file per tag,
+from whatever spec GitHub has published at the time you run it — no local
+copy of the spec is stored or required.
 
 ## Keeping the site fresh
 
@@ -34,3 +36,10 @@ of the spec is stored or required.
 runs weekly (and can be triggered manually from the Actions tab), regenerates
 every page from the latest spec, and commits only if something actually
 changed. GitHub Pages then redeploys automatically from `main`.
+
+## A simpler, single-tag version
+
+[`examples/single-tag-version/`](examples/single-tag-version/) keeps an
+earlier version of `generate_docs_site.py`, from before it grew to cover
+every tag — it documents just one tag (`issues`) into a single `index.html`.
+If the full multi-page generator feels like a lot, start there.

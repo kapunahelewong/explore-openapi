@@ -21,12 +21,12 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Regenerate index.html and tag pages from the live spec
+      - name: Regenerate docs/index.html and tag pages from the live spec
         run: python3 generate_docs_site.py
 
       - name: Commit and push if any generated page changed
         run: |
-          git add -- '*.html'
+          git add -- 'docs/*.html'
           if git diff --cached --quiet; then
             echo "No changes to the spec since last run."
             exit 0
