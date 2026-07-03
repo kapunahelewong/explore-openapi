@@ -124,6 +124,20 @@
     .tag-card a:hover { text-decoration: underline; }
     .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
     .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+    #tag-search {
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        padding: 8px 12px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    #tag-search:focus { outline: none; border-color: var(--accent); }
+    .tag-card.hidden { display: none; }
+    #no-results { display: none; color: var(--muted); }
 </style>
     </head>
     <body>
@@ -134,7 +148,8 @@
             OpenAPI spec.</p>
             <p>1194 endpoints across 47 tags. Pick one below.</p>
         </div>
-        <ul class="tag-list">
+        <input type="search" id="tag-search" placeholder="Search tags…" aria-label="Search tags" autocomplete="off">
+        <ul class="tag-list" id="tag-list">
         <li class="tag-card">
             <a href="actions.html"><strong>actions</strong></a>
             <span class="tag-count">187 endpoints</span>
@@ -417,6 +432,29 @@
             <p>Interact with and view information about users and also current user.</p>
         </li>
         </ul>
+        <p id="no-results">No tags match your search.</p>
+        <script>
+            // Filters the tag cards as you type -- matches against each
+            // card's whole text (name + description), not just the name.
+            (function () {
+                var input = document.getElementById("tag-search");
+                var cards = Array.prototype.slice.call(document.querySelectorAll(".tag-card"));
+                var noResults = document.getElementById("no-results");
+
+                input.addEventListener("input", function () {
+                    var query = input.value.trim().toLowerCase();
+                    var visibleCount = 0;
+
+                    cards.forEach(function (card) {
+                        var matches = card.textContent.toLowerCase().includes(query);
+                        card.classList.toggle("hidden", !matches);
+                        if (matches) visibleCount += 1;
+                    });
+
+                    noResults.style.display = visibleCount === 0 ? "block" : "none";
+                });
+            })();
+        </script>
     </body>
     </html>
     

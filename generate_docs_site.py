@@ -355,6 +355,20 @@ STYLE = """
     .tag-card a:hover { text-decoration: underline; }
     .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
     .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+    #tag-search {
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        padding: 8px 12px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    #tag-search:focus { outline: none; border-color: var(--accent); }
+    .tag-card.hidden { display: none; }
+    #no-results { display: none; color: var(--muted); }
 """
 
 
@@ -392,8 +406,8 @@ def render_tag_page(tag, description, endpoints, sections_html):
 
 def render_index_page(tags_with_counts):
     """
-    Build the top-level index.html: one card per tag linking to
-    "{tag}.html", showing its description and how many endpoints it covers.
+    Build the top-level index.html: a search box, then one card per tag
+    linking to "{tag}.html", showing its description and endpoint count.
     """
     total_endpoints = sum(count for _, _, count in tags_with_counts)
 
@@ -406,7 +420,7 @@ def render_index_page(tags_with_counts):
             <p>{description}</p>
         </li>
         """)
-    tags_html = "<ul class=\"tag-list\">" + "".join(cards) + "</ul>"
+    tags_html = "<ul class=\"tag-list\" id=\"tag-list\">" + "".join(cards) + "</ul>"
 
     return f"""
     <html>
@@ -423,7 +437,31 @@ def render_index_page(tags_with_counts):
             OpenAPI spec.</p>
             <p>{total_endpoints} endpoints across {len(tags_with_counts)} tags. Pick one below.</p>
         </div>
+        <input type="search" id="tag-search" placeholder="Search tags…" aria-label="Search tags" autocomplete="off">
         {tags_html}
+        <p id="no-results">No tags match your search.</p>
+        <script>
+            // Filters the tag cards as you type -- matches against each
+            // card's whole text (name + description), not just the name.
+            (function () {{
+                var input = document.getElementById("tag-search");
+                var cards = Array.prototype.slice.call(document.querySelectorAll(".tag-card"));
+                var noResults = document.getElementById("no-results");
+
+                input.addEventListener("input", function () {{
+                    var query = input.value.trim().toLowerCase();
+                    var visibleCount = 0;
+
+                    cards.forEach(function (card) {{
+                        var matches = card.textContent.toLowerCase().includes(query);
+                        card.classList.toggle("hidden", !matches);
+                        if (matches) visibleCount += 1;
+                    }});
+
+                    noResults.style.display = visibleCount === 0 ? "block" : "none";
+                }});
+            }})();
+        </script>
     </body>
     </html>
     """

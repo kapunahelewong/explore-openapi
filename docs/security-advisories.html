@@ -124,6 +124,20 @@
     .tag-card a:hover { text-decoration: underline; }
     .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
     .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+    #tag-search {
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        padding: 8px 12px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    #tag-search:focus { outline: none; border-color: var(--accent); }
+    .tag-card.hidden { display: none; }
+    #no-results { display: none; color: var(--muted); }
 </style>
     </head>
     <body>
