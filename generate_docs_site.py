@@ -432,8 +432,7 @@ def render_index_page(tags_with_counts):
     <body>
         <h1>GitHub REST API Reference</h1>
         <div class="intro">
-            <p>Every endpoint in GitHub's REST API, grouped by tag the same way
-            GitHub's own docs are -- generated straight from the published
+            <p>Every endpoint in GitHub's REST API, grouped by tag, generated from the published
             OpenAPI spec.</p>
             <p>{total_endpoints} endpoints across {len(tags_with_counts)} tags. Pick one below.</p>
         </div>
