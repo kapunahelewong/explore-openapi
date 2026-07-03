@@ -6,24 +6,35 @@ with a given tag (e.g. "issues") -- a small-scale version of what a
 generated docs site (Scalar, Redoc, docs-platform) does across a
 whole API.
 
+The OpenAPI spec itself is fetched fresh from GitHub every run (see
+SPEC_URL below) rather than read from a local file, so the generated
+docs always reflect whatever GitHub has published most recently.
+
 Run it with: python3 generate_docs_site.py
-Then open site.html in a browser.
+Then open index.html in a browser.
 """
 
 import json
+import urllib.request
 
 # --- Config -----------------------------------------------------------
-# These three constants are the "knobs" for this script. Change TAG_TO_DOCUMENT
+# These constants are the "knobs" for this script. Change TAG_TO_DOCUMENT
 # to generate docs for a different slice of the API (e.g. "pulls", "repos").
-SPEC_PATH = "api.github.com.json"
+#
+# SPEC_URL points at the same api.github.com.json GitHub itself publishes
+# and keeps up to date, in its public rest-api-description repo.
+SPEC_URL = (
+    "https://raw.githubusercontent.com/github/rest-api-description"
+    "/main/descriptions/api.github.com/api.github.com.json"
+)
 TAG_TO_DOCUMENT = "issues"
 OUTPUT_FILE = "index.html"
 
 
-def load_spec(path):
-    """Read the OpenAPI spec JSON file off disk and parse it into a dict."""
-    with open(path) as f:
-        return json.load(f)
+def load_spec(url):
+    """Fetch the OpenAPI spec JSON straight from GitHub and parse it."""
+    with urllib.request.urlopen(url) as response:
+        return json.load(response)
 
 
 def resolve_ref(spec, ref):
@@ -340,8 +351,8 @@ def render_site(spec, tag):
 
 
 def main():
-    # 1. Load the raw OpenAPI spec from disk.
-    spec = load_spec(SPEC_PATH)
+    # 1. Fetch the raw OpenAPI spec straight from GitHub.
+    spec = load_spec(SPEC_URL)
     # 2. Turn it into one big HTML string for the tag we care about.
     html = render_site(spec, TAG_TO_DOCUMENT)
 
