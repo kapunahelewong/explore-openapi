@@ -1,0 +1,263 @@
+
+    <html>
+    <head>
+        <title>Interactions API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Interactions API Reference</h1>
+        <div class="intro">
+            <p>Owner or admin management of users interactions.</p>
+            <p>12 endpoints tagged <code>interactions</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--orgs-org-interaction-limits"><span class="method method-get">GET</span> Get interaction restrictions for an organization</a></li><li><a href="#put--orgs-org-interaction-limits"><span class="method method-put">PUT</span> Set interaction restrictions for an organization</a></li><li><a href="#delete--orgs-org-interaction-limits"><span class="method method-delete">DELETE</span> Remove interaction restrictions for an organization</a></li><li><a href="#get--repos-owner-repo-interaction-limits"><span class="method method-get">GET</span> Get interaction restrictions for a repository</a></li><li><a href="#put--repos-owner-repo-interaction-limits"><span class="method method-put">PUT</span> Set interaction restrictions for a repository</a></li><li><a href="#delete--repos-owner-repo-interaction-limits"><span class="method method-delete">DELETE</span> Remove interaction restrictions for a repository</a></li><li><a href="#get--repos-owner-repo-interaction-limits-pulls-bypass-list"><span class="method method-get">GET</span> Get pull request creation cap bypass list for a repository</a></li><li><a href="#put--repos-owner-repo-interaction-limits-pulls-bypass-list"><span class="method method-put">PUT</span> Add users to the pull request creation cap bypass list for a repository</a></li><li><a href="#delete--repos-owner-repo-interaction-limits-pulls-bypass-list"><span class="method method-delete">DELETE</span> Remove users from the pull request creation cap bypass list for a repository</a></li><li><a href="#get--user-interaction-limits"><span class="method method-get">GET</span> Get interaction restrictions for your public repositories</a></li><li><a href="#put--user-interaction-limits"><span class="method method-put">PUT</span> Set interaction restrictions for your public repositories</a></li><li><a href="#delete--user-interaction-limits"><span class="method method-delete">DELETE</span> Remove interaction restrictions from your public repositories</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--orgs-org-interaction-limits" class="endpoint">
+        <h2>Get interaction restrictions for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/interaction-limits</code></p>
+        <p>Shows which type of GitHub user can interact with this organization and when the restriction expires. If there is no restrictions, you will see an empty response.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-interaction-limits" class="endpoint">
+        <h2>Set interaction restrictions for an organization</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/interaction-limits</code></p>
+        <p>Temporarily restricts interactions to a certain type of GitHub user in any public repository in the given organization. You must be an organization owner to set these restrictions. Setting the interaction limit at the organization level will overwrite any interaction limits that are set for individual repositories owned by the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-interaction-limits" class="endpoint">
+        <h2>Remove interaction restrictions for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/interaction-limits</code></p>
+        <p>Removes all interaction restrictions from public repositories in the given organization. You must be an organization owner to remove restrictions.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-interaction-limits" class="endpoint">
+        <h2>Get interaction restrictions for a repository</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/interaction-limits</code></p>
+        <p>Shows which type of GitHub user can interact with this repository and when the restriction expires. If there are no restrictions, you will see an empty response.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--repos-owner-repo-interaction-limits" class="endpoint">
+        <h2>Set interaction restrictions for a repository</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/interaction-limits</code></p>
+        <p>Temporarily restricts interactions to a certain type of GitHub user within the given repository. You must have owner or admin access to set these restrictions. If an interaction limit is set for the user or organization that owns this repository, you will receive a `409 Conflict` response and will not be able to use this endpoint to change the interaction limit for a single repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>409</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--repos-owner-repo-interaction-limits" class="endpoint">
+        <h2>Remove interaction restrictions for a repository</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/interaction-limits</code></p>
+        <p>Removes all interaction restrictions from the given repository. You must have owner or admin access to remove restrictions. If the interaction limit is set for the user or organization that owns this repository, you will receive a `409 Conflict` response and will not be able to use this endpoint to change the interaction limit for a single repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>409</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-interaction-limits-pulls-bypass-list" class="endpoint">
+        <h2>Get pull request creation cap bypass list for a repository</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/interaction-limits/pulls/bypass-list</code></p>
+        <p>Lists the users that are on the pull request creation cap bypass list for a</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--repos-owner-repo-interaction-limits-pulls-bypass-list" class="endpoint">
+        <h2>Add users to the pull request creation cap bypass list for a repository</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/interaction-limits/pulls/bypass-list</code></p>
+        <p>Adds users to the pull request creation cap bypass list for a repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--repos-owner-repo-interaction-limits-pulls-bypass-list" class="endpoint">
+        <h2>Remove users from the pull request creation cap bypass list for a repository</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/interaction-limits/pulls/bypass-list</code></p>
+        <p>Removes users from the pull request creation cap bypass list for a repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-interaction-limits" class="endpoint">
+        <h2>Get interaction restrictions for your public repositories</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/interaction-limits</code></p>
+        <p>Shows which type of GitHub user can interact with your public repositories and when the restriction expires.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Default response</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response when there are no restrictions</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--user-interaction-limits" class="endpoint">
+        <h2>Set interaction restrictions for your public repositories</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /user/interaction-limits</code></p>
+        <p>Temporarily restricts which type of GitHub user can interact with your public repositories. Setting the interaction limit at the user level will overwrite any interaction limits that are set for individual repositories owned by the user.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-interaction-limits" class="endpoint">
+        <h2>Remove interaction restrictions from your public repositories</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/interaction-limits</code></p>
+        <p>Removes any interaction restrictions from your public repositories.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

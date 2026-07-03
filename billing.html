@@ -1,0 +1,273 @@
+
+    <html>
+    <head>
+        <title>Billing API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Billing API Reference</h1>
+        <div class="intro">
+            <p>Monitor charges and usage from Actions and Packages.</p>
+            <p>13 endpoints tagged <code>billing</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--organizations-org-settings-billing-ai_credit-usage"><span class="method method-get">GET</span> Get billing AI credit usage report for an organization</a></li><li><a href="#get--organizations-org-settings-billing-budgets"><span class="method method-get">GET</span> Get all budgets for an organization</a></li><li><a href="#post--organizations-org-settings-billing-budgets"><span class="method method-post">POST</span> Create a budget for an organization</a></li><li><a href="#get--organizations-org-settings-billing-budgets-budget_id"><span class="method method-get">GET</span> Get a budget by ID for an organization</a></li><li><a href="#patch--organizations-org-settings-billing-budgets-budget_id"><span class="method method-patch">PATCH</span> Update a budget for an organization</a></li><li><a href="#delete--organizations-org-settings-billing-budgets-budget_id"><span class="method method-delete">DELETE</span> Delete a budget for an organization</a></li><li><a href="#get--organizations-org-settings-billing-premium_request-usage"><span class="method method-get">GET</span> Get billing premium request usage report for an organization</a></li><li><a href="#get--organizations-org-settings-billing-usage"><span class="method method-get">GET</span> Get billing usage report for an organization</a></li><li><a href="#get--organizations-org-settings-billing-usage-summary"><span class="method method-get">GET</span> Get billing usage summary for an organization</a></li><li><a href="#get--users-username-settings-billing-ai_credit-usage"><span class="method method-get">GET</span> Get billing AI credit usage report for a user</a></li><li><a href="#get--users-username-settings-billing-premium_request-usage"><span class="method method-get">GET</span> Get billing premium request usage report for a user</a></li><li><a href="#get--users-username-settings-billing-usage"><span class="method method-get">GET</span> Get billing usage report for a user</a></li><li><a href="#get--users-username-settings-billing-usage-summary"><span class="method method-get">GET</span> Get billing usage summary for a user</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--organizations-org-settings-billing-ai_credit-usage" class="endpoint">
+        <h2>Get billing AI credit usage report for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/ai_credit/usage</code></p>
+        <p>Gets a report of AI credit usage for an organization. To use this endpoint, you must be an administrator of an organization within an enterprise or an organization account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>user</code></td><td>query</td><td>no</td><td>The user name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>model</code></td><td>query</td><td>no</td><td>The model name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing AI credit usage report</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--organizations-org-settings-billing-budgets" class="endpoint">
+        <h2>Get all budgets for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/budgets</code></p>
+        <p>Gets all budgets for an organization. The authenticated user must be an organization admin or billing manager.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100).</td></tr><tr><td><code>scope</code></td><td>query</td><td>no</td><td>Filter budgets by scope type.</td></tr><tr><td><code>user</code></td><td>query</td><td>no</td><td>Filter consumed amount details for budgets by the specified user login.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting all budgets</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--organizations-org-settings-billing-budgets" class="endpoint">
+        <h2>Create a budget for an organization</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /organizations/{org}/settings/billing/budgets</code></p>
+        <p>Creates a new budget for an organization. The authenticated user must be an</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Budget created successfully</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Insufficient permissions</td><td>yes</td></tr><tr><td><code>404</code></td><td>Feature not enabled or organization not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal server error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--organizations-org-settings-billing-budgets-budget_id" class="endpoint">
+        <h2>Get a budget by ID for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/budgets/{budget_id}</code></p>
+        <p>Gets a budget by ID. The authenticated user must be an organization admin or billing manager.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>budget_id</code></td><td>path</td><td>yes</td><td>The ID corresponding to the budget.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when updating a budget</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--organizations-org-settings-billing-budgets-budget_id" class="endpoint">
+        <h2>Update a budget for an organization</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /organizations/{org}/settings/billing/budgets/{budget_id}</code></p>
+        <p>Updates an existing budget for an organization. The authenticated user must be an organization admin or billing manager.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>budget_id</code></td><td>path</td><td>yes</td><td>The ID corresponding to the budget.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Budget updated successfully</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Budget not found or feature not enabled</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal server error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--organizations-org-settings-billing-budgets-budget_id" class="endpoint">
+        <h2>Delete a budget for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /organizations/{org}/settings/billing/budgets/{budget_id}</code></p>
+        <p>Deletes a budget by ID for an organization. The authenticated user must be an organization admin or billing manager.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>budget_id</code></td><td>path</td><td>yes</td><td>The ID corresponding to the budget.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when deleting a budget</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--organizations-org-settings-billing-premium_request-usage" class="endpoint">
+        <h2>Get billing premium request usage report for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/premium_request/usage</code></p>
+        <p>Gets a report of premium request usage for an organization. To use this endpoint, you must be an administrator of an organization within an enterprise or an organization account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>user</code></td><td>query</td><td>no</td><td>The user name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>model</code></td><td>query</td><td>no</td><td>The model name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing premium request usage report</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--organizations-org-settings-billing-usage" class="endpoint">
+        <h2>Get billing usage report for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/usage</code></p>
+        <p>Gets a report of the total usage for an organization. To use this endpoint, you must be an administrator of an organization within an enterprise or an organization account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Billing usage report response for an organization</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--organizations-org-settings-billing-usage-summary" class="endpoint">
+        <h2>Get billing usage summary for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/usage/summary</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>repository</code></td><td>query</td><td>no</td><td>The repository name to query for usage in the format owner/repository.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>sku</code></td><td>query</td><td>no</td><td>The SKU to query for usage.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing usage summary</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-settings-billing-ai_credit-usage" class="endpoint">
+        <h2>Get billing AI credit usage report for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/settings/billing/ai_credit/usage</code></p>
+        <p>Gets a report of AI credit usage for a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>model</code></td><td>query</td><td>no</td><td>The model name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing AI credit usage report</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-settings-billing-premium_request-usage" class="endpoint">
+        <h2>Get billing premium request usage report for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/settings/billing/premium_request/usage</code></p>
+        <p>Gets a report of premium request usage for a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>model</code></td><td>query</td><td>no</td><td>The model name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing premium request usage report</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-settings-billing-usage" class="endpoint">
+        <h2>Get billing usage report for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/settings/billing/usage</code></p>
+        <p>Gets a report of the total usage for a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing usage report</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-settings-billing-usage-summary" class="endpoint">
+        <h2>Get billing usage summary for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/settings/billing/usage/summary</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>repository</code></td><td>query</td><td>no</td><td>The repository name to query for usage in the format owner/repository.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>sku</code></td><td>query</td><td>no</td><td>The SKU to query for usage.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when getting a billing usage summary</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

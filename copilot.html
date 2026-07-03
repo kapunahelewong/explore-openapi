@@ -1,0 +1,433 @@
+
+    <html>
+    <head>
+        <title>Copilot API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Copilot API Reference</h1>
+        <div class="intro">
+            <p>Endpoints to manage Copilot using the REST API.</p>
+            <p>29 endpoints tagged <code>copilot</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--enterprises-enterprise-copilot-metrics-reports-enterprise-1-day"><span class="method method-get">GET</span> Get Copilot enterprise usage metrics for a specific day</a></li><li><a href="#get--enterprises-enterprise-copilot-metrics-reports-enterprise-28-day-latest"><span class="method method-get">GET</span> Get Copilot enterprise usage metrics</a></li><li><a href="#get--enterprises-enterprise-copilot-metrics-reports-user-teams-1-day"><span class="method method-get">GET</span> Get Copilot enterprise user-teams report for a specific day</a></li><li><a href="#get--enterprises-enterprise-copilot-metrics-reports-users-1-day"><span class="method method-get">GET</span> Get Copilot users usage metrics for a specific day</a></li><li><a href="#get--enterprises-enterprise-copilot-metrics-reports-users-28-day-latest"><span class="method method-get">GET</span> Get Copilot users usage metrics</a></li><li><a href="#put--enterprises-enterprise-copilot-policies-coding_agent"><span class="method method-put">PUT</span> Set the coding agent policy for an enterprise</a></li><li><a href="#post--enterprises-enterprise-copilot-policies-coding_agent-organizations"><span class="method method-post">POST</span> Add organizations to the enterprise coding agent policy</a></li><li><a href="#delete--enterprises-enterprise-copilot-policies-coding_agent-organizations"><span class="method method-delete">DELETE</span> Remove organizations from the enterprise coding agent policy</a></li><li><a href="#get--orgs-org-copilot-billing"><span class="method method-get">GET</span> Get Copilot seat information and settings for an organization</a></li><li><a href="#get--orgs-org-copilot-billing-seats"><span class="method method-get">GET</span> List all Copilot seat assignments for an organization</a></li><li><a href="#post--orgs-org-copilot-billing-selected_teams"><span class="method method-post">POST</span> Add teams to the Copilot subscription for an organization</a></li><li><a href="#delete--orgs-org-copilot-billing-selected_teams"><span class="method method-delete">DELETE</span> Remove teams from the Copilot subscription for an organization</a></li><li><a href="#post--orgs-org-copilot-billing-selected_users"><span class="method method-post">POST</span> Add users to the Copilot subscription for an organization</a></li><li><a href="#delete--orgs-org-copilot-billing-selected_users"><span class="method method-delete">DELETE</span> Remove users from the Copilot subscription for an organization</a></li><li><a href="#get--orgs-org-copilot-coding-agent-permissions"><span class="method method-get">GET</span> Get Copilot cloud agent permissions for an organization</a></li><li><a href="#put--orgs-org-copilot-coding-agent-permissions"><span class="method method-put">PUT</span> Set Copilot cloud agent permissions for an organization</a></li><li><a href="#get--orgs-org-copilot-coding-agent-permissions-repositories"><span class="method method-get">GET</span> List repositories enabled for Copilot cloud agent in an organization</a></li><li><a href="#put--orgs-org-copilot-coding-agent-permissions-repositories"><span class="method method-put">PUT</span> Set selected repositories for Copilot cloud agent in an organization</a></li><li><a href="#put--orgs-org-copilot-coding-agent-permissions-repositories-repository_id"><span class="method method-put">PUT</span> Enable a repository for Copilot cloud agent in an organization</a></li><li><a href="#delete--orgs-org-copilot-coding-agent-permissions-repositories-repository_id"><span class="method method-delete">DELETE</span> Disable a repository for Copilot cloud agent in an organization</a></li><li><a href="#get--orgs-org-copilot-content_exclusion"><span class="method method-get">GET</span> Get Copilot content exclusion rules for an organization</a></li><li><a href="#put--orgs-org-copilot-content_exclusion"><span class="method method-put">PUT</span> Set Copilot content exclusion rules for an organization</a></li><li><a href="#get--orgs-org-copilot-metrics-reports-organization-1-day"><span class="method method-get">GET</span> Get Copilot organization usage metrics for a specific day</a></li><li><a href="#get--orgs-org-copilot-metrics-reports-organization-28-day-latest"><span class="method method-get">GET</span> Get Copilot organization usage metrics</a></li><li><a href="#get--orgs-org-copilot-metrics-reports-user-teams-1-day"><span class="method method-get">GET</span> Get Copilot organization user-teams report for a specific day</a></li><li><a href="#get--orgs-org-copilot-metrics-reports-users-1-day"><span class="method method-get">GET</span> Get Copilot organization users usage metrics for a specific day</a></li><li><a href="#get--orgs-org-copilot-metrics-reports-users-28-day-latest"><span class="method method-get">GET</span> Get Copilot organization users usage metrics</a></li><li><a href="#get--orgs-org-members-username-copilot"><span class="method method-get">GET</span> Get Copilot seat assignment details for a user</a></li><li><a href="#get--repos-owner-repo-copilot-cloud-agent-configuration"><span class="method method-get">GET</span> Get Copilot cloud agent configuration for a repository</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--enterprises-enterprise-copilot-metrics-reports-enterprise-1-day" class="endpoint">
+        <h2>Get Copilot enterprise usage metrics for a specific day</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day</code></p>
+        <p>Use this endpoint to retrieve download links for the Copilot enterprise usage metrics report for a specific day. The report provides comprehensive usage data for Copilot features across the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>day</code></td><td>query</td><td>yes</td><td>The day to request data for, in `YYYY-MM-DD` format.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--enterprises-enterprise-copilot-metrics-reports-enterprise-28-day-latest" class="endpoint">
+        <h2>Get Copilot enterprise usage metrics</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest</code></p>
+        <p>Use this endpoint to retrieve download links for the latest 28-day enterprise Copilot usage metrics report. The report provides comprehensive usage data for Copilot features across the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--enterprises-enterprise-copilot-metrics-reports-user-teams-1-day" class="endpoint">
+        <h2>Get Copilot enterprise user-teams report for a specific day</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/copilot/metrics/reports/user-teams-1-day</code></p>
+        <p>Use this endpoint to retrieve download links for the Copilot enterprise user-teams report for a specific day. The report provides user-team join data for Copilot across the enterprise, with one entry per user-team pair.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>day</code></td><td>query</td><td>yes</td><td>The day to request data for, in `YYYY-MM-DD` format.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--enterprises-enterprise-copilot-metrics-reports-users-1-day" class="endpoint">
+        <h2>Get Copilot users usage metrics for a specific day</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/copilot/metrics/reports/users-1-day</code></p>
+        <p>Use this endpoint to retrieve download links for the Copilot user usage metrics report for a specific day. The report provides detailed user-level usage data and engagement metrics for Copilot features across the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>day</code></td><td>query</td><td>yes</td><td>The day to request data for, in `YYYY-MM-DD` format.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--enterprises-enterprise-copilot-metrics-reports-users-28-day-latest" class="endpoint">
+        <h2>Get Copilot users usage metrics</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest</code></p>
+        <p>Use this endpoint to retrieve download links for the latest 28-day enterprise users Copilot usage metrics report. The report provides detailed user-level usage data and engagement metrics for Copilot features across the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--enterprises-enterprise-copilot-policies-coding_agent" class="endpoint">
+        <h2>Set the coding agent policy for an enterprise</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /enterprises/{enterprise}/copilot/policies/coding_agent</code></p>
+        <p>Sets the policy for Copilot cloud agent usage across an enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>A header with no content is returned.</td><td>no</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--enterprises-enterprise-copilot-policies-coding_agent-organizations" class="endpoint">
+        <h2>Add organizations to the enterprise coding agent policy</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /enterprises/{enterprise}/copilot/policies/coding_agent/organizations</code></p>
+        <p>Enables Copilot cloud agent for the specified organizations within the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>A header with no content is returned.</td><td>no</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--enterprises-enterprise-copilot-policies-coding_agent-organizations" class="endpoint">
+        <h2>Remove organizations from the enterprise coding agent policy</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /enterprises/{enterprise}/copilot/policies/coding_agent/organizations</code></p>
+        <p>Disables Copilot cloud agent for the specified organizations within the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>A header with no content is returned.</td><td>no</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-billing" class="endpoint">
+        <h2>Get Copilot seat information and settings for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/billing</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>OK</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>There is a problem with your account's associated payment method.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-billing-seats" class="endpoint">
+        <h2>List all Copilot seat assignments for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/billing/seats</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-copilot-billing-selected_teams" class="endpoint">
+        <h2>Add teams to the Copilot subscription for an organization</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/copilot/billing/selected_teams</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>OK</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-copilot-billing-selected_teams" class="endpoint">
+        <h2>Remove teams from the Copilot subscription for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/copilot/billing/selected_teams</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>OK</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-copilot-billing-selected_users" class="endpoint">
+        <h2>Add users to the Copilot subscription for an organization</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/copilot/billing/selected_users</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>OK</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-copilot-billing-selected_users" class="endpoint">
+        <h2>Remove users from the Copilot subscription for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/copilot/billing/selected_users</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>OK</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Copilot Business or Enterprise is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, the seat management setting is set to enable Copilot for all users or is unconfigured, or a user's seat cannot be cancelled because it was assigned to them via a team.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-coding-agent-permissions" class="endpoint">
+        <h2>Get Copilot cloud agent permissions for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/coding-agent/permissions</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-copilot-coding-agent-permissions" class="endpoint">
+        <h2>Set Copilot cloud agent permissions for an organization</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/coding-agent/permissions</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-coding-agent-permissions-repositories" class="endpoint">
+        <h2>List repositories enabled for Copilot cloud agent in an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/coding-agent/permissions/repositories</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-copilot-coding-agent-permissions-repositories" class="endpoint">
+        <h2>Set selected repositories for Copilot cloud agent in an organization</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/coding-agent/permissions/repositories</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-copilot-coding-agent-permissions-repositories-repository_id" class="endpoint">
+        <h2>Enable a repository for Copilot cloud agent in an organization</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the repository.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-copilot-coding-agent-permissions-repositories-repository_id" class="endpoint">
+        <h2>Disable a repository for Copilot cloud agent in an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the repository.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-content_exclusion" class="endpoint">
+        <h2>Get Copilot content exclusion rules for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/content_exclusion</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>OK</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-copilot-content_exclusion" class="endpoint">
+        <h2>Set Copilot content exclusion rules for an organization</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/content_exclusion</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Success</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>413</code></td><td>Payload Too Large</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-metrics-reports-organization-1-day" class="endpoint">
+        <h2>Get Copilot organization usage metrics for a specific day</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/metrics/reports/organization-1-day</code></p>
+        <p>Use this endpoint to retrieve download links for the Copilot organization usage metrics report for a specific day. The report provides comprehensive usage data for Copilot features across the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>day</code></td><td>query</td><td>yes</td><td>The day to request data for, in `YYYY-MM-DD` format.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>204</code></td><td>A header with no content is returned.</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-metrics-reports-organization-28-day-latest" class="endpoint">
+        <h2>Get Copilot organization usage metrics</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/metrics/reports/organization-28-day/latest</code></p>
+        <p>Use this endpoint to retrieve download links for the latest 28-day organization Copilot usage metrics report. The report provides comprehensive usage data for Copilot features across the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-metrics-reports-user-teams-1-day" class="endpoint">
+        <h2>Get Copilot organization user-teams report for a specific day</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/metrics/reports/user-teams-1-day</code></p>
+        <p>Use this endpoint to retrieve download links for the Copilot organization user-teams report for a specific day. The report provides user-team join data for Copilot across the organization, with one entry per user-team pair.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>day</code></td><td>query</td><td>yes</td><td>The day to request data for, in `YYYY-MM-DD` format.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>204</code></td><td>A header with no content is returned.</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-metrics-reports-users-1-day" class="endpoint">
+        <h2>Get Copilot organization users usage metrics for a specific day</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/metrics/reports/users-1-day</code></p>
+        <p>Use this endpoint to retrieve download links for the Copilot organization user usage metrics report for a specific day. The report provides detailed user-level usage data and engagement metrics for Copilot features across the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>day</code></td><td>query</td><td>yes</td><td>The day to request data for, in `YYYY-MM-DD` format.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>204</code></td><td>A header with no content is returned.</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-copilot-metrics-reports-users-28-day-latest" class="endpoint">
+        <h2>Get Copilot organization users usage metrics</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/metrics/reports/users-28-day/latest</code></p>
+        <p>Use this endpoint to retrieve download links for the latest 28-day organization users Copilot usage metrics report. The report provides detailed user-level usage data and engagement metrics for Copilot features across the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-members-username-copilot" class="endpoint">
+        <h2>Get Copilot seat assignment details for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/members/{username}/copilot</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>The user's GitHub Copilot seat details, including usage.</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Copilot Business or Enterprise is not enabled for this organization or the user has a pending organization invitation.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-copilot-cloud-agent-configuration" class="endpoint">
+        <h2>Get Copilot cloud agent configuration for a repository</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/copilot/cloud-agent/configuration</code></p>
+        <p>> [!NOTE]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

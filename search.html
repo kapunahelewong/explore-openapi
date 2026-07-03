@@ -1,0 +1,213 @@
+
+    <html>
+    <head>
+        <title>Search API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Search API Reference</h1>
+        <div class="intro">
+            <p>Search for specific items on GitHub.</p>
+            <p>7 endpoints tagged <code>search</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--search-code"><span class="method method-get">GET</span> Search code</a></li><li><a href="#get--search-commits"><span class="method method-get">GET</span> Search commits</a></li><li><a href="#get--search-issues"><span class="method method-get">GET</span> Search issues and pull requests</a></li><li><a href="#get--search-labels"><span class="method method-get">GET</span> Search labels</a></li><li><a href="#get--search-repositories"><span class="method method-get">GET</span> Search repositories</a></li><li><a href="#get--search-topics"><span class="method method-get">GET</span> Search topics</a></li><li><a href="#get--search-users"><span class="method method-get">GET</span> Search users</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--search-code" class="endpoint">
+        <h2>Search code</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/code</code></p>
+        <p>Searches for query terms inside of a file. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching code](https://docs.github.com/search-github/searching-on-github/searching-code)" for a detailed list of qualifiers.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>**This field is closing down.** Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)</td></tr><tr><td><code>order</code></td><td>query</td><td>no</td><td>**This field is closing down.** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`. </td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--search-commits" class="endpoint">
+        <h2>Search commits</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/commits</code></p>
+        <p>Find commits via various criteria on the default branch (usually `main`). This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching commits](https://docs.github.com/search-github/searching-on-github/searching-commits)" for a detailed list of qualifiers.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>Sorts the results of your query by `author-date` or `committer-date`. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)</td></tr><tr><td><code>order</code></td><td>query</td><td>no</td><td>Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--search-issues" class="endpoint">
+        <h2>Search issues and pull requests</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/issues</code></p>
+        <p>Find issues by state and keyword. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching issues and pull requests](https://docs.github.com/search-github/searching-on-github/searching-issues-and-pull-requests)" for a detailed list of qualifiers.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>Sorts the results of your query by the number of `comments`, `reactions`, `reactions-+1`, `reactions--1`, `reactions-smile`, `reactions-thinking_face`, `reactions-heart`, `reactions-tada`, or `interactions`. You can also sort results by how recently the items were `created` or `updated`, Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)</td></tr><tr><td><code>order</code></td><td>query</td><td>no</td><td>Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>advanced_search</code></td><td>query</td><td>no</td><td>Set to `true` to use advanced search.</td></tr><tr><td><code>search_type</code></td><td>query</td><td>no</td><td>The type of search to perform on issues. When not specified, the default is lexical search.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--search-labels" class="endpoint">
+        <h2>Search labels</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/labels</code></p>
+        <p>Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>repository_id</code></td><td>query</td><td>yes</td><td>The id of the repository.</td></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query).</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>Sorts the results of your query by when the label was `created` or `updated`. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)</td></tr><tr><td><code>order</code></td><td>query</td><td>no</td><td>Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--search-repositories" class="endpoint">
+        <h2>Search repositories</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/repositories</code></p>
+        <p>Find repositories via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching for repositories](https://docs.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>Sorts the results of your query by number of `stars`, `forks`, or `help-wanted-issues` or how recently the items were `updated`. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)</td></tr><tr><td><code>order</code></td><td>query</td><td>no</td><td>Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--search-topics" class="endpoint">
+        <h2>Search topics</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/topics</code></p>
+        <p>Find topics via various criteria. Results are sorted by best match. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api). See "[Searching topics](https://docs.github.com/articles/searching-topics/)" for a detailed list of qualifiers.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query).</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--search-users" class="endpoint">
+        <h2>Search users</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /search/users</code></p>
+        <p>Find users via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>q</code></td><td>query</td><td>yes</td><td>The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching users](https://docs.github.com/search-github/searching-on-github/searching-users)" for a detailed list of qualifiers.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>Sorts the results of your query by number of `followers` or `repositories`, or when the person `joined` GitHub. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)</td></tr><tr><td><code>order</code></td><td>query</td><td>no</td><td>Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

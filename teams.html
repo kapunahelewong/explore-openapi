@@ -1,0 +1,463 @@
+
+    <html>
+    <head>
+        <title>Teams API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Teams API Reference</h1>
+        <div class="intro">
+            <p>Interact with GitHub Teams.</p>
+            <p>32 endpoints tagged <code>teams</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--orgs-org-teams"><span class="method method-get">GET</span> List teams</a></li><li><a href="#post--orgs-org-teams"><span class="method method-post">POST</span> Create a team</a></li><li><a href="#get--orgs-org-teams-team_slug"><span class="method method-get">GET</span> Get a team by name</a></li><li><a href="#patch--orgs-org-teams-team_slug"><span class="method method-patch">PATCH</span> Update a team</a></li><li><a href="#delete--orgs-org-teams-team_slug"><span class="method method-delete">DELETE</span> Delete a team</a></li><li><a href="#get--orgs-org-teams-team_slug-invitations"><span class="method method-get">GET</span> List pending team invitations</a></li><li><a href="#get--orgs-org-teams-team_slug-members"><span class="method method-get">GET</span> List team members</a></li><li><a href="#get--orgs-org-teams-team_slug-memberships-username"><span class="method method-get">GET</span> Get team membership for a user</a></li><li><a href="#put--orgs-org-teams-team_slug-memberships-username"><span class="method method-put">PUT</span> Add or update team membership for a user</a></li><li><a href="#delete--orgs-org-teams-team_slug-memberships-username"><span class="method method-delete">DELETE</span> Remove team membership for a user</a></li><li><a href="#get--orgs-org-teams-team_slug-repos"><span class="method method-get">GET</span> List team repositories</a></li><li><a href="#get--orgs-org-teams-team_slug-repos-owner-repo"><span class="method method-get">GET</span> Check team permissions for a repository</a></li><li><a href="#put--orgs-org-teams-team_slug-repos-owner-repo"><span class="method method-put">PUT</span> Add or update team repository permissions</a></li><li><a href="#delete--orgs-org-teams-team_slug-repos-owner-repo"><span class="method method-delete">DELETE</span> Remove a repository from a team</a></li><li><a href="#get--orgs-org-teams-team_slug-teams"><span class="method method-get">GET</span> List child teams</a></li><li><a href="#get--teams-team_id"><span class="method method-get">GET</span> Get a team (Legacy)</a></li><li><a href="#patch--teams-team_id"><span class="method method-patch">PATCH</span> Update a team (Legacy)</a></li><li><a href="#delete--teams-team_id"><span class="method method-delete">DELETE</span> Delete a team (Legacy)</a></li><li><a href="#get--teams-team_id-invitations"><span class="method method-get">GET</span> List pending team invitations (Legacy)</a></li><li><a href="#get--teams-team_id-members"><span class="method method-get">GET</span> List team members (Legacy)</a></li><li><a href="#get--teams-team_id-members-username"><span class="method method-get">GET</span> Get team member (Legacy)</a></li><li><a href="#put--teams-team_id-members-username"><span class="method method-put">PUT</span> Add team member (Legacy)</a></li><li><a href="#delete--teams-team_id-members-username"><span class="method method-delete">DELETE</span> Remove team member (Legacy)</a></li><li><a href="#get--teams-team_id-memberships-username"><span class="method method-get">GET</span> Get team membership for a user (Legacy)</a></li><li><a href="#put--teams-team_id-memberships-username"><span class="method method-put">PUT</span> Add or update team membership for a user (Legacy)</a></li><li><a href="#delete--teams-team_id-memberships-username"><span class="method method-delete">DELETE</span> Remove team membership for a user (Legacy)</a></li><li><a href="#get--teams-team_id-repos"><span class="method method-get">GET</span> List team repositories (Legacy)</a></li><li><a href="#get--teams-team_id-repos-owner-repo"><span class="method method-get">GET</span> Check team permissions for a repository (Legacy)</a></li><li><a href="#put--teams-team_id-repos-owner-repo"><span class="method method-put">PUT</span> Add or update team repository permissions (Legacy)</a></li><li><a href="#delete--teams-team_id-repos-owner-repo"><span class="method method-delete">DELETE</span> Remove a repository from a team (Legacy)</a></li><li><a href="#get--teams-team_id-teams"><span class="method method-get">GET</span> List child teams (Legacy)</a></li><li><a href="#get--user-teams"><span class="method method-get">GET</span> List teams for the authenticated user</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--orgs-org-teams" class="endpoint">
+        <h2>List teams</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams</code></p>
+        <p>Lists all teams in an organization that are visible to the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>team_type</code></td><td>query</td><td>no</td><td>Filter team results by their type. For more information, see "[What kind of team should I use?](https://docs.github.com/enterprise-cloud@latest/admin/concepts/enterprise-fundamentals/teams-in-an-enterprise#what-kind-of-team-should-i-use)"</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-teams" class="endpoint">
+        <h2>Create a team</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/teams</code></p>
+        <p>To create a team, the authenticated user must be a member or owner of `{org}`. By default, organization members can create teams. Organization owners can limit team creation to organization owners. For more information, see "[Setting team creation permissions](https://docs.github.com/articles/setting-team-creation-permissions-in-your-organization)."</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug" class="endpoint">
+        <h2>Get a team by name</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}</code></p>
+        <p>Gets a team using the team's `slug`. To create the `slug`, GitHub replaces special characters in the `name` string, changes all words to lowercase, and replaces spaces with a `-` separator. For example, `"My TEam Näme"` would become `my-team-name`.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--orgs-org-teams-team_slug" class="endpoint">
+        <h2>Update a team</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /orgs/{org}/teams/{team_slug}</code></p>
+        <p>To edit a team, the authenticated user must either be an organization owner or a team maintainer.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when the updated information already exists</td><td>yes</td></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-teams-team_slug" class="endpoint">
+        <h2>Delete a team</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/teams/{team_slug}</code></p>
+        <p>To delete a team, the authenticated user must be an organization owner or team maintainer.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>422</code></td><td>Unprocessable entity if you attempt to modify an enterprise team at the organization level.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug-invitations" class="endpoint">
+        <h2>List pending team invitations</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}/invitations</code></p>
+        <p>The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Unprocessable entity if you attempt to modify an enterprise team at the organization level.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug-members" class="endpoint">
+        <h2>List team members</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}/members</code></p>
+        <p>Team members will include the members of child teams.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>role</code></td><td>query</td><td>no</td><td>Filters members returned by their role in the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug-memberships-username" class="endpoint">
+        <h2>Get team membership for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}/memberships/{username}</code></p>
+        <p>Team members will include the members of child teams.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>if user has no team membership</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-teams-team_slug-memberships-username" class="endpoint">
+        <h2>Add or update team membership for a user</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/teams/{team_slug}/memberships/{username}</code></p>
+        <p>Adds an organization member to a team. An authenticated organization owner or team maintainer can add organization members to a team.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden if team synchronization is set up</td><td>no</td></tr><tr><td><code>422</code></td><td>Unprocessable Entity if you attempt to add an organization to a team</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-teams-team_slug-memberships-username" class="endpoint">
+        <h2>Remove team membership for a user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/teams/{team_slug}/memberships/{username}</code></p>
+        <p>To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden if team synchronization is set up</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug-repos" class="endpoint">
+        <h2>List team repositories</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}/repos</code></p>
+        <p>Lists a team's repositories visible to the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug-repos-owner-repo" class="endpoint">
+        <h2>Check team permissions for a repository</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}</code></p>
+        <p>Checks whether a team has `admin`, `push`, `maintain`, `triage`, or `pull` permission for a repository. Repositories inherited through a parent team will also be checked.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Alternative response with repository permissions</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response if team has permission for the repository. This is the response when the repository media type hasn't been provded in the Accept header.</td><td>no</td></tr><tr><td><code>404</code></td><td>Not Found if team does not have permission for the repository</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-teams-team_slug-repos-owner-repo" class="endpoint">
+        <h2>Add or update team repository permissions</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}</code></p>
+        <p>To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-teams-team_slug-repos-owner-repo" class="endpoint">
+        <h2>Remove a repository from a team</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}</code></p>
+        <p>If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. This does not delete the repository, it just removes it from the team.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-teams-team_slug-teams" class="endpoint">
+        <h2>List child teams</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/teams/{team_slug}/teams</code></p>
+        <p>Lists the child teams of the team specified by `{team_slug}`.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>if child teams exist</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id" class="endpoint">
+        <h2>Get a team (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--teams-team_id" class="endpoint">
+        <h2>Update a team (Legacy)</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /teams/{team_id}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when the updated information already exists</td><td>yes</td></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--teams-team_id" class="endpoint">
+        <h2>Delete a team (Legacy)</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-invitations" class="endpoint">
+        <h2>List pending team invitations (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/invitations</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-members" class="endpoint">
+        <h2>List team members (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/members</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>role</code></td><td>query</td><td>no</td><td>Filters members returned by their role in the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-members-username" class="endpoint">
+        <h2>Get team member (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/members/{username}</code></p>
+        <p>The "Get team member" endpoint (described below) is closing down.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>if user is a member</td><td>no</td></tr><tr><td><code>404</code></td><td>if user is not a member</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--teams-team_id-members-username" class="endpoint">
+        <h2>Add team member (Legacy)</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /teams/{team_id}/members/{username}</code></p>
+        <p>The "Add team member" endpoint (described below) is closing down.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Not Found if team synchronization is set up</td><td>no</td></tr><tr><td><code>422</code></td><td>Unprocessable Entity if you attempt to add an organization to a team or you attempt to add a user to a team when they are not a member of at least one other team in the same organization</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--teams-team_id-members-username" class="endpoint">
+        <h2>Remove team member (Legacy)</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}/members/{username}</code></p>
+        <p>The "Remove team member" endpoint (described below) is closing down.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Not Found if team synchronization is setup</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-memberships-username" class="endpoint">
+        <h2>Get team membership for a user (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/memberships/{username}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--teams-team_id-memberships-username" class="endpoint">
+        <h2>Add or update team membership for a user (Legacy)</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /teams/{team_id}/memberships/{username}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden if team synchronization is set up</td><td>no</td></tr><tr><td><code>422</code></td><td>Unprocessable Entity if you attempt to add an organization to a team</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--teams-team_id-memberships-username" class="endpoint">
+        <h2>Remove team membership for a user (Legacy)</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}/memberships/{username}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>if team synchronization is set up</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-repos" class="endpoint">
+        <h2>List team repositories (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/repos</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-repos-owner-repo" class="endpoint">
+        <h2>Check team permissions for a repository (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/repos/{owner}/{repo}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Alternative response with extra repository information</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response if repository is managed by this team</td><td>no</td></tr><tr><td><code>404</code></td><td>Not Found if repository is not managed by this team</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--teams-team_id-repos-owner-repo" class="endpoint">
+        <h2>Add or update team repository permissions (Legacy)</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /teams/{team_id}/repos/{owner}/{repo}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--teams-team_id-repos-owner-repo" class="endpoint">
+        <h2>Remove a repository from a team (Legacy)</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}/repos/{owner}/{repo}</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--teams-team_id-teams" class="endpoint">
+        <h2>List child teams (Legacy)</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/teams</code></p>
+        <p>> [!WARNING]</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>if child teams exist</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-teams" class="endpoint">
+        <h2>List teams for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/teams</code></p>
+        <p>List all of the teams across all of the organizations to which the authenticated</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

@@ -1,0 +1,613 @@
+
+    <html>
+    <head>
+        <title>Users API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Users API Reference</h1>
+        <div class="intro">
+            <p>Interact with and view information about users and also current user.</p>
+            <p>47 endpoints tagged <code>users</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--user"><span class="method method-get">GET</span> Get the authenticated user</a></li><li><a href="#patch--user"><span class="method method-patch">PATCH</span> Update the authenticated user</a></li><li><a href="#get--user-blocks"><span class="method method-get">GET</span> List users blocked by the authenticated user</a></li><li><a href="#get--user-blocks-username"><span class="method method-get">GET</span> Check if a user is blocked by the authenticated user</a></li><li><a href="#put--user-blocks-username"><span class="method method-put">PUT</span> Block a user</a></li><li><a href="#delete--user-blocks-username"><span class="method method-delete">DELETE</span> Unblock a user</a></li><li><a href="#patch--user-email-visibility"><span class="method method-patch">PATCH</span> Set primary email visibility for the authenticated user</a></li><li><a href="#get--user-emails"><span class="method method-get">GET</span> List email addresses for the authenticated user</a></li><li><a href="#post--user-emails"><span class="method method-post">POST</span> Add an email address for the authenticated user</a></li><li><a href="#delete--user-emails"><span class="method method-delete">DELETE</span> Delete an email address for the authenticated user</a></li><li><a href="#get--user-followers"><span class="method method-get">GET</span> List followers of the authenticated user</a></li><li><a href="#get--user-following"><span class="method method-get">GET</span> List the people the authenticated user follows</a></li><li><a href="#get--user-following-username"><span class="method method-get">GET</span> Check if a person is followed by the authenticated user</a></li><li><a href="#put--user-following-username"><span class="method method-put">PUT</span> Follow a user</a></li><li><a href="#delete--user-following-username"><span class="method method-delete">DELETE</span> Unfollow a user</a></li><li><a href="#get--user-gpg_keys"><span class="method method-get">GET</span> List GPG keys for the authenticated user</a></li><li><a href="#post--user-gpg_keys"><span class="method method-post">POST</span> Create a GPG key for the authenticated user</a></li><li><a href="#get--user-gpg_keys-gpg_key_id"><span class="method method-get">GET</span> Get a GPG key for the authenticated user</a></li><li><a href="#delete--user-gpg_keys-gpg_key_id"><span class="method method-delete">DELETE</span> Delete a GPG key for the authenticated user</a></li><li><a href="#get--user-keys"><span class="method method-get">GET</span> List public SSH keys for the authenticated user</a></li><li><a href="#post--user-keys"><span class="method method-post">POST</span> Create a public SSH key for the authenticated user</a></li><li><a href="#get--user-keys-key_id"><span class="method method-get">GET</span> Get a public SSH key for the authenticated user</a></li><li><a href="#delete--user-keys-key_id"><span class="method method-delete">DELETE</span> Delete a public SSH key for the authenticated user</a></li><li><a href="#get--user-public_emails"><span class="method method-get">GET</span> List public email addresses for the authenticated user</a></li><li><a href="#get--user-social_accounts"><span class="method method-get">GET</span> List social accounts for the authenticated user</a></li><li><a href="#post--user-social_accounts"><span class="method method-post">POST</span> Add social accounts for the authenticated user</a></li><li><a href="#delete--user-social_accounts"><span class="method method-delete">DELETE</span> Delete social accounts for the authenticated user</a></li><li><a href="#get--user-ssh_signing_keys"><span class="method method-get">GET</span> List SSH signing keys for the authenticated user</a></li><li><a href="#post--user-ssh_signing_keys"><span class="method method-post">POST</span> Create a SSH signing key for the authenticated user</a></li><li><a href="#get--user-ssh_signing_keys-ssh_signing_key_id"><span class="method method-get">GET</span> Get an SSH signing key for the authenticated user</a></li><li><a href="#delete--user-ssh_signing_keys-ssh_signing_key_id"><span class="method method-delete">DELETE</span> Delete an SSH signing key for the authenticated user</a></li><li><a href="#get--user-account_id"><span class="method method-get">GET</span> Get a user using their ID</a></li><li><a href="#get--users"><span class="method method-get">GET</span> List users</a></li><li><a href="#get--users-username"><span class="method method-get">GET</span> Get a user</a></li><li><a href="#post--users-username-attestations-bulk-list"><span class="method method-post">POST</span> List attestations by bulk subject digests</a></li><li><a href="#post--users-username-attestations-delete-request"><span class="method method-post">POST</span> Delete attestations in bulk</a></li><li><a href="#delete--users-username-attestations-digest-subject_digest"><span class="method method-delete">DELETE</span> Delete attestations by subject digest</a></li><li><a href="#delete--users-username-attestations-attestation_id"><span class="method method-delete">DELETE</span> Delete attestations by ID</a></li><li><a href="#get--users-username-attestations-subject_digest"><span class="method method-get">GET</span> List attestations</a></li><li><a href="#get--users-username-followers"><span class="method method-get">GET</span> List followers of a user</a></li><li><a href="#get--users-username-following"><span class="method method-get">GET</span> List the people a user follows</a></li><li><a href="#get--users-username-following-target_user"><span class="method method-get">GET</span> Check if a user follows another user</a></li><li><a href="#get--users-username-gpg_keys"><span class="method method-get">GET</span> List GPG keys for a user</a></li><li><a href="#get--users-username-hovercard"><span class="method method-get">GET</span> Get contextual information for a user</a></li><li><a href="#get--users-username-keys"><span class="method method-get">GET</span> List public keys for a user</a></li><li><a href="#get--users-username-social_accounts"><span class="method method-get">GET</span> List social accounts for a user</a></li><li><a href="#get--users-username-ssh_signing_keys"><span class="method method-get">GET</span> List SSH signing keys for a user</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--user" class="endpoint">
+        <h2>Get the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user</code></p>
+        <p>OAuth app tokens and personal access tokens (classic) need the `user` scope in order for the response to include private profile information.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--user" class="endpoint">
+        <h2>Update the authenticated user</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /user</code></p>
+        <p>**Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-blocks" class="endpoint">
+        <h2>List users blocked by the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/blocks</code></p>
+        <p>List the users you've blocked on your personal account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-blocks-username" class="endpoint">
+        <h2>Check if a user is blocked by the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/blocks/{username}</code></p>
+        <p>Returns a 204 if the given user is blocked by the authenticated user. Returns a 404 if the given user is not blocked by the authenticated user, or if the given user account has been identified as spam by GitHub.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>If the user is blocked</td><td>no</td></tr><tr><td><code>404</code></td><td>If the user is not blocked</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--user-blocks-username" class="endpoint">
+        <h2>Block a user</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /user/blocks/{username}</code></p>
+        <p>Blocks the given user and returns a 204. If the authenticated user cannot block the given user a 422 is returned.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-blocks-username" class="endpoint">
+        <h2>Unblock a user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/blocks/{username}</code></p>
+        <p>Unblocks the given user and returns a 204.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--user-email-visibility" class="endpoint">
+        <h2>Set primary email visibility for the authenticated user</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /user/email/visibility</code></p>
+        <p>Sets the visibility for your primary email addresses.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-emails" class="endpoint">
+        <h2>List email addresses for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/emails</code></p>
+        <p>Lists all of your email addresses, and specifies which one is visible</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-emails" class="endpoint">
+        <h2>Add an email address for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/emails</code></p>
+        <p>OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-emails" class="endpoint">
+        <h2>Delete an email address for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/emails</code></p>
+        <p>OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-followers" class="endpoint">
+        <h2>List followers of the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/followers</code></p>
+        <p>Lists the people following the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-following" class="endpoint">
+        <h2>List the people the authenticated user follows</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/following</code></p>
+        <p>Lists the people who the authenticated user follows.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-following-username" class="endpoint">
+        <h2>Check if a person is followed by the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/following/{username}</code></p>
+        <p></p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>if the person is followed by the authenticated user</td><td>no</td></tr><tr><td><code>404</code></td><td>if the person is not followed by the authenticated user</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--user-following-username" class="endpoint">
+        <h2>Follow a user</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /user/following/{username}</code></p>
+        <p>Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-following-username" class="endpoint">
+        <h2>Unfollow a user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/following/{username}</code></p>
+        <p>OAuth app tokens and personal access tokens (classic) need the `user:follow` scope to use this endpoint.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-gpg_keys" class="endpoint">
+        <h2>List GPG keys for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/gpg_keys</code></p>
+        <p>Lists the current user's GPG keys.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-gpg_keys" class="endpoint">
+        <h2>Create a GPG key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/gpg_keys</code></p>
+        <p>Adds a GPG key to the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-gpg_keys-gpg_key_id" class="endpoint">
+        <h2>Get a GPG key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/gpg_keys/{gpg_key_id}</code></p>
+        <p>View extended details for a single GPG key.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>gpg_key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the GPG key.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-gpg_keys-gpg_key_id" class="endpoint">
+        <h2>Delete a GPG key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/gpg_keys/{gpg_key_id}</code></p>
+        <p>Removes a GPG key from the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>gpg_key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the GPG key.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-keys" class="endpoint">
+        <h2>List public SSH keys for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/keys</code></p>
+        <p>Lists the public SSH keys for the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-keys" class="endpoint">
+        <h2>Create a public SSH key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/keys</code></p>
+        <p>Adds a public SSH key to the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-keys-key_id" class="endpoint">
+        <h2>Get a public SSH key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/keys/{key_id}</code></p>
+        <p>View extended details for a single public SSH key.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the key.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-keys-key_id" class="endpoint">
+        <h2>Delete a public SSH key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/keys/{key_id}</code></p>
+        <p>Removes a public SSH key from the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the key.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-public_emails" class="endpoint">
+        <h2>List public email addresses for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/public_emails</code></p>
+        <p>Lists your publicly visible email address, which you can set with the</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-social_accounts" class="endpoint">
+        <h2>List social accounts for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/social_accounts</code></p>
+        <p>Lists all of your social accounts.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-social_accounts" class="endpoint">
+        <h2>Add social accounts for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/social_accounts</code></p>
+        <p>Add one or more social accounts to the authenticated user's profile.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-social_accounts" class="endpoint">
+        <h2>Delete social accounts for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/social_accounts</code></p>
+        <p>Deletes one or more social accounts from the authenticated user's profile.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-ssh_signing_keys" class="endpoint">
+        <h2>List SSH signing keys for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/ssh_signing_keys</code></p>
+        <p>Lists the SSH signing keys for the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-ssh_signing_keys" class="endpoint">
+        <h2>Create a SSH signing key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/ssh_signing_keys</code></p>
+        <p>Creates an SSH signing key for the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-ssh_signing_keys-ssh_signing_key_id" class="endpoint">
+        <h2>Get an SSH signing key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/ssh_signing_keys/{ssh_signing_key_id}</code></p>
+        <p>Gets extended details for an SSH signing key.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>ssh_signing_key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the SSH signing key.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-ssh_signing_keys-ssh_signing_key_id" class="endpoint">
+        <h2>Delete an SSH signing key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/ssh_signing_keys/{ssh_signing_key_id}</code></p>
+        <p>Deletes an SSH signing key from the authenticated user's GitHub account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>ssh_signing_key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the SSH signing key.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-account_id" class="endpoint">
+        <h2>Get a user using their ID</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/{account_id}</code></p>
+        <p>Provides publicly available information about someone with a GitHub account. This method takes their durable user `ID` instead of their `login`, which can change over time.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>account_id</code></td><td>path</td><td>yes</td><td>account_id parameter</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users" class="endpoint">
+        <h2>List users</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users</code></p>
+        <p>Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>A user ID. Only return users with an ID greater than this ID.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--users-username" class="endpoint">
+        <h2>Get a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}</code></p>
+        <p>Provides publicly available information about someone with a GitHub account.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--users-username-attestations-bulk-list" class="endpoint">
+        <h2>List attestations by bulk subject digests</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /users/{username}/attestations/bulk-list</code></p>
+        <p>List a collection of artifact attestations associated with any entry in a list of subject digests owned by a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--users-username-attestations-delete-request" class="endpoint">
+        <h2>Delete attestations in bulk</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /users/{username}/attestations/delete-request</code></p>
+        <p>Delete artifact attestations in bulk by either subject digests or unique ID.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--users-username-attestations-digest-subject_digest" class="endpoint">
+        <h2>Delete attestations by subject digest</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /users/{username}/attestations/digest/{subject_digest}</code></p>
+        <p>Delete an artifact attestation by subject digest.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_digest</code></td><td>path</td><td>yes</td><td>Subject Digest</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>no</td></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--users-username-attestations-attestation_id" class="endpoint">
+        <h2>Delete attestations by ID</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /users/{username}/attestations/{attestation_id}</code></p>
+        <p>Delete an artifact attestation by unique ID that is associated with a repository owned by a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>attestation_id</code></td><td>path</td><td>yes</td><td>Attestation ID</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>no</td></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-attestations-subject_digest" class="endpoint">
+        <h2>List attestations</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/attestations/{subject_digest}</code></p>
+        <p>List a collection of artifact attestations with a given subject digest that are associated with repositories owned by a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_digest</code></td><td>path</td><td>yes</td><td>Subject Digest</td></tr><tr><td><code>predicate_type</code></td><td>query</td><td>no</td><td>Optional filter for fetching attestations with a given predicate type.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-followers" class="endpoint">
+        <h2>List followers of a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/followers</code></p>
+        <p>Lists the people following the specified user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-following" class="endpoint">
+        <h2>List the people a user follows</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/following</code></p>
+        <p>Lists the people who the specified user follows.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-following-target_user" class="endpoint">
+        <h2>Check if a user follows another user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/following/{target_user}</code></p>
+        <p></p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>target_user</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>if the user follows the target user</td><td>no</td></tr><tr><td><code>404</code></td><td>if the user does not follow the target user</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-gpg_keys" class="endpoint">
+        <h2>List GPG keys for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/gpg_keys</code></p>
+        <p>Lists the GPG keys for a user. This information is accessible by anyone.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-hovercard" class="endpoint">
+        <h2>Get contextual information for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/hovercard</code></p>
+        <p>Provides hovercard information. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_type</code></td><td>query</td><td>no</td><td>Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.</td></tr><tr><td><code>subject_id</code></td><td>query</td><td>no</td><td>Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-keys" class="endpoint">
+        <h2>List public keys for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/keys</code></p>
+        <p>Lists the _verified_ public SSH keys for a user. This is accessible by anyone.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-social_accounts" class="endpoint">
+        <h2>List social accounts for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/social_accounts</code></p>
+        <p>Lists social media accounts for a user. This endpoint is accessible by anyone.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-ssh_signing_keys" class="endpoint">
+        <h2>List SSH signing keys for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/ssh_signing_keys</code></p>
+        <p>Lists the SSH signing keys for a user. This operation is accessible by anyone.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

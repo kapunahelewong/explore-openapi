@@ -1,10 +1,10 @@
 """
 generate_docs_site.py
 
-Generates one combined HTML page documenting every endpoint tagged
-with a given tag (e.g. "issues") -- a small-scale version of what a
-generated docs site (Scalar, Redoc, docs-platform) does across a
-whole API.
+Generates a small static docs site covering every endpoint in GitHub's
+REST API, grouped by tag -- the same categories ("issues", "repos",
+"actions", etc.) GitHub's own docs use. One HTML page per tag, plus an
+index.html linking to all of them.
 
 The OpenAPI spec itself is fetched fresh from GitHub every run (see
 SPEC_URL below) rather than read from a local file, so the generated
@@ -18,17 +18,13 @@ import json
 import urllib.request
 
 # --- Config -----------------------------------------------------------
-# These constants are the "knobs" for this script. Change TAG_TO_DOCUMENT
-# to generate docs for a different slice of the API (e.g. "pulls", "repos").
-#
 # SPEC_URL points at the same api.github.com.json GitHub itself publishes
 # and keeps up to date, in its public rest-api-description repo.
 SPEC_URL = (
     "https://raw.githubusercontent.com/github/rest-api-description"
     "/main/descriptions/api.github.com/api.github.com.json"
 )
-TAG_TO_DOCUMENT = "issues"
-OUTPUT_FILE = "index.html"
+INDEX_FILE = "index.html"
 
 
 def load_spec(url):
@@ -67,6 +63,30 @@ def resolve_if_ref(spec, item):
     if "$ref" in item:
         return resolve_ref(spec, item["$ref"])
     return item
+
+
+def get_all_tags(spec):
+    """
+    Return every tag that actually has at least one endpoint, as a sorted
+    list of (name, description) tuples.
+
+    The spec's top-level "tags" list documents every tag GitHub defines,
+    each with a human-written description -- but a few of those aren't
+    attached to any operation, so we cross-reference against the paths
+    themselves and only keep tags find_endpoints_by_tag would find
+    something for.
+    """
+    tag_descriptions = {t["name"]: t.get("description", "") for t in spec.get("tags", [])}
+
+    http_methods = ("get", "post", "put", "patch", "delete")
+    used_tags = set()
+    for methods in spec["paths"].values():
+        for http_method, details in methods.items():
+            if http_method not in http_methods:
+                continue
+            used_tags.update(details.get("tags", []))
+
+    return sorted((name, tag_descriptions.get(name, "")) for name in used_tags)
 
 
 def find_endpoints_by_tag(spec, tag):
@@ -207,9 +227,9 @@ def render_nav(endpoints):
 
 
 # --- Styling ------------------------------------------------------------
-# One big CSS string, injected into the page's <style> tag in render_site().
-# Keeping it as a plain triple-quoted string (rather than a separate .css
-# file) keeps everything in one script that's easy to run standalone.
+# One big CSS string, injected into every page's <style> tag. Keeping it as
+# a plain triple-quoted string (rather than a separate .css file) keeps
+# everything in one script that's easy to run standalone.
 STYLE = """
     /* CSS custom properties (variables) so colors are defined once and
        reused everywhere below via var(--name), instead of repeating hex
@@ -246,8 +266,10 @@ STYLE = """
         margin-bottom: 20px;
     }
     .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
     /* The table-of-contents box: a shaded, scrollable panel so a long
-       endpoint list (55+ for "issues") doesn't push all the content down. */
+       endpoint list doesn't push all the content down. */
     nav {
         background: var(--code-bg);
         border: 1px solid var(--border);
@@ -308,24 +330,37 @@ STYLE = """
        easier to scan across. */
     tr:nth-child(even) { background: #fafbfc; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
 """
 
 
-def render_site(spec, tag):
+def render_tag_page(tag, description, endpoints, sections_html):
     """
-    Assemble the full HTML document: header/intro, the nav table-of-contents,
-    then every endpoint section back to back. This is the top-level "page
-    builder" that calls all the smaller render_* helpers above.
+    Build the full HTML page for one tag: a link back to the tag index, an
+    intro naming the tag and how many endpoints it has, an in-page table of
+    contents, then every endpoint's section back to back.
     """
-    endpoints = find_endpoints_by_tag(spec, tag)
-
     nav_html = render_nav(endpoints)
-    # Build one big HTML section per endpoint, then glue them all together
-    # into a single string with "".join(...).
-    sections_html = "".join(
-        render_endpoint_section(spec, method, path, endpoint)
-        for method, path, endpoint in endpoints
-    )
 
     return f"""
     <html>
@@ -335,12 +370,13 @@ def render_site(spec, tag):
         <style>{STYLE}</style>
     </head>
     <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
         <h1>{tag.title()} API Reference</h1>
         <div class="intro">
-            <p>Reference docs for every endpoint tagged <code>{tag}</code> in GitHub's REST API,
-            generated from its OpenAPI spec.</p>
-            <p>Includes {len(endpoints)} endpoints, with each listing its parameters and possible
-            responses. Use the index to jump to a specific endpoint.</p>
+            <p>{description}</p>
+            <p>{len(endpoints)} endpoints tagged <code>{tag}</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
         </div>
         <nav>{nav_html}</nav>
         <hr>
@@ -350,17 +386,76 @@ def render_site(spec, tag):
     """
 
 
+def render_index_page(tags_with_counts):
+    """
+    Build the top-level index.html: one card per tag linking to
+    "{tag}.html", showing its description and how many endpoints it covers.
+    """
+    total_endpoints = sum(count for _, _, count in tags_with_counts)
+
+    cards = []
+    for name, description, count in tags_with_counts:
+        cards.append(f"""
+        <li class="tag-card">
+            <a href="{name}.html"><strong>{name}</strong></a>
+            <span class="tag-count">{count} endpoints</span>
+            <p>{description}</p>
+        </li>
+        """)
+    tags_html = "<ul class=\"tag-list\">" + "".join(cards) + "</ul>"
+
+    return f"""
+    <html>
+    <head>
+        <title>GitHub REST API Reference</title>
+        <meta charset="utf-8">
+        <style>{STYLE}</style>
+    </head>
+    <body>
+        <h1>GitHub REST API Reference</h1>
+        <div class="intro">
+            <p>Every endpoint in GitHub's REST API, grouped by tag the same way
+            GitHub's own docs are -- generated straight from the published
+            OpenAPI spec.</p>
+            <p>{total_endpoints} endpoints across {len(tags_with_counts)} tags. Pick one below.</p>
+        </div>
+        {tags_html}
+    </body>
+    </html>
+    """
+
+
 def main():
-    # 1. Fetch the raw OpenAPI spec straight from GitHub.
+    # 1. Fetch the raw OpenAPI spec straight from GitHub (once -- everything
+    #    after this is just slicing up the same in-memory spec dict).
     spec = load_spec(SPEC_URL)
-    # 2. Turn it into one big HTML string for the tag we care about.
-    html = render_site(spec, TAG_TO_DOCUMENT)
 
-    # 3. Write that HTML string out to a file we can open in a browser.
-    with open(OUTPUT_FILE, "w") as f:
-        f.write(html)
+    # 2. Render one page per tag, keeping a running (name, description, count)
+    #    list so the index page can link to each one with a live endpoint count.
+    tags_with_counts = []
+    for name, description in get_all_tags(spec):
+        endpoints = find_endpoints_by_tag(spec, name)
+        sections_html = "".join(
+            render_endpoint_section(spec, method, path, endpoint)
+            for method, path, endpoint in endpoints
+        )
+        html = render_tag_page(name, description, endpoints, sections_html)
 
-    print(f"Wrote {OUTPUT_FILE} — open it in a browser to see the result.")
+        with open(f"{name}.html", "w") as f:
+            f.write(html)
+
+        tags_with_counts.append((name, description, len(endpoints)))
+
+    # 3. Render the index page linking out to every tag page just written.
+    index_html = render_index_page(tags_with_counts)
+    with open(INDEX_FILE, "w") as f:
+        f.write(index_html)
+
+    total_endpoints = sum(count for _, _, count in tags_with_counts)
+    print(
+        f"Wrote {INDEX_FILE} and {len(tags_with_counts)} tag pages "
+        f"({total_endpoints} endpoints total) — open {INDEX_FILE} in a browser."
+    )
 
 
 if __name__ == "__main__":

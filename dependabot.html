@@ -1,0 +1,393 @@
+
+    <html>
+    <head>
+        <title>Dependabot API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Dependabot API Reference</h1>
+        <div class="intro">
+            <p>Endpoints to manage Dependabot.</p>
+            <p>25 endpoints tagged <code>dependabot</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--enterprises-enterprise-dependabot-alerts"><span class="method method-get">GET</span> List Dependabot alerts for an enterprise</a></li><li><a href="#get--enterprises-enterprise-dependabot-repository-access"><span class="method method-get">GET</span> Lists the repositories Dependabot can access in an enterprise</a></li><li><a href="#patch--enterprises-enterprise-dependabot-repository-access"><span class="method method-patch">PATCH</span> Updates Dependabot's repository access list for an enterprise</a></li><li><a href="#put--enterprises-enterprise-dependabot-repository-access-default-level"><span class="method method-put">PUT</span> Set the default repository access level for Dependabot in an enterprise</a></li><li><a href="#get--orgs-org-dependabot-alerts"><span class="method method-get">GET</span> List Dependabot alerts for an organization</a></li><li><a href="#get--orgs-org-dependabot-repository-access"><span class="method method-get">GET</span> Lists the repositories Dependabot can access in an organization</a></li><li><a href="#patch--orgs-org-dependabot-repository-access"><span class="method method-patch">PATCH</span> Updates Dependabot's repository access list for an organization</a></li><li><a href="#put--orgs-org-dependabot-repository-access-default-level"><span class="method method-put">PUT</span> Set the default repository access level for Dependabot</a></li><li><a href="#get--orgs-org-dependabot-secrets"><span class="method method-get">GET</span> List organization secrets</a></li><li><a href="#get--orgs-org-dependabot-secrets-public-key"><span class="method method-get">GET</span> Get an organization public key</a></li><li><a href="#get--orgs-org-dependabot-secrets-secret_name"><span class="method method-get">GET</span> Get an organization secret</a></li><li><a href="#put--orgs-org-dependabot-secrets-secret_name"><span class="method method-put">PUT</span> Create or update an organization secret</a></li><li><a href="#delete--orgs-org-dependabot-secrets-secret_name"><span class="method method-delete">DELETE</span> Delete an organization secret</a></li><li><a href="#get--orgs-org-dependabot-secrets-secret_name-repositories"><span class="method method-get">GET</span> List selected repositories for an organization secret</a></li><li><a href="#put--orgs-org-dependabot-secrets-secret_name-repositories"><span class="method method-put">PUT</span> Set selected repositories for an organization secret</a></li><li><a href="#put--orgs-org-dependabot-secrets-secret_name-repositories-repository_id"><span class="method method-put">PUT</span> Add selected repository to an organization secret</a></li><li><a href="#delete--orgs-org-dependabot-secrets-secret_name-repositories-repository_id"><span class="method method-delete">DELETE</span> Remove selected repository from an organization secret</a></li><li><a href="#get--repos-owner-repo-dependabot-alerts"><span class="method method-get">GET</span> List Dependabot alerts for a repository</a></li><li><a href="#get--repos-owner-repo-dependabot-alerts-alert_number"><span class="method method-get">GET</span> Get a Dependabot alert</a></li><li><a href="#patch--repos-owner-repo-dependabot-alerts-alert_number"><span class="method method-patch">PATCH</span> Update a Dependabot alert</a></li><li><a href="#get--repos-owner-repo-dependabot-secrets"><span class="method method-get">GET</span> List repository secrets</a></li><li><a href="#get--repos-owner-repo-dependabot-secrets-public-key"><span class="method method-get">GET</span> Get a repository public key</a></li><li><a href="#get--repos-owner-repo-dependabot-secrets-secret_name"><span class="method method-get">GET</span> Get a repository secret</a></li><li><a href="#put--repos-owner-repo-dependabot-secrets-secret_name"><span class="method method-put">PUT</span> Create or update a repository secret</a></li><li><a href="#delete--repos-owner-repo-dependabot-secrets-secret_name"><span class="method method-delete">DELETE</span> Delete a repository secret</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--enterprises-enterprise-dependabot-alerts" class="endpoint">
+        <h2>List Dependabot alerts for an enterprise</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/dependabot/alerts</code></p>
+        <p>Lists Dependabot alerts for repositories that are owned by the specified enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>classification</code></td><td>query</td><td>no</td><td>A comma-separated list of vulnerability classifications. If specified, only alerts for vulnerabilities with these classifications will be returned.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>A comma-separated list of states. If specified, only alerts with these states will be returned.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>A comma-separated list of severities. If specified, only alerts with these severities will be returned.</td></tr><tr><td><code>ecosystem</code></td><td>query</td><td>no</td><td>A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.</td></tr><tr><td><code>package</code></td><td>query</td><td>no</td><td>A comma-separated list of package names. If specified, only alerts for these packages will be returned.</td></tr><tr><td><code>epss_percentage</code></td><td>query</td><td>no</td><td>CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:</td></tr><tr><td><code>has</code></td><td>query</td><td>no</td><td>Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned.</td></tr><tr><td><code>assignee</code></td><td>query</td><td>no</td><td>Filter alerts by assignees.</td></tr><tr><td><code>scope</code></td><td>query</td><td>no</td><td>The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--enterprises-enterprise-dependabot-repository-access" class="endpoint">
+        <h2>Lists the repositories Dependabot can access in an enterprise</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/dependabot/repository-access</code></p>
+        <p>Lists repositories that enterprise admins have allowed Dependabot to access when updating dependencies across organizations in the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of results to fetch.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>Number of results per page.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--enterprises-enterprise-dependabot-repository-access" class="endpoint">
+        <h2>Updates Dependabot's repository access list for an enterprise</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /enterprises/{enterprise}/dependabot/repository-access</code></p>
+        <p>Updates repositories according to the list of repositories that enterprise admins have given Dependabot access to when they've updated dependencies across organizations in the enterprise.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--enterprises-enterprise-dependabot-repository-access-default-level" class="endpoint">
+        <h2>Set the default repository access level for Dependabot in an enterprise</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /enterprises/{enterprise}/dependabot/repository-access/default-level</code></p>
+        <p>Sets the default level of repository access Dependabot will have while performing an update across organizations in the enterprise. Available values are:</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-dependabot-alerts" class="endpoint">
+        <h2>List Dependabot alerts for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/dependabot/alerts</code></p>
+        <p>Lists Dependabot alerts for an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>classification</code></td><td>query</td><td>no</td><td>A comma-separated list of vulnerability classifications. If specified, only alerts for vulnerabilities with these classifications will be returned.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>A comma-separated list of states. If specified, only alerts with these states will be returned.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>A comma-separated list of severities. If specified, only alerts with these severities will be returned.</td></tr><tr><td><code>ecosystem</code></td><td>query</td><td>no</td><td>A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.</td></tr><tr><td><code>package</code></td><td>query</td><td>no</td><td>A comma-separated list of package names. If specified, only alerts for these packages will be returned.</td></tr><tr><td><code>epss_percentage</code></td><td>query</td><td>no</td><td>CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:</td></tr><tr><td><code>artifact_registry_url</code></td><td>query</td><td>no</td><td>A comma-separated list of artifact registry URLs. If specified, only alerts for repositories with storage records matching these URLs will be returned.</td></tr><tr><td><code>artifact_registry</code></td><td>query</td><td>no</td><td>A comma-separated list of Artifact Registry name strings. If specified, only alerts for repositories with storage records matching these registries will be returned.</td></tr><tr><td><code>has</code></td><td>query</td><td>no</td><td>Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned.</td></tr><tr><td><code>assignee</code></td><td>query</td><td>no</td><td>Filter alerts by assignees.</td></tr><tr><td><code>runtime_risk</code></td><td>query</td><td>no</td><td>A comma-separated list of runtime risk strings. If specified, only alerts for repositories with deployment records matching these risks will be returned.</td></tr><tr><td><code>scope</code></td><td>query</td><td>no</td><td>The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-dependabot-repository-access" class="endpoint">
+        <h2>Lists the repositories Dependabot can access in an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/dependabot/repository-access</code></p>
+        <p>Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of results to fetch.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>Number of results per page.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--orgs-org-dependabot-repository-access" class="endpoint">
+        <h2>Updates Dependabot's repository access list for an organization</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /orgs/{org}/dependabot/repository-access</code></p>
+        <p>Updates repositories according to the list of repositories that organization admins have given Dependabot access to when they've updated dependencies.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-dependabot-repository-access-default-level" class="endpoint">
+        <h2>Set the default repository access level for Dependabot</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/dependabot/repository-access/default-level</code></p>
+        <p>Sets the default level of repository access Dependabot will have while performing an update.  Available values are:</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-dependabot-secrets" class="endpoint">
+        <h2>List organization secrets</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/dependabot/secrets</code></p>
+        <p>Lists all secrets available in an organization without revealing their</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-dependabot-secrets-public-key" class="endpoint">
+        <h2>Get an organization public key</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/dependabot/secrets/public-key</code></p>
+        <p>Gets your public key, which you need to encrypt secrets. You need to</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-dependabot-secrets-secret_name" class="endpoint">
+        <h2>Get an organization secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/dependabot/secrets/{secret_name}</code></p>
+        <p>Gets a single organization secret without revealing its encrypted value.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-dependabot-secrets-secret_name" class="endpoint">
+        <h2>Create or update an organization secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/dependabot/secrets/{secret_name}</code></p>
+        <p>Creates or updates an organization secret with an encrypted value. Encrypt your secret using</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when creating a secret</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response when updating a secret</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-dependabot-secrets-secret_name" class="endpoint">
+        <h2>Delete an organization secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/dependabot/secrets/{secret_name}</code></p>
+        <p>Deletes a secret in an organization using the secret name.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-dependabot-secrets-secret_name-repositories" class="endpoint">
+        <h2>List selected repositories for an organization secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/dependabot/secrets/{secret_name}/repositories</code></p>
+        <p>Lists all repositories that have been selected when the `visibility`</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-dependabot-secrets-secret_name-repositories" class="endpoint">
+        <h2>Set selected repositories for an organization secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/dependabot/secrets/{secret_name}/repositories</code></p>
+        <p>Replaces all repositories for an organization secret when the `visibility`</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-dependabot-secrets-secret_name-repositories-repository_id" class="endpoint">
+        <h2>Add selected repository to an organization secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}</code></p>
+        <p>Adds a repository to an organization secret when the `visibility` for</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content when repository was added to the selected list</td><td>no</td></tr><tr><td><code>409</code></td><td>Conflict when visibility type is not set to selected</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-dependabot-secrets-secret_name-repositories-repository_id" class="endpoint">
+        <h2>Remove selected repository from an organization secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}</code></p>
+        <p>Removes a repository from an organization secret when the `visibility`</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response when repository was removed from the selected list</td><td>no</td></tr><tr><td><code>409</code></td><td>Conflict when visibility type not set to selected</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-dependabot-alerts" class="endpoint">
+        <h2>List Dependabot alerts for a repository</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/dependabot/alerts</code></p>
+        <p>OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>classification</code></td><td>query</td><td>no</td><td>A comma-separated list of vulnerability classifications. If specified, only alerts for vulnerabilities with these classifications will be returned.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>A comma-separated list of states. If specified, only alerts with these states will be returned.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>A comma-separated list of severities. If specified, only alerts with these severities will be returned.</td></tr><tr><td><code>ecosystem</code></td><td>query</td><td>no</td><td>A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.</td></tr><tr><td><code>package</code></td><td>query</td><td>no</td><td>A comma-separated list of package names. If specified, only alerts for these packages will be returned.</td></tr><tr><td><code>manifest</code></td><td>query</td><td>no</td><td>A comma-separated list of full manifest paths. If specified, only alerts for these manifests will be returned.</td></tr><tr><td><code>epss_percentage</code></td><td>query</td><td>no</td><td>CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:</td></tr><tr><td><code>has</code></td><td>query</td><td>no</td><td>Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned.</td></tr><tr><td><code>assignee</code></td><td>query</td><td>no</td><td>Filter alerts by assignees.</td></tr><tr><td><code>scope</code></td><td>query</td><td>no</td><td>The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-dependabot-alerts-alert_number" class="endpoint">
+        <h2>Get a Dependabot alert</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/dependabot/alerts/{alert_number}</code></p>
+        <p>OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies a Dependabot alert in its repository.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--repos-owner-repo-dependabot-alerts-alert_number" class="endpoint">
+        <h2>Update a Dependabot alert</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/dependabot/alerts/{alert_number}</code></p>
+        <p>The authenticated user must have access to security alerts for the repository to use this endpoint. For more information, see "[Granting access to security alerts](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository#granting-access-to-security-alerts)."</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies a Dependabot alert in its repository.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-dependabot-secrets" class="endpoint">
+        <h2>List repository secrets</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/dependabot/secrets</code></p>
+        <p>Lists all secrets available in a repository without revealing their encrypted</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-dependabot-secrets-public-key" class="endpoint">
+        <h2>Get a repository public key</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/dependabot/secrets/public-key</code></p>
+        <p>Gets your public key, which you need to encrypt secrets. You need to</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-dependabot-secrets-secret_name" class="endpoint">
+        <h2>Get a repository secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/dependabot/secrets/{secret_name}</code></p>
+        <p>Gets a single repository secret without revealing its encrypted value.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--repos-owner-repo-dependabot-secrets-secret_name" class="endpoint">
+        <h2>Create or update a repository secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/dependabot/secrets/{secret_name}</code></p>
+        <p>Creates or updates a repository secret with an encrypted value. Encrypt your secret using</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when creating a secret</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response when updating a secret</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--repos-owner-repo-dependabot-secrets-secret_name" class="endpoint">
+        <h2>Delete a repository secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/dependabot/secrets/{secret_name}</code></p>
+        <p>Deletes a secret in a repository using the secret name.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

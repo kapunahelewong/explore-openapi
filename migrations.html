@@ -1,0 +1,366 @@
+
+    <html>
+    <head>
+        <title>Migrations API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Migrations API Reference</h1>
+        <div class="intro">
+            <p>Move projects to or from GitHub.</p>
+            <p>22 endpoints tagged <code>migrations</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--orgs-org-migrations"><span class="method method-get">GET</span> List organization migrations</a></li><li><a href="#post--orgs-org-migrations"><span class="method method-post">POST</span> Start an organization migration</a></li><li><a href="#get--orgs-org-migrations-migration_id"><span class="method method-get">GET</span> Get an organization migration status</a></li><li><a href="#get--orgs-org-migrations-migration_id-archive"><span class="method method-get">GET</span> Download an organization migration archive</a></li><li><a href="#delete--orgs-org-migrations-migration_id-archive"><span class="method method-delete">DELETE</span> Delete an organization migration archive</a></li><li><a href="#delete--orgs-org-migrations-migration_id-repos-repo_name-lock"><span class="method method-delete">DELETE</span> Unlock an organization repository</a></li><li><a href="#get--orgs-org-migrations-migration_id-repositories"><span class="method method-get">GET</span> List repositories in an organization migration</a></li><li><a href="#get--repos-owner-repo-import"><span class="method method-get">GET</span> Get an import status</a></li><li><a href="#put--repos-owner-repo-import"><span class="method method-put">PUT</span> Start an import</a></li><li><a href="#patch--repos-owner-repo-import"><span class="method method-patch">PATCH</span> Update an import</a></li><li><a href="#delete--repos-owner-repo-import"><span class="method method-delete">DELETE</span> Cancel an import</a></li><li><a href="#get--repos-owner-repo-import-authors"><span class="method method-get">GET</span> Get commit authors</a></li><li><a href="#patch--repos-owner-repo-import-authors-author_id"><span class="method method-patch">PATCH</span> Map a commit author</a></li><li><a href="#get--repos-owner-repo-import-large_files"><span class="method method-get">GET</span> Get large files</a></li><li><a href="#patch--repos-owner-repo-import-lfs"><span class="method method-patch">PATCH</span> Update Git LFS preference</a></li><li><a href="#get--user-migrations"><span class="method method-get">GET</span> List user migrations</a></li><li><a href="#post--user-migrations"><span class="method method-post">POST</span> Start a user migration</a></li><li><a href="#get--user-migrations-migration_id"><span class="method method-get">GET</span> Get a user migration status</a></li><li><a href="#get--user-migrations-migration_id-archive"><span class="method method-get">GET</span> Download a user migration archive</a></li><li><a href="#delete--user-migrations-migration_id-archive"><span class="method method-delete">DELETE</span> Delete a user migration archive</a></li><li><a href="#delete--user-migrations-migration_id-repos-repo_name-lock"><span class="method method-delete">DELETE</span> Unlock a user repository</a></li><li><a href="#get--user-migrations-migration_id-repositories"><span class="method method-get">GET</span> List repositories for a user migration</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--orgs-org-migrations" class="endpoint">
+        <h2>List organization migrations</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/migrations</code></p>
+        <p>Lists the most recent migrations, including both exports (which can be started through the REST API) and imports (which cannot be started using the REST API).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td>Exclude attributes from the API response to improve performance</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-migrations" class="endpoint">
+        <h2>Start an organization migration</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/migrations</code></p>
+        <p>Initiates the generation of a migration archive.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-migrations-migration_id" class="endpoint">
+        <h2>Get an organization migration status</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/migrations/{migration_id}</code></p>
+        <p>Fetches the status of a migration.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td>Exclude attributes from the API response to improve performance</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>*   `pending`, which means the migration hasn't started yet.
+*   `exporting`, which means the migration is in progress.
+*   `exported`, which means the migration finished successfully.
+*   `failed`, which means the migration failed.</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-migrations-migration_id-archive" class="endpoint">
+        <h2>Download an organization migration archive</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/migrations/{migration_id}/archive</code></p>
+        <p>Fetches the URL to a migration archive.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>302</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-migrations-migration_id-archive" class="endpoint">
+        <h2>Delete an organization migration archive</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/migrations/{migration_id}/archive</code></p>
+        <p>Deletes a previous migration archive. Migration archives are automatically deleted after seven days.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-migrations-migration_id-repos-repo_name-lock" class="endpoint">
+        <h2>Unlock an organization repository</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock</code></p>
+        <p>Unlocks a repository that was locked for migration. You should unlock each migrated repository and [delete them](https://docs.github.com/rest/repos/repos#delete-a-repository) when the migration is complete and you no longer need the source data.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>repo_name</code></td><td>path</td><td>yes</td><td>repo_name parameter</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-migrations-migration_id-repositories" class="endpoint">
+        <h2>List repositories in an organization migration</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/migrations/{migration_id}/repositories</code></p>
+        <p>List all the repositories for this organization migration.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-import" class="endpoint">
+        <h2>Get an import status</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/import</code></p>
+        <p>View the progress of an import.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--repos-owner-repo-import" class="endpoint">
+        <h2>Start an import</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/import</code></p>
+        <p>Start a source import to a GitHub repository using GitHub Importer.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--repos-owner-repo-import" class="endpoint">
+        <h2>Update an import</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/import</code></p>
+        <p>An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--repos-owner-repo-import" class="endpoint">
+        <h2>Cancel an import</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/import</code></p>
+        <p>Stop an import for a repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-import-authors" class="endpoint">
+        <h2>Get commit authors</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/import/authors</code></p>
+        <p>Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>A user ID. Only return users with an ID greater than this ID.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--repos-owner-repo-import-authors-author_id" class="endpoint">
+        <h2>Map a commit author</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/import/authors/{author_id}</code></p>
+        <p>Update an author's identity for the import. Your application can continue updating authors any time before you push</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>author_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-import-large_files" class="endpoint">
+        <h2>Get large files</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/import/large_files</code></p>
+        <p>List files larger than 100MB found during the import</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--repos-owner-repo-import-lfs" class="endpoint">
+        <h2>Update Git LFS preference</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/import/lfs</code></p>
+        <p>You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>503</code></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-migrations" class="endpoint">
+        <h2>List user migrations</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/migrations</code></p>
+        <p>Lists all migrations a user has started.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-migrations" class="endpoint">
+        <h2>Start a user migration</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/migrations</code></p>
+        <p>Initiates the generation of a user migration archive.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-migrations-migration_id" class="endpoint">
+        <h2>Get a user migration status</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/migrations/{migration_id}</code></p>
+        <p>Fetches a single user migration. The response includes the `state` of the migration, which can be one of the following values:</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-migrations-migration_id-archive" class="endpoint">
+        <h2>Download a user migration archive</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/migrations/{migration_id}/archive</code></p>
+        <p>Fetches the URL to download the migration archive as a `tar.gz` file. Depending on the resources your repository uses, the migration archive can contain JSON files with data for these objects:</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>302</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-migrations-migration_id-archive" class="endpoint">
+        <h2>Delete a user migration archive</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/migrations/{migration_id}/archive</code></p>
+        <p>Deletes a previous migration archive. Downloadable migration archives are automatically deleted after seven days. Migration metadata, which is returned in the [List user migrations](https://docs.github.com/rest/migrations/users#list-user-migrations) and [Get a user migration status](https://docs.github.com/rest/migrations/users#get-a-user-migration-status) endpoints, will continue to be available even after an archive is deleted.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-migrations-migration_id-repos-repo_name-lock" class="endpoint">
+        <h2>Unlock a user repository</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/migrations/{migration_id}/repos/{repo_name}/lock</code></p>
+        <p>Unlocks a repository. You can lock repositories when you [start a user migration](https://docs.github.com/rest/migrations/users#start-a-user-migration). Once the migration is complete you can unlock each repository to begin using it again or [delete the repository](https://docs.github.com/rest/repos/repos#delete-a-repository) if you no longer need the source data. Returns a status of `404 Not Found` if the repository is not locked.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>repo_name</code></td><td>path</td><td>yes</td><td>repo_name parameter</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-migrations-migration_id-repositories" class="endpoint">
+        <h2>List repositories for a user migration</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/migrations/{migration_id}/repositories</code></p>
+        <p>Lists all the repositories for this user migration.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

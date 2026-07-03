@@ -21,17 +21,17 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Regenerate index.html from the live spec
+      - name: Regenerate index.html and tag pages from the live spec
         run: python3 generate_docs_site.py
 
-      - name: Commit and push if index.html changed
+      - name: Commit and push if any generated page changed
         run: |
-          if git diff --quiet -- index.html; then
+          git add -- '*.html'
+          if git diff --cached --quiet; then
             echo "No changes to the spec since last run."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
           git commit -m "Refresh docs from latest OpenAPI spec"
           git push

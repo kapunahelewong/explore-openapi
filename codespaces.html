@@ -1,0 +1,623 @@
+
+    <html>
+    <head>
+        <title>Codespaces API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Codespaces API Reference</h1>
+        <div class="intro">
+            <p>Endpoints to manage Codespaces using the REST API.</p>
+            <p>48 endpoints tagged <code>codespaces</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--orgs-org-codespaces"><span class="method method-get">GET</span> List codespaces for the organization</a></li><li><a href="#put--orgs-org-codespaces-access"><span class="method method-put">PUT</span> Manage access control for organization codespaces</a></li><li><a href="#post--orgs-org-codespaces-access-selected_users"><span class="method method-post">POST</span> Add users to Codespaces access for an organization</a></li><li><a href="#delete--orgs-org-codespaces-access-selected_users"><span class="method method-delete">DELETE</span> Remove users from Codespaces access for an organization</a></li><li><a href="#get--orgs-org-codespaces-secrets"><span class="method method-get">GET</span> List organization secrets</a></li><li><a href="#get--orgs-org-codespaces-secrets-public-key"><span class="method method-get">GET</span> Get an organization public key</a></li><li><a href="#get--orgs-org-codespaces-secrets-secret_name"><span class="method method-get">GET</span> Get an organization secret</a></li><li><a href="#put--orgs-org-codespaces-secrets-secret_name"><span class="method method-put">PUT</span> Create or update an organization secret</a></li><li><a href="#delete--orgs-org-codespaces-secrets-secret_name"><span class="method method-delete">DELETE</span> Delete an organization secret</a></li><li><a href="#get--orgs-org-codespaces-secrets-secret_name-repositories"><span class="method method-get">GET</span> List selected repositories for an organization secret</a></li><li><a href="#put--orgs-org-codespaces-secrets-secret_name-repositories"><span class="method method-put">PUT</span> Set selected repositories for an organization secret</a></li><li><a href="#put--orgs-org-codespaces-secrets-secret_name-repositories-repository_id"><span class="method method-put">PUT</span> Add selected repository to an organization secret</a></li><li><a href="#delete--orgs-org-codespaces-secrets-secret_name-repositories-repository_id"><span class="method method-delete">DELETE</span> Remove selected repository from an organization secret</a></li><li><a href="#get--orgs-org-members-username-codespaces"><span class="method method-get">GET</span> List codespaces for a user in organization</a></li><li><a href="#delete--orgs-org-members-username-codespaces-codespace_name"><span class="method method-delete">DELETE</span> Delete a codespace from the organization</a></li><li><a href="#post--orgs-org-members-username-codespaces-codespace_name-stop"><span class="method method-post">POST</span> Stop a codespace for an organization user</a></li><li><a href="#get--repos-owner-repo-codespaces"><span class="method method-get">GET</span> List codespaces in a repository for the authenticated user</a></li><li><a href="#post--repos-owner-repo-codespaces"><span class="method method-post">POST</span> Create a codespace in a repository</a></li><li><a href="#get--repos-owner-repo-codespaces-devcontainers"><span class="method method-get">GET</span> List devcontainer configurations in a repository for the authenticated user</a></li><li><a href="#get--repos-owner-repo-codespaces-machines"><span class="method method-get">GET</span> List available machine types for a repository</a></li><li><a href="#get--repos-owner-repo-codespaces-new"><span class="method method-get">GET</span> Get default attributes for a codespace</a></li><li><a href="#get--repos-owner-repo-codespaces-permissions_check"><span class="method method-get">GET</span> Check if permissions defined by a devcontainer have been accepted by the authenticated user</a></li><li><a href="#get--repos-owner-repo-codespaces-secrets"><span class="method method-get">GET</span> List repository secrets</a></li><li><a href="#get--repos-owner-repo-codespaces-secrets-public-key"><span class="method method-get">GET</span> Get a repository public key</a></li><li><a href="#get--repos-owner-repo-codespaces-secrets-secret_name"><span class="method method-get">GET</span> Get a repository secret</a></li><li><a href="#put--repos-owner-repo-codespaces-secrets-secret_name"><span class="method method-put">PUT</span> Create or update a repository secret</a></li><li><a href="#delete--repos-owner-repo-codespaces-secrets-secret_name"><span class="method method-delete">DELETE</span> Delete a repository secret</a></li><li><a href="#post--repos-owner-repo-pulls-pull_number-codespaces"><span class="method method-post">POST</span> Create a codespace from a pull request</a></li><li><a href="#get--user-codespaces"><span class="method method-get">GET</span> List codespaces for the authenticated user</a></li><li><a href="#post--user-codespaces"><span class="method method-post">POST</span> Create a codespace for the authenticated user</a></li><li><a href="#get--user-codespaces-secrets"><span class="method method-get">GET</span> List secrets for the authenticated user</a></li><li><a href="#get--user-codespaces-secrets-public-key"><span class="method method-get">GET</span> Get public key for the authenticated user</a></li><li><a href="#get--user-codespaces-secrets-secret_name"><span class="method method-get">GET</span> Get a secret for the authenticated user</a></li><li><a href="#put--user-codespaces-secrets-secret_name"><span class="method method-put">PUT</span> Create or update a secret for the authenticated user</a></li><li><a href="#delete--user-codespaces-secrets-secret_name"><span class="method method-delete">DELETE</span> Delete a secret for the authenticated user</a></li><li><a href="#get--user-codespaces-secrets-secret_name-repositories"><span class="method method-get">GET</span> List selected repositories for a user secret</a></li><li><a href="#put--user-codespaces-secrets-secret_name-repositories"><span class="method method-put">PUT</span> Set selected repositories for a user secret</a></li><li><a href="#put--user-codespaces-secrets-secret_name-repositories-repository_id"><span class="method method-put">PUT</span> Add a selected repository to a user secret</a></li><li><a href="#delete--user-codespaces-secrets-secret_name-repositories-repository_id"><span class="method method-delete">DELETE</span> Remove a selected repository from a user secret</a></li><li><a href="#get--user-codespaces-codespace_name"><span class="method method-get">GET</span> Get a codespace for the authenticated user</a></li><li><a href="#patch--user-codespaces-codespace_name"><span class="method method-patch">PATCH</span> Update a codespace for the authenticated user</a></li><li><a href="#delete--user-codespaces-codespace_name"><span class="method method-delete">DELETE</span> Delete a codespace for the authenticated user</a></li><li><a href="#post--user-codespaces-codespace_name-exports"><span class="method method-post">POST</span> Export a codespace for the authenticated user</a></li><li><a href="#get--user-codespaces-codespace_name-exports-export_id"><span class="method method-get">GET</span> Get details about a codespace export</a></li><li><a href="#get--user-codespaces-codespace_name-machines"><span class="method method-get">GET</span> List machine types for a codespace</a></li><li><a href="#post--user-codespaces-codespace_name-publish"><span class="method method-post">POST</span> Create a repository from an unpublished codespace</a></li><li><a href="#post--user-codespaces-codespace_name-start"><span class="method method-post">POST</span> Start a codespace for the authenticated user</a></li><li><a href="#post--user-codespaces-codespace_name-stop"><span class="method method-post">POST</span> Stop a codespace for the authenticated user</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--orgs-org-codespaces" class="endpoint">
+        <h2>List codespaces for the organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces</code></p>
+        <p>Lists the codespaces associated to a specified organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-codespaces-access" class="endpoint">
+        <h2>Manage access control for organization codespaces</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/codespaces/access</code></p>
+        <p>Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces access permissions for users according to the visibility.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response when successfully modifying permissions.</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>400</code></td><td>Users are neither members nor collaborators of this organization.</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-codespaces-access-selected_users" class="endpoint">
+        <h2>Add users to Codespaces access for an organization</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/codespaces/access/selected_users</code></p>
+        <p>Codespaces for the specified users will be billed to the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response when successfully modifying permissions.</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>400</code></td><td>Users are neither members nor collaborators of this organization.</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-codespaces-access-selected_users" class="endpoint">
+        <h2>Remove users from Codespaces access for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/codespaces/access/selected_users</code></p>
+        <p>Codespaces for the specified users will no longer be billed to the organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response when successfully modifying permissions.</td><td>no</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>400</code></td><td>Users are neither members nor collaborators of this organization.</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-codespaces-secrets" class="endpoint">
+        <h2>List organization secrets</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces/secrets</code></p>
+        <p>Lists all Codespaces development environment secrets available at the organization-level without revealing their encrypted</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-codespaces-secrets-public-key" class="endpoint">
+        <h2>Get an organization public key</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces/secrets/public-key</code></p>
+        <p>Gets a public key for an organization, which is required in order to encrypt secrets. You need to encrypt the value of a secret before you can create or update secrets.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Get an organization secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces/secrets/{secret_name}</code></p>
+        <p>Gets an organization development environment secret without revealing its encrypted value.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Create or update an organization secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/codespaces/secrets/{secret_name}</code></p>
+        <p>Creates or updates an organization development environment secret with an encrypted value. Encrypt your secret using</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when creating a secret</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response when updating a secret</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Delete an organization secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/codespaces/secrets/{secret_name}</code></p>
+        <p>Deletes an organization development environment secret using the secret name.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-codespaces-secrets-secret_name-repositories" class="endpoint">
+        <h2>List selected repositories for an organization secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories</code></p>
+        <p>Lists all repositories that have been selected when the `visibility`</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-codespaces-secrets-secret_name-repositories" class="endpoint">
+        <h2>Set selected repositories for an organization secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories</code></p>
+        <p>Replaces all repositories for an organization development environment secret when the `visibility`</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict when visibility type not set to selected</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="put--orgs-org-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
+        <h2>Add selected repository to an organization secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
+        <p>Adds a repository to an organization development environment secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret).</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content when repository was added to the selected list</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict when visibility type is not set to selected</td><td>no</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
+        <h2>Remove selected repository from an organization secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
+        <p>Removes a repository from an organization development environment secret when the `visibility`</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response when repository was removed from the selected list</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict when visibility type not set to selected</td><td>no</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-members-username-codespaces" class="endpoint">
+        <h2>List codespaces for a user in organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/members/{username}/codespaces</code></p>
+        <p>Lists the codespaces that a member of an organization has for repositories in that organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-members-username-codespaces-codespace_name" class="endpoint">
+        <h2>Delete a codespace from the organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/members/{username}/codespaces/{codespace_name}</code></p>
+        <p>Deletes a user's codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>202</code></td><td>Accepted</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-members-username-codespaces-codespace_name-stop" class="endpoint">
+        <h2>Stop a codespace for an organization user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/members/{username}/codespaces/{codespace_name}/stop</code></p>
+        <p>Stops a user's codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces" class="endpoint">
+        <h2>List codespaces in a repository for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces</code></p>
+        <p>Lists the codespaces associated to a specified repository and the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--repos-owner-repo-codespaces" class="endpoint">
+        <h2>Create a codespace in a repository</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/codespaces</code></p>
+        <p>Creates a codespace owned by the authenticated user in the specified repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when the codespace was successfully created</td><td>yes</td></tr><tr><td><code>202</code></td><td>Response when the codespace creation partially failed but is being retried in the background</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-devcontainers" class="endpoint">
+        <h2>List devcontainer configurations in a repository for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/devcontainers</code></p>
+        <p>Lists the devcontainer.json files associated with a specified repository and the authenticated user. These files</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-machines" class="endpoint">
+        <h2>List available machine types for a repository</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/machines</code></p>
+        <p>List the machine types available for a given repository based on its configuration.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>location</code></td><td>query</td><td>no</td><td>The location to check for available machines. Assigned by IP if not provided.</td></tr><tr><td><code>client_ip</code></td><td>query</td><td>no</td><td>IP for location auto-detection when proxying a request</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The branch or commit to check for prebuild availability and devcontainer restrictions.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-new" class="endpoint">
+        <h2>Get default attributes for a codespace</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/new</code></p>
+        <p>Gets the default attributes for codespaces created by the user with the repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The branch or commit to check for a default devcontainer path. If not specified, the default branch will be checked.</td></tr><tr><td><code>client_ip</code></td><td>query</td><td>no</td><td>An alternative IP for default location auto-detection, such as when proxying a request.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when a user is able to create codespaces from the repository.</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-permissions_check" class="endpoint">
+        <h2>Check if permissions defined by a devcontainer have been accepted by the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/permissions_check</code></p>
+        <p>Checks whether the permissions defined by a given devcontainer configuration have been accepted by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>yes</td><td>The git reference that points to the location of the devcontainer configuration to use for the permission check. The value of `ref` will typically be a branch name (`heads/BRANCH_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</td></tr><tr><td><code>devcontainer_path</code></td><td>query</td><td>yes</td><td>Path to the devcontainer.json configuration to use for the permission check.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response when the permission check is successful</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-secrets" class="endpoint">
+        <h2>List repository secrets</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/secrets</code></p>
+        <p>Lists all development environment secrets available in a repository without revealing their encrypted</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-secrets-public-key" class="endpoint">
+        <h2>Get a repository public key</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/secrets/public-key</code></p>
+        <p>Gets your public key, which you need to encrypt secrets. You need to</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Get a repository secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/secrets/{secret_name}</code></p>
+        <p>Gets a single repository development environment secret without revealing its encrypted value.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--repos-owner-repo-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Create or update a repository secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/codespaces/secrets/{secret_name}</code></p>
+        <p>Creates or updates a repository development environment secret with an encrypted value. Encrypt your secret using</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when creating a secret</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response when updating a secret</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="delete--repos-owner-repo-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Delete a repository secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/codespaces/secrets/{secret_name}</code></p>
+        <p>Deletes a development environment secret in a repository using the secret name.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="post--repos-owner-repo-pulls-pull_number-codespaces" class="endpoint">
+        <h2>Create a codespace from a pull request</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/pulls/{pull_number}/codespaces</code></p>
+        <p>Creates a codespace owned by the authenticated user for the specified pull request.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>pull_number</code></td><td>path</td><td>yes</td><td>The number that identifies the pull request.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when the codespace was successfully created</td><td>yes</td></tr><tr><td><code>202</code></td><td>Response when the codespace creation partially failed but is being retried in the background</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces" class="endpoint">
+        <h2>List codespaces for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces</code></p>
+        <p>Lists the authenticated user's codespaces.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>repository_id</code></td><td>query</td><td>no</td><td>ID of the Repository to filter on</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-codespaces" class="endpoint">
+        <h2>Create a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/codespaces</code></p>
+        <p>Creates a new codespace, owned by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response when the codespace was successfully created</td><td>yes</td></tr><tr><td><code>202</code></td><td>Response when the codespace creation partially failed but is being retried in the background</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-secrets" class="endpoint">
+        <h2>List secrets for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets</code></p>
+        <p>Lists all development environment secrets available for a user's codespaces without revealing their</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-secrets-public-key" class="endpoint">
+        <h2>Get public key for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets/public-key</code></p>
+        <p>Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Get a secret for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets/{secret_name}</code></p>
+        <p>Gets a development environment secret available to a user's codespaces without revealing its encrypted value.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--user-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Create or update a secret for the authenticated user</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /user/codespaces/secrets/{secret_name}</code></p>
+        <p>Creates or updates a development environment secret for a user's codespace with an encrypted value. Encrypt your secret using</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response after successfully creating a secret</td><td>yes</td></tr><tr><td><code>204</code></td><td>Response after successfully updating a secret</td><td>no</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-codespaces-secrets-secret_name" class="endpoint">
+        <h2>Delete a secret for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/codespaces/secrets/{secret_name}</code></p>
+        <p>Deletes a development environment secret from a user's codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-secrets-secret_name-repositories" class="endpoint">
+        <h2>List selected repositories for a user secret</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets/{secret_name}/repositories</code></p>
+        <p>List the repositories that have been granted the ability to use a user's development environment secret.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--user-codespaces-secrets-secret_name-repositories" class="endpoint">
+        <h2>Set selected repositories for a user secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /user/codespaces/secrets/{secret_name}/repositories</code></p>
+        <p>Select the repositories that will use a user's development environment secret.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content when repositories were added to the selected list</td><td>no</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="put--user-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
+        <h2>Add a selected repository to a user secret</h2>
+        <p><code class="route"><span class="method method-put">PUT</span> /user/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
+        <p>Adds a repository to the selected repositories for a user's development environment secret.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content when repository was added to the selected list</td><td>no</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
+        <h2>Remove a selected repository from a user secret</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
+        <p>Removes a repository from the selected repositories for a user's development environment secret.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>No Content when repository was removed from the selected list</td><td>no</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-codespace_name" class="endpoint">
+        <h2>Get a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/{codespace_name}</code></p>
+        <p>Gets information about a user's codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--user-codespaces-codespace_name" class="endpoint">
+        <h2>Update a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /user/codespaces/{codespace_name}</code></p>
+        <p>Updates a codespace owned by the authenticated user. Currently only the codespace's machine type and recent folders can be modified using this endpoint.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-codespaces-codespace_name" class="endpoint">
+        <h2>Delete a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/codespaces/{codespace_name}</code></p>
+        <p>Deletes a user's codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>202</code></td><td>Accepted</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-codespaces-codespace_name-exports" class="endpoint">
+        <h2>Export a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/codespaces/{codespace_name}/exports</code></p>
+        <p>Triggers an export of the specified codespace and returns a URL and ID where the status of the export can be monitored.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>202</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-codespace_name-exports-export_id" class="endpoint">
+        <h2>Get details about a codespace export</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/{codespace_name}/exports/{export_id}</code></p>
+        <p>Gets information about an export of a codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr><tr><td><code>export_id</code></td><td>path</td><td>yes</td><td>The ID of the export operation, or `latest`. Currently only `latest` is currently supported.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-codespaces-codespace_name-machines" class="endpoint">
+        <h2>List machine types for a codespace</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/{codespace_name}/machines</code></p>
+        <p>List the machine types a codespace can transition to use.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-codespaces-codespace_name-publish" class="endpoint">
+        <h2>Create a repository from an unpublished codespace</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/codespaces/{codespace_name}/publish</code></p>
+        <p>Publishes an unpublished codespace, creating a new repository and assigning it to the codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-codespaces-codespace_name-start" class="endpoint">
+        <h2>Start a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/codespaces/{codespace_name}/start</code></p>
+        <p>Starts a user's codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>402</code></td><td>Payment required</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Conflict</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-codespaces-codespace_name-stop" class="endpoint">
+        <h2>Stop a codespace for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/codespaces/{codespace_name}/stop</code></p>
+        <p>Stops a user's codespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

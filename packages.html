@@ -1,0 +1,413 @@
+
+    <html>
+    <head>
+        <title>Packages API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Packages API Reference</h1>
+        <div class="intro">
+            <p>Manage packages for authenticated users and organizations.</p>
+            <p>27 endpoints tagged <code>packages</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--orgs-org-docker-conflicts"><span class="method method-get">GET</span> Get list of conflicting packages during Docker migration for organization</a></li><li><a href="#get--orgs-org-packages"><span class="method method-get">GET</span> List packages for an organization</a></li><li><a href="#get--orgs-org-packages-package_type-package_name"><span class="method method-get">GET</span> Get a package for an organization</a></li><li><a href="#delete--orgs-org-packages-package_type-package_name"><span class="method method-delete">DELETE</span> Delete a package for an organization</a></li><li><a href="#post--orgs-org-packages-package_type-package_name-restore"><span class="method method-post">POST</span> Restore a package for an organization</a></li><li><a href="#get--orgs-org-packages-package_type-package_name-versions"><span class="method method-get">GET</span> List package versions for a package owned by an organization</a></li><li><a href="#get--orgs-org-packages-package_type-package_name-versions-package_version_id"><span class="method method-get">GET</span> Get a package version for an organization</a></li><li><a href="#delete--orgs-org-packages-package_type-package_name-versions-package_version_id"><span class="method method-delete">DELETE</span> Delete package version for an organization</a></li><li><a href="#post--orgs-org-packages-package_type-package_name-versions-package_version_id-restore"><span class="method method-post">POST</span> Restore package version for an organization</a></li><li><a href="#get--user-docker-conflicts"><span class="method method-get">GET</span> Get list of conflicting packages during Docker migration for authenticated-user</a></li><li><a href="#get--user-packages"><span class="method method-get">GET</span> List packages for the authenticated user's namespace</a></li><li><a href="#get--user-packages-package_type-package_name"><span class="method method-get">GET</span> Get a package for the authenticated user</a></li><li><a href="#delete--user-packages-package_type-package_name"><span class="method method-delete">DELETE</span> Delete a package for the authenticated user</a></li><li><a href="#post--user-packages-package_type-package_name-restore"><span class="method method-post">POST</span> Restore a package for the authenticated user</a></li><li><a href="#get--user-packages-package_type-package_name-versions"><span class="method method-get">GET</span> List package versions for a package owned by the authenticated user</a></li><li><a href="#get--user-packages-package_type-package_name-versions-package_version_id"><span class="method method-get">GET</span> Get a package version for the authenticated user</a></li><li><a href="#delete--user-packages-package_type-package_name-versions-package_version_id"><span class="method method-delete">DELETE</span> Delete a package version for the authenticated user</a></li><li><a href="#post--user-packages-package_type-package_name-versions-package_version_id-restore"><span class="method method-post">POST</span> Restore a package version for the authenticated user</a></li><li><a href="#get--users-username-docker-conflicts"><span class="method method-get">GET</span> Get list of conflicting packages during Docker migration for user</a></li><li><a href="#get--users-username-packages"><span class="method method-get">GET</span> List packages for a user</a></li><li><a href="#get--users-username-packages-package_type-package_name"><span class="method method-get">GET</span> Get a package for a user</a></li><li><a href="#delete--users-username-packages-package_type-package_name"><span class="method method-delete">DELETE</span> Delete a package for a user</a></li><li><a href="#post--users-username-packages-package_type-package_name-restore"><span class="method method-post">POST</span> Restore a package for a user</a></li><li><a href="#get--users-username-packages-package_type-package_name-versions"><span class="method method-get">GET</span> List package versions for a package owned by a user</a></li><li><a href="#get--users-username-packages-package_type-package_name-versions-package_version_id"><span class="method method-get">GET</span> Get a package version for a user</a></li><li><a href="#delete--users-username-packages-package_type-package_name-versions-package_version_id"><span class="method method-delete">DELETE</span> Delete package version for a user</a></li><li><a href="#post--users-username-packages-package_type-package_name-versions-package_version_id-restore"><span class="method method-post">POST</span> Restore package version for a user</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--orgs-org-docker-conflicts" class="endpoint">
+        <h2>Get list of conflicting packages during Docker migration for organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/docker/conflicts</code></p>
+        <p>Lists all packages that are in a specific organization, are readable by the requesting user, and that encountered a conflict during a Docker migration.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-packages" class="endpoint">
+        <h2>List packages for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/packages</code></p>
+        <p>Lists packages in an organization readable by the user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>query</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>visibility</code></td><td>query</td><td>no</td><td>The selected visibility of the packages.  This parameter is optional and only filters an existing result set.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>400</code></td><td>The value of `per_page` multiplied by `page` cannot be greater than 10000.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-packages-package_type-package_name" class="endpoint">
+        <h2>Get a package for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/packages/{package_type}/{package_name}</code></p>
+        <p>Gets a specific package in an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-packages-package_type-package_name" class="endpoint">
+        <h2>Delete a package for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/packages/{package_type}/{package_name}</code></p>
+        <p>Deletes an entire package in an organization. You cannot delete a public package if any version of the package has more than 5,000 downloads. In this scenario, contact GitHub support for further assistance.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-packages-package_type-package_name-restore" class="endpoint">
+        <h2>Restore a package for an organization</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/packages/{package_type}/{package_name}/restore</code></p>
+        <p>Restores an entire package in an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>token</code></td><td>query</td><td>no</td><td>package token</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-packages-package_type-package_name-versions" class="endpoint">
+        <h2>List package versions for a package owned by an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/packages/{package_type}/{package_name}/versions</code></p>
+        <p>Lists package versions for a package owned by an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>The state of the package, either active or deleted.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-packages-package_type-package_name-versions-package_version_id" class="endpoint">
+        <h2>Get a package version for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}</code></p>
+        <p>Gets a specific package version in an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--orgs-org-packages-package_type-package_name-versions-package_version_id" class="endpoint">
+        <h2>Delete package version for an organization</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}</code></p>
+        <p>Deletes a specific package version in an organization. If the package is public and the package version has more than 5,000 downloads, you cannot delete the package version. In this scenario, contact GitHub support for further assistance.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--orgs-org-packages-package_type-package_name-versions-package_version_id-restore" class="endpoint">
+        <h2>Restore package version for an organization</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore</code></p>
+        <p>Restores a specific package version in an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-docker-conflicts" class="endpoint">
+        <h2>Get list of conflicting packages during Docker migration for authenticated-user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/docker/conflicts</code></p>
+        <p>Lists all packages that are owned by the authenticated user within the user's namespace, and that encountered a conflict during a Docker migration.</p>
+        <h3>Parameters</h3>
+        <p><em>No parameters.</em></p>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-packages" class="endpoint">
+        <h2>List packages for the authenticated user's namespace</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/packages</code></p>
+        <p>Lists packages owned by the authenticated user within the user's namespace.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>query</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>visibility</code></td><td>query</td><td>no</td><td>The selected visibility of the packages.  This parameter is optional and only filters an existing result set.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>The value of `per_page` multiplied by `page` cannot be greater than 10000.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--user-packages-package_type-package_name" class="endpoint">
+        <h2>Get a package for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/packages/{package_type}/{package_name}</code></p>
+        <p>Gets a specific package for a package owned by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-packages-package_type-package_name" class="endpoint">
+        <h2>Delete a package for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/packages/{package_type}/{package_name}</code></p>
+        <p>Deletes a package owned by the authenticated user. You cannot delete a public package if any version of the package has more than 5,000 downloads. In this scenario, contact GitHub support for further assistance.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-packages-package_type-package_name-restore" class="endpoint">
+        <h2>Restore a package for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/packages/{package_type}/{package_name}/restore</code></p>
+        <p>Restores a package owned by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>token</code></td><td>query</td><td>no</td><td>package token</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-packages-package_type-package_name-versions" class="endpoint">
+        <h2>List package versions for a package owned by the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/packages/{package_type}/{package_name}/versions</code></p>
+        <p>Lists package versions for a package owned by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>The state of the package, either active or deleted.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--user-packages-package_type-package_name-versions-package_version_id" class="endpoint">
+        <h2>Get a package version for the authenticated user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /user/packages/{package_type}/{package_name}/versions/{package_version_id}</code></p>
+        <p>Gets a specific package version for a package owned by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--user-packages-package_type-package_name-versions-package_version_id" class="endpoint">
+        <h2>Delete a package version for the authenticated user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /user/packages/{package_type}/{package_name}/versions/{package_version_id}</code></p>
+        <p>Deletes a specific package version for a package owned by the authenticated user.  If the package is public and the package version has more than 5,000 downloads, you cannot delete the package version. In this scenario, contact GitHub support for further assistance.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--user-packages-package_type-package_name-versions-package_version_id-restore" class="endpoint">
+        <h2>Restore a package version for the authenticated user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore</code></p>
+        <p>Restores a package version owned by the authenticated user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-docker-conflicts" class="endpoint">
+        <h2>Get list of conflicting packages during Docker migration for user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/docker/conflicts</code></p>
+        <p>Lists all packages that are in a specific user's namespace, that the requesting user has access to, and that encountered a conflict during Docker migration.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-packages" class="endpoint">
+        <h2>List packages for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/packages</code></p>
+        <p>Lists all packages in a user's namespace for which the requesting user has access.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>query</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>visibility</code></td><td>query</td><td>no</td><td>The selected visibility of the packages.  This parameter is optional and only filters an existing result set.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr><tr><td><code>400</code></td><td>The value of `per_page` multiplied by `page` cannot be greater than 10000.</td><td>no</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-packages-package_type-package_name" class="endpoint">
+        <h2>Get a package for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/packages/{package_type}/{package_name}</code></p>
+        <p>Gets a specific package metadata for a public package owned by a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--users-username-packages-package_type-package_name" class="endpoint">
+        <h2>Delete a package for a user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /users/{username}/packages/{package_type}/{package_name}</code></p>
+        <p>Deletes an entire package for a user. You cannot delete a public package if any version of the package has more than 5,000 downloads. In this scenario, contact GitHub support for further assistance.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--users-username-packages-package_type-package_name-restore" class="endpoint">
+        <h2>Restore a package for a user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /users/{username}/packages/{package_type}/{package_name}/restore</code></p>
+        <p>Restores an entire package for a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>token</code></td><td>query</td><td>no</td><td>package token</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-packages-package_type-package_name-versions" class="endpoint">
+        <h2>List package versions for a package owned by a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/packages/{package_type}/{package_name}/versions</code></p>
+        <p>Lists package versions for a public package owned by a specified user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--users-username-packages-package_type-package_name-versions-package_version_id" class="endpoint">
+        <h2>Get a package version for a user</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}</code></p>
+        <p>Gets a specific package version for a public package owned by a specified user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="delete--users-username-packages-package_type-package_name-versions-package_version_id" class="endpoint">
+        <h2>Delete package version for a user</h2>
+        <p><code class="route"><span class="method method-delete">DELETE</span> /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}</code></p>
+        <p>Deletes a specific package version for a user. If the package is public and the package version has more than 5,000 downloads, you cannot delete the package version. In this scenario, contact GitHub support for further assistance.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--users-username-packages-package_type-package_name-versions-package_version_id-restore" class="endpoint">
+        <h2>Restore package version for a user</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore</code></p>
+        <p>Restores a specific package version for a user.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>package_type</code></td><td>path</td><td>yes</td><td>The type of supported package. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these have now been migrated to the Container registry.</td></tr><tr><td><code>package_name</code></td><td>path</td><td>yes</td><td>The name of the package.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>package_version_id</code></td><td>path</td><td>yes</td><td>Unique identifier of the package version.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>401</code></td><td>Requires authentication</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    

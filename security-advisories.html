@@ -1,0 +1,243 @@
+
+    <html>
+    <head>
+        <title>Security-Advisories API Reference</title>
+        <meta charset="utf-8">
+        <style>
+    /* CSS custom properties (variables) so colors are defined once and
+       reused everywhere below via var(--name), instead of repeating hex
+       codes in a dozen places. */
+    :root {
+        --bg: #ffffff;
+        --text: #1b1f23;
+        --muted: #57606a;
+        --border: #d8dee4;
+        --accent: #0969da;
+        --code-bg: #f6f8fa;
+    }
+    /* Makes width/padding math predictable: an element's declared width
+       includes its padding and border, instead of adding on top of it. */
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.5;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
+       small and uppercase so it reads as a label rather than a heading. */
+    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .intro {
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .intro p { margin: 0.4em 0; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    /* The table-of-contents box: a shaded, scrollable panel so a long
+       endpoint list doesn't push all the content down. */
+    nav {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
+       columns; "break-inside: avoid" stops a single <li> from being split
+       across the column break. */
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+    nav li { break-inside: avoid; margin: 4px 0; }
+    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
+    nav a:hover { text-decoration: underline; }
+    .endpoint {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    code.route {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1rem;
+    }
+    /* Base look shared by every method badge; the specific background
+       color for each HTTP verb is set by the .method-{verb} rules below. */
+    .method {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 6px;
+        color: #fff;
+    }
+    .method-get { background: #2da44e; }
+    .method-post { background: #0969da; }
+    .method-put { background: #9a6700; }
+    .method-patch { background: #8250df; }
+    .method-delete { background: #cf222e; }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 12px 0 20px;
+        font-size: 1rem;
+    }
+    th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+    th { background: var(--code-bg); }
+    /* Zebra-striping: shades every other data row so wide tables are
+       easier to scan across. */
+    tr:nth-child(even) { background: #fafbfc; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Index page: a responsive card grid, one card per tag. auto-fill +
+       minmax means the browser fits as many ~260px cards per row as
+       will fit, wrapping as needed -- no media queries required. */
+    .tag-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .tag-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--code-bg);
+    }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
+    .tag-card a:hover { text-decoration: underline; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
+</style>
+    </head>
+    <body>
+        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+        <h1>Security-Advisories API Reference</h1>
+        <div class="intro">
+            <p>Manage security advisories.</p>
+            <p>10 endpoints tagged <code>security-advisories</code>, each listing its
+            parameters and possible responses. Use the index below to jump to a
+            specific endpoint.</p>
+        </div>
+        <nav><ul><li><a href="#get--advisories"><span class="method method-get">GET</span> List global security advisories</a></li><li><a href="#get--advisories-ghsa_id"><span class="method method-get">GET</span> Get a global security advisory</a></li><li><a href="#get--orgs-org-security-advisories"><span class="method method-get">GET</span> List repository security advisories for an organization</a></li><li><a href="#get--repos-owner-repo-security-advisories"><span class="method method-get">GET</span> List repository security advisories</a></li><li><a href="#post--repos-owner-repo-security-advisories"><span class="method method-post">POST</span> Create a repository security advisory</a></li><li><a href="#post--repos-owner-repo-security-advisories-reports"><span class="method method-post">POST</span> Privately report a security vulnerability</a></li><li><a href="#get--repos-owner-repo-security-advisories-ghsa_id"><span class="method method-get">GET</span> Get a repository security advisory</a></li><li><a href="#patch--repos-owner-repo-security-advisories-ghsa_id"><span class="method method-patch">PATCH</span> Update a repository security advisory</a></li><li><a href="#post--repos-owner-repo-security-advisories-ghsa_id-cve"><span class="method method-post">POST</span> Request a CVE for a repository security advisory</a></li><li><a href="#post--repos-owner-repo-security-advisories-ghsa_id-forks"><span class="method method-post">POST</span> Create a temporary private fork</a></li></ul></nav>
+        <hr>
+        
+    <section id="get--advisories" class="endpoint">
+        <h2>List global security advisories</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /advisories</code></p>
+        <p>Lists all global security advisories that match the specified parameters. If no other parameters are defined, the request will return only GitHub-reviewed advisories that are not malware.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>ghsa_id</code></td><td>query</td><td>no</td><td>If specified, only advisories with this GHSA (GitHub Security Advisory) identifier will be returned.</td></tr><tr><td><code>type</code></td><td>query</td><td>no</td><td>If specified, only advisories of this type will be returned. By default, a request with no other parameters defined will only return reviewed advisories that are not malware.</td></tr><tr><td><code>cve_id</code></td><td>query</td><td>no</td><td>If specified, only advisories with this CVE (Common Vulnerabilities and Exposures) identifier will be returned.</td></tr><tr><td><code>ecosystem</code></td><td>query</td><td>no</td><td>If specified, only advisories for these ecosystems will be returned.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>If specified, only advisories with these severities will be returned.</td></tr><tr><td><code>cwes</code></td><td>query</td><td>no</td><td>If specified, only advisories with these Common Weakness Enumerations (CWEs) will be returned.</td></tr><tr><td><code>is_withdrawn</code></td><td>query</td><td>no</td><td>Whether to only return advisories that have been withdrawn.</td></tr><tr><td><code>affects</code></td><td>query</td><td>no</td><td>If specified, only return advisories that affect any of `package` or `package@version`. A maximum of 1000 packages can be specified.</td></tr><tr><td><code>published</code></td><td>query</td><td>no</td><td>If specified, only return advisories that were published on a date or date range.</td></tr><tr><td><code>updated</code></td><td>query</td><td>no</td><td>If specified, only return advisories that were updated on a date or date range.</td></tr><tr><td><code>modified</code></td><td>query</td><td>no</td><td>If specified, only show advisories that were updated or published on a date or date range.</td></tr><tr><td><code>epss_percentage</code></td><td>query</td><td>no</td><td>If specified, only return advisories that have an EPSS percentage score that matches the provided value.</td></tr><tr><td><code>epss_percentile</code></td><td>query</td><td>no</td><td>If specified, only return advisories that have an EPSS percentile score that matches the provided value.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property to sort the results by.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>429</code></td><td>Too many requests</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--advisories-ghsa_id" class="endpoint">
+        <h2>Get a global security advisory</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /advisories/{ghsa_id}</code></p>
+        <p>Gets a global security advisory using its GitHub Security Advisory (GHSA) identifier.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>ghsa_id</code></td><td>path</td><td>yes</td><td>The GHSA (GitHub Security Advisory) identifier of the advisory.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--orgs-org-security-advisories" class="endpoint">
+        <h2>List repository security advisories for an organization</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/security-advisories</code></p>
+        <p>Lists repository security advisories for an organization.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of advisories to return per page. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>Filter by the state of the repository advisories. Only advisories of this state will be returned.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-security-advisories" class="endpoint">
+        <h2>List repository security advisories</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/security-advisories</code></p>
+        <p>Lists security advisories in a repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of advisories to return per page. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>Filter by state of the repository advisories. Only advisories of this state will be returned.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--repos-owner-repo-security-advisories" class="endpoint">
+        <h2>Create a repository security advisory</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/security-advisories</code></p>
+        <p>Creates a new repository security advisory.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--repos-owner-repo-security-advisories-reports" class="endpoint">
+        <h2>Privately report a security vulnerability</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/security-advisories/reports</code></p>
+        <p>Report a security vulnerability to the maintainers of the repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="get--repos-owner-repo-security-advisories-ghsa_id" class="endpoint">
+        <h2>Get a repository security advisory</h2>
+        <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/security-advisories/{ghsa_id}</code></p>
+        <p>Get a repository security advisory using its GitHub Security Advisory (GHSA) identifier.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ghsa_id</code></td><td>path</td><td>yes</td><td>The GHSA (GitHub Security Advisory) identifier of the advisory.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="patch--repos-owner-repo-security-advisories-ghsa_id" class="endpoint">
+        <h2>Update a repository security advisory</h2>
+        <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/security-advisories/{ghsa_id}</code></p>
+        <p>Update a repository security advisory using its GitHub Security Advisory (GHSA) identifier.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ghsa_id</code></td><td>path</td><td>yes</td><td>The GHSA (GitHub Security Advisory) identifier of the advisory.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--repos-owner-repo-security-advisories-ghsa_id-cve" class="endpoint">
+        <h2>Request a CVE for a repository security advisory</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/security-advisories/{ghsa_id}/cve</code></p>
+        <p>If you want a CVE identification number for the security vulnerability in your project, and don't already have one, you can request a CVE identification number from GitHub. For more information see "[Requesting a CVE identification number](https://docs.github.com/code-security/security-advisories/repository-security-advisories/publishing-a-repository-security-advisory#requesting-a-cve-identification-number-optional)."</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ghsa_id</code></td><td>path</td><td>yes</td><td>The GHSA (GitHub Security Advisory) identifier of the advisory.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>202</code></td><td>Accepted</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table>
+    </section>
+    
+    <section id="post--repos-owner-repo-security-advisories-ghsa_id-forks" class="endpoint">
+        <h2>Create a temporary private fork</h2>
+        <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/security-advisories/{ghsa_id}/forks</code></p>
+        <p>Create a temporary private fork to collaborate on fixing a security vulnerability in your repository.</p>
+        <h3>Parameters</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ghsa_id</code></td><td>path</td><td>yes</td><td>The GHSA (GitHub Security Advisory) identifier of the advisory.</td></tr></table>
+        <h3>Responses</h3>
+        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>202</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>422</code></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><code>403</code></td><td>Forbidden</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr></table>
+    </section>
+    
+    </body>
+    </html>
+    
