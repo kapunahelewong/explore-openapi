@@ -4,16 +4,21 @@
         <title>Code-Scanning API Reference</title>
         <meta charset="utf-8">
         <style>
-    /* CSS custom properties (variables) so colors are defined once and
-       reused everywhere below via var(--name), instead of repeating hex
-       codes in a dozen places. */
+    /* CSS custom properties (variables) so colors/shadows are defined once
+       and reused everywhere below via var(--name), instead of repeating
+       hex codes in a dozen places. */
     :root {
-        --bg: #ffffff;
-        --text: #1b1f23;
-        --muted: #57606a;
-        --border: #d8dee4;
-        --accent: #0969da;
-        --code-bg: #f6f8fa;
+        --page-bg: #eef1f6;
+        --surface: #ffffff;
+        --text: #1a1d24;
+        --muted: #667085;
+        --border: #e3e6ea;
+        --accent: #4f46e5;
+        --accent-soft: #eef0fe;
+        --code-bg: #f6f7fb;
+        --radius: 14px;
+        --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+        --shadow-md: 0 10px 30px rgba(16, 24, 40, 0.08);
     }
     /* Makes width/padding math predictable: an element's declared width
        includes its padding and border, instead of adding on top of it. */
@@ -21,88 +26,177 @@
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         color: var(--text);
-        background: var(--bg);
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 0 20px;
-        line-height: 1.5;
+        background: var(--page-bg);
+        margin: 0;
+        padding: 40px 20px;
+        line-height: 1.6;
     }
-    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
-    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* Everything sits inside one elevated "page" card floating on the
+       muted background -- the main thing that makes this feel like a
+       real docs site instead of an unstyled HTML dump. */
+    .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        padding: 40px 48px;
+    }
+    h1 { font-size: 2.1rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 0.3rem; }
+    h2 { font-size: 1.3rem; font-weight: 700; margin-top: 0; }
     /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
        small and uppercase so it reads as a label rather than a heading. */
-    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    h3 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 1.4em 0 0.6em; }
     .intro {
         color: var(--muted);
         border-bottom: 1px solid var(--border);
         padding-bottom: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
     .intro p { margin: 0.4em 0; }
-    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
-    .back-link:hover { text-decoration: underline; }
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: var(--code-bg);
+        margin-bottom: 20px;
+        transition: background 0.15s ease;
+    }
+    .back-link:hover { background: var(--accent-soft); }
+    /* Search inputs (tag index + per-tag endpoint list) share this look:
+       a soft pill with a search glyph baked into the placeholder text
+       rather than a separate icon element. */
+    input[type="search"] {
+        display: block;
+        width: 100%;
+        max-width: 340px;
+        padding: 10px 14px;
+        margin-bottom: 18px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--code-bg);
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: var(--text);
+    }
+    input[type="search"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: var(--surface);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .hidden { display: none; }
+    .no-results { display: none; color: var(--muted); font-size: 0.9rem; }
     /* The table-of-contents box: a shaded, scrollable panel so a long
        endpoint list doesn't push all the content down. */
     nav {
         background: var(--code-bg);
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 12px 20px;
+        border-radius: 12px;
+        padding: 16px 20px;
         margin-bottom: 30px;
-        max-height: 320px;
+        max-height: 360px;
         overflow-y: auto;
     }
     /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
        columns; "break-inside: avoid" stops a single <li> from being split
        across the column break. */
-    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
-    nav li { break-inside: avoid; margin: 4px 0; }
-    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
-    nav a:hover { text-decoration: underline; }
-    .endpoint {
-        margin-bottom: 40px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 24px;
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 20px; }
+    nav li { break-inside: avoid; }
+    nav a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text);
+        font-size: 0.92rem;
+        padding: 6px 8px;
+        margin: 1px 0;
+        border-radius: 8px;
+        transition: background 0.12s ease;
     }
+    nav a:hover { background: var(--surface); color: var(--accent); }
+    .endpoint {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 26px 30px;
+        margin-bottom: 24px;
+        box-shadow: var(--shadow-sm);
+        scroll-margin-top: 20px;
+    }
+    /* Briefly rings the endpoint you jumped to from the nav, so it's
+       obvious the page actually moved. */
+    .endpoint:target { box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-sm); }
     code.route {
         background: var(--code-bg);
         border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 4px 8px;
-        font-size: 1rem;
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 0.95rem;
     }
     /* Base look shared by every method badge; the specific background
        color for each HTTP verb is set by the .method-{verb} rules below. */
     .method {
-        display: inline-block;
-        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 52px;
+        font-size: 0.68rem;
         font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-right: 6px;
+        letter-spacing: 0.03em;
+        padding: 3px 8px;
+        border-radius: 999px;
+        margin-right: 8px;
         color: #fff;
     }
-    .method-get { background: #2da44e; }
-    .method-post { background: #0969da; }
-    .method-put { background: #9a6700; }
-    .method-patch { background: #8250df; }
-    .method-delete { background: #cf222e; }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 12px 0 20px;
-        font-size: 1rem;
-    }
-    th, td {
+    .method-get { background: #16a34a; }
+    .method-post { background: #2563eb; }
+    .method-put { background: #d97706; }
+    .method-patch { background: #7c3aed; }
+    .method-delete { background: #dc2626; }
+    .table-wrap {
         border: 1px solid var(--border);
-        padding: 6px 10px;
-        text-align: left;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 8px 0 20px;
     }
-    th { background: var(--code-bg); }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    th {
+        background: var(--code-bg);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+    }
     /* Zebra-striping: shades every other data row so wide tables are
        easier to scan across. */
-    tr:nth-child(even) { background: #fafbfc; }
+    tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Response status codes get the same color-coded-pill treatment as
+       method badges: green for success, red for error, etc. -- a glance
+       at the column tells you which rows are the "happy path". */
+    .status-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.8rem;
+    }
+    .status-2xx { background: #dcfce7; color: #15803d; }
+    .status-3xx { background: #e0e7ff; color: #4338ca; }
+    .status-4xx { background: #fef3c7; color: #b45309; }
+    .status-5xx { background: #fee2e2; color: #b91c1c; }
+    .status-other { background: var(--code-bg); color: var(--muted); }
     /* Index page: a responsive card grid, one card per tag. auto-fill +
        minmax means the browser fits as many ~260px cards per row as
        will fit, wrapping as needed -- no media queries required. */
@@ -116,50 +210,44 @@
     }
     .tag-card {
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 14px 16px;
-        background: var(--code-bg);
+        border-radius: 12px;
+        padding: 16px 18px;
+        background: var(--surface);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
-    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
-    .tag-card a:hover { text-decoration: underline; }
-    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
-    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
-    #tag-search {
-        display: block;
-        width: 100%;
-        max-width: 320px;
-        padding: 8px 12px;
-        margin-bottom: 20px;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        font-size: 1rem;
-        font-family: inherit;
+    .tag-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--accent);
     }
-    #tag-search:focus { outline: none; border-color: var(--accent); }
-    .tag-card.hidden { display: none; }
-    #no-results { display: none; color: var(--muted); }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.05rem; font-weight: 700; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.78rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.88rem; }
 </style>
     </head>
     <body>
-        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+    <div class="page">
+        <a class="back-link" href="index.html">&larr; All tags</a>
         <h1>Code-Scanning API Reference</h1>
         <div class="intro">
             <p>Retrieve code scanning alerts from a repository.</p>
             <p>21 endpoints tagged <code>code-scanning</code>, each listing its
-            parameters and possible responses. Use the index below to jump to a
-            specific endpoint.</p>
+            parameters and possible responses. Search or scroll the index below to
+            jump to a specific endpoint.</p>
         </div>
-        <nav><ul><li><a href="#get--orgs-org-code-scanning-alerts"><span class="method method-get">GET</span> List code scanning alerts for an organization</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts"><span class="method method-get">GET</span> List code scanning alerts for a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts-alert_number"><span class="method method-get">GET</span> Get a code scanning alert</a></li><li><a href="#patch--repos-owner-repo-code-scanning-alerts-alert_number"><span class="method method-patch">PATCH</span> Update a code scanning alert</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts-alert_number-autofix"><span class="method method-get">GET</span> Get the status of an autofix for a code scanning alert</a></li><li><a href="#post--repos-owner-repo-code-scanning-alerts-alert_number-autofix"><span class="method method-post">POST</span> Create an autofix for a code scanning alert</a></li><li><a href="#post--repos-owner-repo-code-scanning-alerts-alert_number-autofix-commits"><span class="method method-post">POST</span> Commit an autofix for a code scanning alert</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts-alert_number-instances"><span class="method method-get">GET</span> List instances of a code scanning alert</a></li><li><a href="#get--repos-owner-repo-code-scanning-analyses"><span class="method method-get">GET</span> List code scanning analyses for a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-analyses-analysis_id"><span class="method method-get">GET</span> Get a code scanning analysis for a repository</a></li><li><a href="#delete--repos-owner-repo-code-scanning-analyses-analysis_id"><span class="method method-delete">DELETE</span> Delete a code scanning analysis from a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-databases"><span class="method method-get">GET</span> List CodeQL databases for a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-databases-language"><span class="method method-get">GET</span> Get a CodeQL database for a repository</a></li><li><a href="#delete--repos-owner-repo-code-scanning-codeql-databases-language"><span class="method method-delete">DELETE</span> Delete a CodeQL database</a></li><li><a href="#post--repos-owner-repo-code-scanning-codeql-variant-analyses"><span class="method method-post">POST</span> Create a CodeQL variant analysis</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-variant-analyses-codeql_variant_analysis_id"><span class="method method-get">GET</span> Get the summary of a CodeQL variant analysis</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-variant-analyses-codeql_variant_analysis_id-repos-repo_owner-repo_name"><span class="method method-get">GET</span> Get the analysis status of a repository in a CodeQL variant analysis</a></li><li><a href="#get--repos-owner-repo-code-scanning-default-setup"><span class="method method-get">GET</span> Get a code scanning default setup configuration</a></li><li><a href="#patch--repos-owner-repo-code-scanning-default-setup"><span class="method method-patch">PATCH</span> Update a code scanning default setup configuration</a></li><li><a href="#post--repos-owner-repo-code-scanning-sarifs"><span class="method method-post">POST</span> Upload an analysis as SARIF data</a></li><li><a href="#get--repos-owner-repo-code-scanning-sarifs-sarif_id"><span class="method method-get">GET</span> Get information about a SARIF upload</a></li></ul></nav>
-        <hr>
+        <input type="search" id="endpoint-search" placeholder="🔍 Search endpoints…" aria-label="Search endpoints" autocomplete="off">
+        <nav><ul id="endpoint-list"><li><a href="#get--orgs-org-code-scanning-alerts"><span class="method method-get">GET</span> List code scanning alerts for an organization</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts"><span class="method method-get">GET</span> List code scanning alerts for a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts-alert_number"><span class="method method-get">GET</span> Get a code scanning alert</a></li><li><a href="#patch--repos-owner-repo-code-scanning-alerts-alert_number"><span class="method method-patch">PATCH</span> Update a code scanning alert</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts-alert_number-autofix"><span class="method method-get">GET</span> Get the status of an autofix for a code scanning alert</a></li><li><a href="#post--repos-owner-repo-code-scanning-alerts-alert_number-autofix"><span class="method method-post">POST</span> Create an autofix for a code scanning alert</a></li><li><a href="#post--repos-owner-repo-code-scanning-alerts-alert_number-autofix-commits"><span class="method method-post">POST</span> Commit an autofix for a code scanning alert</a></li><li><a href="#get--repos-owner-repo-code-scanning-alerts-alert_number-instances"><span class="method method-get">GET</span> List instances of a code scanning alert</a></li><li><a href="#get--repos-owner-repo-code-scanning-analyses"><span class="method method-get">GET</span> List code scanning analyses for a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-analyses-analysis_id"><span class="method method-get">GET</span> Get a code scanning analysis for a repository</a></li><li><a href="#delete--repos-owner-repo-code-scanning-analyses-analysis_id"><span class="method method-delete">DELETE</span> Delete a code scanning analysis from a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-databases"><span class="method method-get">GET</span> List CodeQL databases for a repository</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-databases-language"><span class="method method-get">GET</span> Get a CodeQL database for a repository</a></li><li><a href="#delete--repos-owner-repo-code-scanning-codeql-databases-language"><span class="method method-delete">DELETE</span> Delete a CodeQL database</a></li><li><a href="#post--repos-owner-repo-code-scanning-codeql-variant-analyses"><span class="method method-post">POST</span> Create a CodeQL variant analysis</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-variant-analyses-codeql_variant_analysis_id"><span class="method method-get">GET</span> Get the summary of a CodeQL variant analysis</a></li><li><a href="#get--repos-owner-repo-code-scanning-codeql-variant-analyses-codeql_variant_analysis_id-repos-repo_owner-repo_name"><span class="method method-get">GET</span> Get the analysis status of a repository in a CodeQL variant analysis</a></li><li><a href="#get--repos-owner-repo-code-scanning-default-setup"><span class="method method-get">GET</span> Get a code scanning default setup configuration</a></li><li><a href="#patch--repos-owner-repo-code-scanning-default-setup"><span class="method method-patch">PATCH</span> Update a code scanning default setup configuration</a></li><li><a href="#post--repos-owner-repo-code-scanning-sarifs"><span class="method method-post">POST</span> Upload an analysis as SARIF data</a></li><li><a href="#get--repos-owner-repo-code-scanning-sarifs-sarif_id"><span class="method method-get">GET</span> Get information about a SARIF upload</a></li></ul></nav>
+        <p id="no-endpoint-results" class="no-results">No endpoints match your search.</p>
         
     <section id="get--orgs-org-code-scanning-alerts" class="endpoint">
         <h2>List code scanning alerts for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/code-scanning/alerts</code></p>
         <p>Lists code scanning alerts for the default branch for all eligible repositories in an organization. Eligible repositories are repositories that are owned by organizations that you own or for which you are a security manager. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>tool_name</code></td><td>query</td><td>no</td><td>The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.</td></tr><tr><td><code>tool_guid</code></td><td>query</td><td>no</td><td>The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this state will be returned.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this severity will be returned.</td></tr><tr><td><code>assignees</code></td><td>query</td><td>no</td><td>Filter alerts by assignees. Provide a comma-separated list of user handles (e.g., `octocat` or `octocat,hubot`).</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>tool_name</code></td><td>query</td><td>no</td><td>The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.</td></tr><tr><td><code>tool_guid</code></td><td>query</td><td>no</td><td>The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this state will be returned.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this severity will be returned.</td></tr><tr><td><code>assignees</code></td><td>query</td><td>no</td><td>Filter alerts by assignees. Provide a comma-separated list of user handles (e.g., `octocat` or `octocat,hubot`).</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-alerts" class="endpoint">
@@ -167,9 +255,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/alerts</code></p>
         <p>Lists code scanning alerts.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>tool_name</code></td><td>query</td><td>no</td><td>The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.</td></tr><tr><td><code>tool_guid</code></td><td>query</td><td>no</td><td>The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr><tr><td><code>pr</code></td><td>query</td><td>no</td><td>The number of the pull request for the results you want to list.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this state will be returned.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this severity will be returned.</td></tr><tr><td><code>assignees</code></td><td>query</td><td>no</td><td>Filter alerts by assignees. Provide a comma-separated list of user handles (e.g., `octocat` or `octocat,hubot`).</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>tool_name</code></td><td>query</td><td>no</td><td>The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.</td></tr><tr><td><code>tool_guid</code></td><td>query</td><td>no</td><td>The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr><tr><td><code>pr</code></td><td>query</td><td>no</td><td>The number of the pull request for the results you want to list.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this state will be returned.</td></tr><tr><td><code>severity</code></td><td>query</td><td>no</td><td>If specified, only code scanning alerts with this severity will be returned.</td></tr><tr><td><code>assignees</code></td><td>query</td><td>no</td><td>Filter alerts by assignees. Provide a comma-separated list of user handles (e.g., `octocat` or `octocat,hubot`).</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-alerts-alert_number" class="endpoint">
@@ -177,9 +265,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}</code></p>
         <p>Gets a single code scanning alert.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>304</code></td><td>Not modified</td><td>no</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="patch--repos-owner-repo-code-scanning-alerts-alert_number" class="endpoint">
@@ -187,9 +275,9 @@
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}</code></p>
         <p>Updates the status of a single code scanning alert.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-alerts-alert_number-autofix" class="endpoint">
@@ -197,9 +285,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix</code></p>
         <p>Gets the status and description of an autofix for a code scanning alert on the repository's default branch.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="post--repos-owner-repo-code-scanning-alerts-alert_number-autofix" class="endpoint">
@@ -207,9 +295,9 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix</code></p>
         <p>Creates an autofix for a code scanning alert from the repository's default branch.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>OK</td><td>yes</td></tr><tr><td><code>202</code></td><td>Accepted</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived, if GitHub Advanced Security is not enabled for this repository or if rate limit is exceeded</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Unprocessable Entity</td><td>no</td></tr><tr><td><code>500</code></td><td>Internal Error</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>OK</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">202</span></td><td>Accepted</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived, if GitHub Advanced Security is not enabled for this repository or if rate limit is exceeded</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Unprocessable Entity</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="post--repos-owner-repo-code-scanning-alerts-alert_number-autofix-commits" class="endpoint">
@@ -217,9 +305,9 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix/commits</code></p>
         <p>Commits an autofix for a code scanning alert from the repository's default branch.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Created</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Unprocessable Entity</td><td>no</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Created</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Unprocessable Entity</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-alerts-alert_number-instances" class="endpoint">
@@ -227,9 +315,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances</code></p>
         <p>Lists all instances of the specified code scanning alert.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr><tr><td><code>pr</code></td><td>query</td><td>no</td><td>The number of the pull request for the results you want to list.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>alert_number</code></td><td>path</td><td>yes</td><td>The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr><tr><td><code>pr</code></td><td>query</td><td>no</td><td>The number of the pull request for the results you want to list.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-analyses" class="endpoint">
@@ -237,9 +325,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/analyses</code></p>
         <p>Lists the details of all code scanning analyses for a repository,</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>tool_name</code></td><td>query</td><td>no</td><td>The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.</td></tr><tr><td><code>tool_guid</code></td><td>query</td><td>no</td><td>The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>pr</code></td><td>query</td><td>no</td><td>The number of the pull request for the results you want to list.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the analyses you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr><tr><td><code>sarif_id</code></td><td>query</td><td>no</td><td>Filter analyses belonging to the same SARIF upload.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>tool_name</code></td><td>query</td><td>no</td><td>The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.</td></tr><tr><td><code>tool_guid</code></td><td>query</td><td>no</td><td>The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>pr</code></td><td>query</td><td>no</td><td>The number of the pull request for the results you want to list.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the analyses you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr><tr><td><code>sarif_id</code></td><td>query</td><td>no</td><td>Filter analyses belonging to the same SARIF upload.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort the results by.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property by which to sort the results.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-analyses-analysis_id" class="endpoint">
@@ -247,9 +335,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}</code></p>
         <p>Gets a specified code scanning analysis for a repository.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>analysis_id</code></td><td>path</td><td>yes</td><td>The ID of the analysis, as returned from the `GET /repos/{owner}/{repo}/code-scanning/analyses` operation.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>analysis_id</code></td><td>path</td><td>yes</td><td>The ID of the analysis, as returned from the `GET /repos/{owner}/{repo}/code-scanning/analyses` operation.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Response if analysis could not be processed</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Response if analysis could not be processed</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="delete--repos-owner-repo-code-scanning-analyses-analysis_id" class="endpoint">
@@ -257,9 +345,9 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}</code></p>
         <p>Deletes a specified code scanning analysis from a repository.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>analysis_id</code></td><td>path</td><td>yes</td><td>The ID of the analysis, as returned from the `GET /repos/{owner}/{repo}/code-scanning/analyses` operation.</td></tr><tr><td><code>confirm_delete</code></td><td>query</td><td>no</td><td>Allow deletion if the specified analysis is the last in a set. If you attempt to delete the final analysis in a set without setting this parameter to `true`, you'll get a 400 response with the message: `Analysis is last of its type and deletion may result in the loss of historical alert data. Please specify confirm_delete.`</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>analysis_id</code></td><td>path</td><td>yes</td><td>The ID of the analysis, as returned from the `GET /repos/{owner}/{repo}/code-scanning/analyses` operation.</td></tr><tr><td><code>confirm_delete</code></td><td>query</td><td>no</td><td>Allow deletion if the specified analysis is the last in a set. If you attempt to delete the final analysis in a set without setting this parameter to `true`, you'll get a 400 response with the message: `Analysis is last of its type and deletion may result in the loss of historical alert data. Please specify confirm_delete.`</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-codeql-databases" class="endpoint">
@@ -267,9 +355,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/codeql/databases</code></p>
         <p>Lists the CodeQL databases that are available in a repository.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-codeql-databases-language" class="endpoint">
@@ -277,9 +365,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/codeql/databases/{language}</code></p>
         <p>Gets a CodeQL database for a language in a repository.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>language</code></td><td>path</td><td>yes</td><td>The language of the CodeQL database.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>language</code></td><td>path</td><td>yes</td><td>The language of the CodeQL database.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>302</code></td><td>Found</td><td>no</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">302</span></td><td>Found</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="delete--repos-owner-repo-code-scanning-codeql-databases-language" class="endpoint">
@@ -287,9 +375,9 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/code-scanning/codeql/databases/{language}</code></p>
         <p>Deletes a CodeQL database for a language in a repository.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>language</code></td><td>path</td><td>yes</td><td>The language of the CodeQL database.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>language</code></td><td>path</td><td>yes</td><td>The language of the CodeQL database.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>204</code></td><td>Response</td><td>no</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="post--repos-owner-repo-code-scanning-codeql-variant-analyses" class="endpoint">
@@ -297,9 +385,9 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/code-scanning/codeql/variant-analyses</code></p>
         <p>Creates a new CodeQL variant analysis, which will run a CodeQL query against one or more repositories.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>201</code></td><td>Variant analysis submitted for processing</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>422</code></td><td>Unable to process variant analysis submission</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Variant analysis submitted for processing</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Unable to process variant analysis submission</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-codeql-variant-analyses-codeql_variant_analysis_id" class="endpoint">
@@ -307,9 +395,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/codeql/variant-analyses/{codeql_variant_analysis_id}</code></p>
         <p>Gets the summary of a CodeQL variant analysis.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>codeql_variant_analysis_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the variant analysis.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>codeql_variant_analysis_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the variant analysis.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-codeql-variant-analyses-codeql_variant_analysis_id-repos-repo_owner-repo_name" class="endpoint">
@@ -317,9 +405,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/codeql/variant-analyses/{codeql_variant_analysis_id}/repos/{repo_owner}/{repo_name}</code></p>
         <p>Gets the analysis status of a repository in a CodeQL variant analysis.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the controller repository.</td></tr><tr><td><code>codeql_variant_analysis_id</code></td><td>path</td><td>yes</td><td>The ID of the variant analysis.</td></tr><tr><td><code>repo_owner</code></td><td>path</td><td>yes</td><td>The account owner of the variant analysis repository. The name is not case sensitive.</td></tr><tr><td><code>repo_name</code></td><td>path</td><td>yes</td><td>The name of the variant analysis repository.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the controller repository.</td></tr><tr><td><code>codeql_variant_analysis_id</code></td><td>path</td><td>yes</td><td>The ID of the variant analysis.</td></tr><tr><td><code>repo_owner</code></td><td>path</td><td>yes</td><td>The account owner of the variant analysis repository. The name is not case sensitive.</td></tr><tr><td><code>repo_name</code></td><td>path</td><td>yes</td><td>The name of the variant analysis repository.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-default-setup" class="endpoint">
@@ -327,9 +415,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/default-setup</code></p>
         <p>Gets a code scanning default setup configuration.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="patch--repos-owner-repo-code-scanning-default-setup" class="endpoint">
@@ -337,9 +425,9 @@
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/code-scanning/default-setup</code></p>
         <p>Updates a code scanning default setup configuration.</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>202</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>409</code></td><td>Response if there is already a validation run in progress with a different default setup configuration</td><td>yes</td></tr><tr><td><code>422</code></td><td>Response if the configuration change cannot be made because the repository is not in the required state</td><td>yes</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">202</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response if there is already a validation run in progress with a different default setup configuration</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Response if the configuration change cannot be made because the repository is not in the required state</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="post--repos-owner-repo-code-scanning-sarifs" class="endpoint">
@@ -347,9 +435,9 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/code-scanning/sarifs</code></p>
         <p>Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. For troubleshooting information, see "[Troubleshooting SARIF uploads](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif)."</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>202</code></td><td>Response</td><td>yes</td></tr><tr><td><code>400</code></td><td>Bad Request if the sarif field is invalid</td><td>no</td></tr><tr><td><code>403</code></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Resource not found</td><td>yes</td></tr><tr><td><code>413</code></td><td>Payload Too Large if the sarif field is too large</td><td>no</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">202</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request if the sarif field is invalid</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">413</span></td><td>Payload Too Large if the sarif field is too large</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-code-scanning-sarifs-sarif_id" class="endpoint">
@@ -357,10 +445,33 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/code-scanning/sarifs/{sarif_id}</code></p>
         <p>Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository)."</p>
         <h3>Parameters</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>sarif_id</code></td><td>path</td><td>yes</td><td>The SARIF ID obtained after uploading.</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>sarif_id</code></td><td>path</td><td>yes</td><td>The SARIF ID obtained after uploading.</td></tr></table></div>
         <h3>Responses</h3>
-        <table border='1' cellpadding='6' cellspacing='0'><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><code>200</code></td><td>Response</td><td>yes</td></tr><tr><td><code>403</code></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><code>404</code></td><td>Not Found if the sarif id does not match any upload</td><td>no</td></tr><tr><td><code>503</code></td><td>Service unavailable</td><td>yes</td></tr></table>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Response if GitHub Advanced Security is not enabled for this repository</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Not Found if the sarif id does not match any upload</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
+    
+    </div>
+    
+    <script>
+        (function () {
+            var input = document.getElementById("endpoint-search");
+            var items = Array.prototype.slice.call(document.querySelectorAll("#endpoint-list li"));
+            var noResults = document.getElementById("no-endpoint-results");
+
+            input.addEventListener("input", function () {
+                var query = input.value.trim().toLowerCase();
+                var visibleCount = 0;
+
+                items.forEach(function (item) {
+                    var matches = item.textContent.toLowerCase().includes(query);
+                    item.classList.toggle("hidden", !matches);
+                    if (matches) visibleCount += 1;
+                });
+
+                noResults.style.display = visibleCount === 0 ? "block" : "none";
+            });
+        })();
+    </script>
     
     </body>
     </html>

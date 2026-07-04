@@ -145,13 +145,29 @@ def render_parameters_table(spec, parameters):
         )
 
     # Build the table by gluing the header row and all the data rows together
-    # into one big HTML string.
+    # into one big HTML string, wrapped in a div so its corners can be
+    # rounded (border-radius doesn't clip table borders on its own).
     return (
-        "<table border='1' cellpadding='6' cellspacing='0'>"
+        '<div class="table-wrap"><table>'
         "<tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr>"
         + "".join(rows)
-        + "</table>"
+        + "</table></div>"
     )
+
+
+def status_badge_class(status_code):
+    """
+    Map a response status code to a CSS class so 2xx/3xx/4xx/5xx each get
+    a distinct badge color -- a glance down the column shows which rows
+    are the happy path vs. error cases.
+    """
+    first_digit = status_code[:1]
+    return {
+        "2": "status-2xx",
+        "3": "status-3xx",
+        "4": "status-4xx",
+        "5": "status-5xx",
+    }.get(first_digit, "status-other")
 
 
 def render_responses_table(spec, responses):
@@ -173,16 +189,17 @@ def render_responses_table(spec, responses):
         content = response.get("content", {})
         has_schema = "yes" if "application/json" in content else "no"
 
+        badge_class = status_badge_class(status_code)
         rows.append(
-            f"<tr><td><code>{status_code}</code></td><td>{description}</td>"
-            f"<td>{has_schema}</td></tr>"
+            f'<tr><td><span class="status-badge {badge_class}">{status_code}</span></td>'
+            f"<td>{description}</td><td>{has_schema}</td></tr>"
         )
 
     return (
-        "<table border='1' cellpadding='6' cellspacing='0'>"
+        '<div class="table-wrap"><table>'
         "<tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr>"
         + "".join(rows)
-        + "</table>"
+        + "</table></div>"
     )
 
 
@@ -227,7 +244,38 @@ def render_nav(endpoints):
             f'<li><a href="#{slug}"><span class="method method-{method}">{method.upper()}</span> {summary}</a></li>'
         )
 
-    return "<ul>" + "".join(items) + "</ul>"
+    return '<ul id="endpoint-list">' + "".join(items) + "</ul>"
+
+
+def render_search_script(input_id, item_selector, no_results_id):
+    """
+    Shared client-side filter: hides every element matching item_selector
+    whose text doesn't contain what's typed into input_id. Used for both
+    the tag index's search box and each tag page's endpoint search box, so
+    the filtering logic only has to be written once.
+    """
+    return f"""
+    <script>
+        (function () {{
+            var input = document.getElementById("{input_id}");
+            var items = Array.prototype.slice.call(document.querySelectorAll("{item_selector}"));
+            var noResults = document.getElementById("{no_results_id}");
+
+            input.addEventListener("input", function () {{
+                var query = input.value.trim().toLowerCase();
+                var visibleCount = 0;
+
+                items.forEach(function (item) {{
+                    var matches = item.textContent.toLowerCase().includes(query);
+                    item.classList.toggle("hidden", !matches);
+                    if (matches) visibleCount += 1;
+                }});
+
+                noResults.style.display = visibleCount === 0 ? "block" : "none";
+            }});
+        }})();
+    </script>
+    """
 
 
 # --- Styling ------------------------------------------------------------
@@ -235,16 +283,21 @@ def render_nav(endpoints):
 # a plain triple-quoted string (rather than a separate .css file) keeps
 # everything in one script that's easy to run standalone.
 STYLE = """
-    /* CSS custom properties (variables) so colors are defined once and
-       reused everywhere below via var(--name), instead of repeating hex
-       codes in a dozen places. */
+    /* CSS custom properties (variables) so colors/shadows are defined once
+       and reused everywhere below via var(--name), instead of repeating
+       hex codes in a dozen places. */
     :root {
-        --bg: #ffffff;
-        --text: #1b1f23;
-        --muted: #57606a;
-        --border: #d8dee4;
-        --accent: #0969da;
-        --code-bg: #f6f8fa;
+        --page-bg: #eef1f6;
+        --surface: #ffffff;
+        --text: #1a1d24;
+        --muted: #667085;
+        --border: #e3e6ea;
+        --accent: #4f46e5;
+        --accent-soft: #eef0fe;
+        --code-bg: #f6f7fb;
+        --radius: 14px;
+        --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+        --shadow-md: 0 10px 30px rgba(16, 24, 40, 0.08);
     }
     /* Makes width/padding math predictable: an element's declared width
        includes its padding and border, instead of adding on top of it. */
@@ -252,88 +305,177 @@ STYLE = """
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         color: var(--text);
-        background: var(--bg);
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 0 20px;
-        line-height: 1.5;
+        background: var(--page-bg);
+        margin: 0;
+        padding: 40px 20px;
+        line-height: 1.6;
     }
-    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
-    h2 { font-size: 1.35rem; margin-top: 0; }
+    /* Everything sits inside one elevated "page" card floating on the
+       muted background -- the main thing that makes this feel like a
+       real docs site instead of an unstyled HTML dump. */
+    .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        padding: 40px 48px;
+    }
+    h1 { font-size: 2.1rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 0.3rem; }
+    h2 { font-size: 1.3rem; font-weight: 700; margin-top: 0; }
     /* h3 is used for the "PARAMETERS" / "RESPONSES" sub-headings -- styled
        small and uppercase so it reads as a label rather than a heading. */
-    h3 { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    h3 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 1.4em 0 0.6em; }
     .intro {
         color: var(--muted);
         border-bottom: 1px solid var(--border);
         padding-bottom: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
     .intro p { margin: 0.4em 0; }
-    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
-    .back-link:hover { text-decoration: underline; }
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: var(--code-bg);
+        margin-bottom: 20px;
+        transition: background 0.15s ease;
+    }
+    .back-link:hover { background: var(--accent-soft); }
+    /* Search inputs (tag index + per-tag endpoint list) share this look:
+       a soft pill with a search glyph baked into the placeholder text
+       rather than a separate icon element. */
+    input[type="search"] {
+        display: block;
+        width: 100%;
+        max-width: 340px;
+        padding: 10px 14px;
+        margin-bottom: 18px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--code-bg);
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: var(--text);
+    }
+    input[type="search"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: var(--surface);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .hidden { display: none; }
+    .no-results { display: none; color: var(--muted); font-size: 0.9rem; }
     /* The table-of-contents box: a shaded, scrollable panel so a long
        endpoint list doesn't push all the content down. */
     nav {
         background: var(--code-bg);
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 12px 20px;
+        border-radius: 12px;
+        padding: 16px 20px;
         margin-bottom: 30px;
-        max-height: 320px;
+        max-height: 360px;
         overflow-y: auto;
     }
     /* "columns: 2" splits the <ul> into two side-by-side newspaper-style
        columns; "break-inside: avoid" stops a single <li> from being split
        across the column break. */
-    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
-    nav li { break-inside: avoid; margin: 4px 0; }
-    nav a { text-decoration: none; color: var(--accent); font-size: 1rem; }
-    nav a:hover { text-decoration: underline; }
-    .endpoint {
-        margin-bottom: 40px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 24px;
+    nav ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 20px; }
+    nav li { break-inside: avoid; }
+    nav a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text);
+        font-size: 0.92rem;
+        padding: 6px 8px;
+        margin: 1px 0;
+        border-radius: 8px;
+        transition: background 0.12s ease;
     }
+    nav a:hover { background: var(--surface); color: var(--accent); }
+    .endpoint {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 26px 30px;
+        margin-bottom: 24px;
+        box-shadow: var(--shadow-sm);
+        scroll-margin-top: 20px;
+    }
+    /* Briefly rings the endpoint you jumped to from the nav, so it's
+       obvious the page actually moved. */
+    .endpoint:target { box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-sm); }
     code.route {
         background: var(--code-bg);
         border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 4px 8px;
-        font-size: 1rem;
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 0.95rem;
     }
     /* Base look shared by every method badge; the specific background
        color for each HTTP verb is set by the .method-{verb} rules below. */
     .method {
-        display: inline-block;
-        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 52px;
+        font-size: 0.68rem;
         font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-right: 6px;
+        letter-spacing: 0.03em;
+        padding: 3px 8px;
+        border-radius: 999px;
+        margin-right: 8px;
         color: #fff;
     }
-    .method-get { background: #2da44e; }
-    .method-post { background: #0969da; }
-    .method-put { background: #9a6700; }
-    .method-patch { background: #8250df; }
-    .method-delete { background: #cf222e; }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 12px 0 20px;
-        font-size: 1rem;
-    }
-    th, td {
+    .method-get { background: #16a34a; }
+    .method-post { background: #2563eb; }
+    .method-put { background: #d97706; }
+    .method-patch { background: #7c3aed; }
+    .method-delete { background: #dc2626; }
+    .table-wrap {
         border: 1px solid var(--border);
-        padding: 6px 10px;
-        text-align: left;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 8px 0 20px;
     }
-    th { background: var(--code-bg); }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    th {
+        background: var(--code-bg);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+    }
     /* Zebra-striping: shades every other data row so wide tables are
        easier to scan across. */
-    tr:nth-child(even) { background: #fafbfc; }
+    tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Response status codes get the same color-coded-pill treatment as
+       method badges: green for success, red for error, etc. -- a glance
+       at the column tells you which rows are the "happy path". */
+    .status-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.8rem;
+    }
+    .status-2xx { background: #dcfce7; color: #15803d; }
+    .status-3xx { background: #e0e7ff; color: #4338ca; }
+    .status-4xx { background: #fef3c7; color: #b45309; }
+    .status-5xx { background: #fee2e2; color: #b91c1c; }
+    .status-other { background: var(--code-bg); color: var(--muted); }
     /* Index page: a responsive card grid, one card per tag. auto-fill +
        minmax means the browser fits as many ~260px cards per row as
        will fit, wrapping as needed -- no media queries required. */
@@ -347,38 +489,31 @@ STYLE = """
     }
     .tag-card {
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 14px 16px;
-        background: var(--code-bg);
+        border-radius: 12px;
+        padding: 16px 18px;
+        background: var(--surface);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
-    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.1rem; }
-    .tag-card a:hover { text-decoration: underline; }
-    .tag-count { display: block; color: var(--muted); font-size: 0.8rem; margin: 4px 0; }
-    .tag-card p { margin: 6px 0 0; font-size: 0.9rem; }
-    #tag-search {
-        display: block;
-        width: 100%;
-        max-width: 320px;
-        padding: 8px 12px;
-        margin-bottom: 20px;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        font-size: 1rem;
-        font-family: inherit;
+    .tag-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--accent);
     }
-    #tag-search:focus { outline: none; border-color: var(--accent); }
-    .tag-card.hidden { display: none; }
-    #no-results { display: none; color: var(--muted); }
+    .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.05rem; font-weight: 700; }
+    .tag-count { display: block; color: var(--muted); font-size: 0.78rem; margin: 4px 0; }
+    .tag-card p { margin: 6px 0 0; font-size: 0.88rem; }
 """
 
 
 def render_tag_page(tag, description, endpoints, sections_html):
     """
     Build the full HTML page for one tag: a link back to the tag index, an
-    intro naming the tag and how many endpoints it has, an in-page table of
-    contents, then every endpoint's section back to back.
+    intro naming the tag and how many endpoints it has, a searchable table
+    of contents, then every endpoint's section back to back.
     """
     nav_html = render_nav(endpoints)
+    search_script = render_search_script("endpoint-search", "#endpoint-list li", "no-endpoint-results")
 
     return f"""
     <html>
@@ -388,17 +523,21 @@ def render_tag_page(tag, description, endpoints, sections_html):
         <style>{STYLE}</style>
     </head>
     <body>
-        <p><a class="back-link" href="index.html">&larr; All tags</a></p>
+    <div class="page">
+        <a class="back-link" href="index.html">&larr; All tags</a>
         <h1>{tag.title()} API Reference</h1>
         <div class="intro">
             <p>{description}</p>
             <p>{len(endpoints)} endpoints tagged <code>{tag}</code>, each listing its
-            parameters and possible responses. Use the index below to jump to a
-            specific endpoint.</p>
+            parameters and possible responses. Search or scroll the index below to
+            jump to a specific endpoint.</p>
         </div>
+        <input type="search" id="endpoint-search" placeholder="🔍 Search endpoints…" aria-label="Search endpoints" autocomplete="off">
         <nav>{nav_html}</nav>
-        <hr>
+        <p id="no-endpoint-results" class="no-results">No endpoints match your search.</p>
         {sections_html}
+    </div>
+    {search_script}
     </body>
     </html>
     """
@@ -420,7 +559,8 @@ def render_index_page(tags_with_counts):
             <p>{description}</p>
         </li>
         """)
-    tags_html = "<ul class=\"tag-list\" id=\"tag-list\">" + "".join(cards) + "</ul>"
+    tags_html = '<ul class="tag-list" id="tag-list">' + "".join(cards) + "</ul>"
+    search_script = render_search_script("tag-search", "#tag-list .tag-card", "no-results")
 
     return f"""
     <html>
@@ -430,37 +570,18 @@ def render_index_page(tags_with_counts):
         <style>{STYLE}</style>
     </head>
     <body>
+    <div class="page">
         <h1>GitHub REST API Reference</h1>
         <div class="intro">
             <p>Every endpoint in GitHub's REST API, grouped by tag, generated from the published
             OpenAPI spec.</p>
             <p>{total_endpoints} endpoints across {len(tags_with_counts)} tags. Pick one below.</p>
         </div>
-        <input type="search" id="tag-search" placeholder="Search tags…" aria-label="Search tags" autocomplete="off">
+        <input type="search" id="tag-search" placeholder="🔍 Search tags…" aria-label="Search tags" autocomplete="off">
         {tags_html}
-        <p id="no-results">No tags match your search.</p>
-        <script>
-            // Filters the tag cards as you type -- matches against each
-            // card's whole text (name + description), not just the name.
-            (function () {{
-                var input = document.getElementById("tag-search");
-                var cards = Array.prototype.slice.call(document.querySelectorAll(".tag-card"));
-                var noResults = document.getElementById("no-results");
-
-                input.addEventListener("input", function () {{
-                    var query = input.value.trim().toLowerCase();
-                    var visibleCount = 0;
-
-                    cards.forEach(function (card) {{
-                        var matches = card.textContent.toLowerCase().includes(query);
-                        card.classList.toggle("hidden", !matches);
-                        if (matches) visibleCount += 1;
-                    }});
-
-                    noResults.style.display = visibleCount === 0 ? "block" : "none";
-                }});
-            }})();
-        </script>
+        <p id="no-results" class="no-results">No tags match your search.</p>
+    </div>
+    {search_script}
     </body>
     </html>
     """
