@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -263,7 +263,7 @@
     <section id="patch--orgs-org" class="endpoint">
         <h2>Update an organization</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /orgs/{org}</code></p>
-        <p>> [!WARNING]</p>
+        <p>Updates the organization's profile and member privileges.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -1174,7 +1174,7 @@
     <section id="get--orgs-org-security-managers" class="endpoint">
         <h2>List security manager teams</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/security-managers</code></p>
-        <p>> [!WARNING]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -1184,7 +1184,7 @@
     <section id="put--orgs-org-security-managers-teams-team_slug" class="endpoint">
         <h2>Add a security manager team</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/security-managers/teams/{team_slug}</code></p>
-        <p>> [!WARNING]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr></table></div>
         <h3>Responses</h3>
@@ -1194,7 +1194,7 @@
     <section id="delete--orgs-org-security-managers-teams-team_slug" class="endpoint">
         <h2>Remove a security manager team</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/security-managers/teams/{team_slug}</code></p>
-        <p>> [!WARNING]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr></table></div>
         <h3>Responses</h3>
@@ -1264,7 +1264,7 @@
     <section id="post--orgs-org-security_product-enablement" class="endpoint">
         <h2>Enable or disable a security feature for an organization</h2>
         <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/{security_product}/{enablement}</code></p>
-        <p>> [!WARNING]</p>
+        <p>Enables or disables the specified security feature for all eligible repositories in an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>security_product</code></td><td>path</td><td>yes</td><td>The security feature to enable or disable.</td></tr><tr><td><code>enablement</code></td><td>path</td><td>yes</td><td>The action to take.</td></tr></table></div>
         <h3>Responses</h3>

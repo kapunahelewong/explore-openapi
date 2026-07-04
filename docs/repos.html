@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -1158,7 +1158,7 @@
     <section id="get--repos-owner-repo-environments-environment_name" class="endpoint">
         <h2>Get an environment</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/environments/{environment_name}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Anyone with read access to the repository can use this endpoint.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>environment_name</code></td><td>path</td><td>yes</td><td>The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`.</td></tr></table></div>
         <h3>Responses</h3>
@@ -2018,7 +2018,7 @@
     <section id="get--repos-owner-repo-stats-contributors" class="endpoint">
         <h2>Get all contributor commit activity</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/stats/contributors</code></p>
-        <p></p>
+        <p>Returns the `total` number of commits authored by the contributor. In addition, the response includes a Weekly Hash (`weeks` array) with the following information:</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -2220,7 +2220,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/repos</code></p>
         <p>Lists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>visibility</code></td><td>query</td><td>no</td><td>Limit results to repositories with the specified visibility.</td></tr><tr><td><code>affiliation</code></td><td>query</td><td>no</td><td>Comma-separated list of values. Can include:  </td></tr><tr><td><code>type</code></td><td>query</td><td>no</td><td>Limit results to repositories of the specified type. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property to sort the results by.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>Only show repositories updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>Only show repositories updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>visibility</code></td><td>query</td><td>no</td><td>Limit results to repositories with the specified visibility.</td></tr><tr><td><code>affiliation</code></td><td>query</td><td>no</td><td>Comma-separated list of values. Can include:</td></tr><tr><td><code>type</code></td><td>query</td><td>no</td><td>Limit results to repositories of the specified type. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The property to sort the results by.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>Only show repositories updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>Only show repositories updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>

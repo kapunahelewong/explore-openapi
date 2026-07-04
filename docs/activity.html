@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -243,7 +243,7 @@
     <section id="get--events" class="endpoint">
         <h2>List public events</h2>
         <p><code class="route"><span class="method method-get">GET</span> /events</code></p>
-        <p>> [!NOTE]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -263,7 +263,7 @@
     <section id="get--networks-owner-repo-events" class="endpoint">
         <h2>List public events for a network of repositories</h2>
         <p><code class="route"><span class="method method-get">GET</span> /networks/{owner}/{repo}/events</code></p>
-        <p>> [!NOTE]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -353,7 +353,7 @@
     <section id="get--orgs-org-events" class="endpoint">
         <h2>List public organization events</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/events</code></p>
-        <p>> [!NOTE]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -363,7 +363,7 @@
     <section id="get--repos-owner-repo-events" class="endpoint">
         <h2>List repository events</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/events</code></p>
-        <p>> [!NOTE]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -513,7 +513,7 @@
     <section id="get--users-username-events-public" class="endpoint">
         <h2>List public events for a user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/events/public</code></p>
-        <p>> [!NOTE]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -533,7 +533,7 @@
     <section id="get--users-username-received_events-public" class="endpoint">
         <h2>List public events received by a user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/received_events/public</code></p>
-        <p>> [!NOTE]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>

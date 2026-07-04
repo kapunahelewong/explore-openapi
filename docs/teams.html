@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -393,7 +393,7 @@
     <section id="get--teams-team_id" class="endpoint">
         <h2>Get a team (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}</code></p>
-        <p>> [!WARNING]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr></table></div>
         <h3>Responses</h3>
@@ -403,7 +403,7 @@
     <section id="patch--teams-team_id" class="endpoint">
         <h2>Update a team (Legacy)</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /teams/{team_id}</code></p>
-        <p>> [!WARNING]</p>
+        <p>To edit a team, the authenticated user must either be an organization owner or a team maintainer.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr></table></div>
         <h3>Responses</h3>
@@ -413,7 +413,7 @@
     <section id="delete--teams-team_id" class="endpoint">
         <h2>Delete a team (Legacy)</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}</code></p>
-        <p>> [!WARNING]</p>
+        <p>To delete a team, the authenticated user must be an organization owner or team maintainer.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr></table></div>
         <h3>Responses</h3>
@@ -423,7 +423,7 @@
     <section id="get--teams-team_id-invitations" class="endpoint">
         <h2>List pending team invitations (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/invitations</code></p>
-        <p>> [!WARNING]</p>
+        <p>The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -433,7 +433,7 @@
     <section id="get--teams-team_id-members" class="endpoint">
         <h2>List team members (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/members</code></p>
-        <p>> [!WARNING]</p>
+        <p>Team members will include the members of child teams.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>role</code></td><td>query</td><td>no</td><td>Filters members returned by their role in the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -473,7 +473,7 @@
     <section id="get--teams-team_id-memberships-username" class="endpoint">
         <h2>Get team membership for a user (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/memberships/{username}</code></p>
-        <p>> [!WARNING]</p>
+        <p>Team members will include the members of child teams.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
@@ -483,7 +483,7 @@
     <section id="put--teams-team_id-memberships-username" class="endpoint">
         <h2>Add or update team membership for a user (Legacy)</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /teams/{team_id}/memberships/{username}</code></p>
-        <p>> [!WARNING]</p>
+        <p>Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
@@ -493,7 +493,7 @@
     <section id="delete--teams-team_id-memberships-username" class="endpoint">
         <h2>Remove team membership for a user (Legacy)</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}/memberships/{username}</code></p>
-        <p>> [!WARNING]</p>
+        <p>Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
@@ -503,7 +503,7 @@
     <section id="get--teams-team_id-repos" class="endpoint">
         <h2>List team repositories (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/repos</code></p>
-        <p>> [!WARNING]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -513,7 +513,7 @@
     <section id="get--teams-team_id-repos-owner-repo" class="endpoint">
         <h2>Check team permissions for a repository (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/repos/{owner}/{repo}</code></p>
-        <p>> [!WARNING]</p>
+        <p>You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types/) via the `Accept` header:</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -523,7 +523,7 @@
     <section id="put--teams-team_id-repos-owner-repo" class="endpoint">
         <h2>Add or update team repository permissions (Legacy)</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /teams/{team_id}/repos/{owner}/{repo}</code></p>
-        <p>> [!WARNING]</p>
+        <p>To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -533,7 +533,7 @@
     <section id="delete--teams-team_id-repos-owner-repo" class="endpoint">
         <h2>Remove a repository from a team (Legacy)</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /teams/{team_id}/repos/{owner}/{repo}</code></p>
-        <p>> [!WARNING]</p>
+        <p>If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. NOTE: This does not delete the repository, it just removes it from the team.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -543,7 +543,7 @@
     <section id="get--teams-team_id-teams" class="endpoint">
         <h2>List child teams (Legacy)</h2>
         <p><code class="route"><span class="method method-get">GET</span> /teams/{team_id}/teams</code></p>
-        <p>> [!WARNING]</p>
+        <p></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>team_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the team.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>

@@ -124,6 +124,26 @@ def slugify(method, path):
     return raw.replace("/", "-").replace("{", "").replace("}", "").strip("-")
 
 
+def first_description_line(description):
+    """
+    Return the first real line of a description, keeping it compact for
+    tables/summaries.
+
+    Some descriptions lead with a GitHub-flavored Markdown "alert" like
+    "> [!NOTE]\n> This endpoint is in public preview...". GitHub renders
+    that as a colored callout box, but we don't render markdown at all --
+    so naively taking line [0] would show the literal text "> [!NOTE]"
+    instead of the actual sentence that follows it. Skipping blank lines
+    and "> "-prefixed alert lines gets to the real content instead.
+    """
+    for line in description.split("\n"):
+        line = line.strip()
+        if not line or line.startswith(">"):
+            continue
+        return line
+    return ""
+
+
 def render_parameters_table(spec, parameters):
     """Build an HTML <table> listing every parameter for one endpoint."""
     if not parameters:
@@ -136,9 +156,7 @@ def render_parameters_table(spec, parameters):
         name = param["name"]
         location = param.get("in", "")  # e.g. "path", "query", "header"
         required = "yes" if param.get("required") else "no"
-        # Descriptions can be multiple lines/paragraphs; we only show the
-        # first line here to keep the table compact.
-        description = param.get("description", "").split("\n")[0]
+        description = first_description_line(param.get("description", ""))
         rows.append(
             f"<tr><td><code>{name}</code></td><td>{location}</td>"
             f"<td>{required}</td><td>{description}</td></tr>"
@@ -211,7 +229,7 @@ def render_endpoint_section(spec, method, path, endpoint):
     """
     slug = slugify(method, path)  # used as this section's HTML id, matched by nav links
     summary = endpoint.get("summary", "")
-    description = endpoint.get("description", "").split("\n")[0]
+    description = first_description_line(endpoint.get("description", ""))
     parameters_html = render_parameters_table(spec, endpoint.get("parameters", []))
     responses_html = render_responses_table(spec, endpoint.get("responses", {}))
 
@@ -292,8 +310,8 @@ STYLE = """
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);

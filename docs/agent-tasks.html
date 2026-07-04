@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -243,7 +243,7 @@
     <section id="get--agents-repos-owner-repo-tasks" class="endpoint">
         <h2>List tasks for repository</h2>
         <p><code class="route"><span class="method method-get">GET</span> /agents/repos/{owner}/{repo}/tasks</code></p>
-        <p>> [!NOTE]</p>
+        <p>Returns a list of tasks for a specific repository</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100).</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The field to sort results by. Can be `updated_at` or `created_at`.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort results. Can be `asc` or `desc`.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>Comma-separated list of task states to filter by. Can be any combination of: `queued`, `in_progress`, `completed`, `failed`, `idle`, `waiting_for_user`, `timed_out`, `cancelled`.</td></tr><tr><td><code>is_archived</code></td><td>query</td><td>no</td><td>Filter by archived status. When `true`, returns only archived tasks. When `false` or omitted, returns only non-archived tasks. Defaults to `false`.</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>Only show tasks updated at or after this time (ISO 8601 timestamp)</td></tr><tr><td><code>creator_id</code></td><td>query</td><td>no</td><td>Filter tasks by creator user ID. Accepts one or more user IDs.</td></tr></table></div>
         <h3>Responses</h3>
@@ -253,7 +253,7 @@
     <section id="post--agents-repos-owner-repo-tasks" class="endpoint">
         <h2>Start a task</h2>
         <p><code class="route"><span class="method method-post">POST</span> /agents/repos/{owner}/{repo}/tasks</code></p>
-        <p>> [!NOTE]</p>
+        <p>Starts a new Copilot cloud agent task for a repository.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -263,7 +263,7 @@
     <section id="get--agents-repos-owner-repo-tasks-task_id" class="endpoint">
         <h2>Get a task by repo</h2>
         <p><code class="route"><span class="method method-get">GET</span> /agents/repos/{owner}/{repo}/tasks/{task_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Returns a task by ID scoped to an owner/repo path</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository. The name is not case sensitive.</td></tr><tr><td><code>task_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the task.</td></tr></table></div>
         <h3>Responses</h3>
@@ -273,7 +273,7 @@
     <section id="get--agents-tasks" class="endpoint">
         <h2>List tasks</h2>
         <p><code class="route"><span class="method method-get">GET</span> /agents/tasks</code></p>
-        <p>> [!NOTE]</p>
+        <p>Returns a list of tasks for the authenticated user</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100).</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch.</td></tr><tr><td><code>sort</code></td><td>query</td><td>no</td><td>The field to sort results by. Can be `updated_at` or `created_at`.</td></tr><tr><td><code>direction</code></td><td>query</td><td>no</td><td>The direction to sort results. Can be `asc` or `desc`.</td></tr><tr><td><code>state</code></td><td>query</td><td>no</td><td>Comma-separated list of task states to filter by. Can be any combination of: `queued`, `in_progress`, `completed`, `failed`, `idle`, `waiting_for_user`, `timed_out`, `cancelled`.</td></tr><tr><td><code>is_archived</code></td><td>query</td><td>no</td><td>Filter by archived status. When `true`, returns only archived tasks. When `false` or omitted, returns only non-archived tasks. Defaults to `false`.</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>Only show tasks updated at or after this time (ISO 8601 timestamp)</td></tr></table></div>
         <h3>Responses</h3>
@@ -283,7 +283,7 @@
     <section id="get--agents-tasks-task_id" class="endpoint">
         <h2>Get a task by ID</h2>
         <p><code class="route"><span class="method method-get">GET</span> /agents/tasks/{task_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Returns a task by ID with its associated sessions</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>task_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the task.</td></tr></table></div>
         <h3>Responses</h3>

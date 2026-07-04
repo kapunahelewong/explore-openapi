@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -243,7 +243,7 @@
     <section id="get--rate_limit" class="endpoint">
         <h2>Get rate limit status for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /rate_limit</code></p>
-        <p>> [!NOTE]</p>
+        <p>Some categories of endpoints have custom rate limits that are separate from the rate limit governing the other REST API endpoints. For this reason, the API response categorizes your rate limit. Under `resources`, you'll see objects relating to different categories:</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>

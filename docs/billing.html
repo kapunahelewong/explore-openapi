@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -323,7 +323,7 @@
     <section id="get--organizations-org-settings-billing-usage-summary" class="endpoint">
         <h2>Get billing usage summary for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /organizations/{org}/settings/billing/usage/summary</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets a summary report of usage for an organization. To use this endpoint, you must be an administrator of an organization within an enterprise or an organization account.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>repository</code></td><td>query</td><td>no</td><td>The repository name to query for usage in the format owner/repository.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>sku</code></td><td>query</td><td>no</td><td>The SKU to query for usage.</td></tr></table></div>
         <h3>Responses</h3>
@@ -363,7 +363,7 @@
     <section id="get--users-username-settings-billing-usage-summary" class="endpoint">
         <h2>Get billing usage summary for a user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/settings/billing/usage/summary</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets a summary report of usage for a user.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>year</code></td><td>query</td><td>no</td><td>If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.</td></tr><tr><td><code>month</code></td><td>query</td><td>no</td><td>If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used.</td></tr><tr><td><code>day</code></td><td>query</td><td>no</td><td>If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.</td></tr><tr><td><code>repository</code></td><td>query</td><td>no</td><td>The repository name to query for usage in the format owner/repository.</td></tr><tr><td><code>product</code></td><td>query</td><td>no</td><td>The product name to query usage for. The name is not case sensitive.</td></tr><tr><td><code>sku</code></td><td>query</td><td>no</td><td>The SKU to query for usage.</td></tr></table></div>
         <h3>Responses</h3>

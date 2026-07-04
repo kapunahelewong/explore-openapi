@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -323,7 +323,7 @@
     <section id="get--orgs-org-copilot-billing" class="endpoint">
         <h2>Get Copilot seat information and settings for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/billing</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets information about an organization's Copilot subscription, including seat breakdown</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -333,7 +333,7 @@
     <section id="get--orgs-org-copilot-billing-seats" class="endpoint">
         <h2>List all Copilot seat assignments for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/billing/seats</code></p>
-        <p>> [!NOTE]</p>
+        <p>Lists all Copilot seats for which an organization with a Copilot Business or Copilot Enterprise subscription is currently being billed.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -343,7 +343,7 @@
     <section id="post--orgs-org-copilot-billing-selected_teams" class="endpoint">
         <h2>Add teams to the Copilot subscription for an organization</h2>
         <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/copilot/billing/selected_teams</code></p>
-        <p>> [!NOTE]</p>
+        <p>Purchases a GitHub Copilot seat for all users within each specified team.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -353,7 +353,7 @@
     <section id="delete--orgs-org-copilot-billing-selected_teams" class="endpoint">
         <h2>Remove teams from the Copilot subscription for an organization</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/copilot/billing/selected_teams</code></p>
-        <p>> [!NOTE]</p>
+        <p>Sets seats for all members of each team specified to "pending cancellation".</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -363,7 +363,7 @@
     <section id="post--orgs-org-copilot-billing-selected_users" class="endpoint">
         <h2>Add users to the Copilot subscription for an organization</h2>
         <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/copilot/billing/selected_users</code></p>
-        <p>> [!NOTE]</p>
+        <p>Purchases a GitHub Copilot seat for each user specified.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -373,7 +373,7 @@
     <section id="delete--orgs-org-copilot-billing-selected_users" class="endpoint">
         <h2>Remove users from the Copilot subscription for an organization</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/copilot/billing/selected_users</code></p>
-        <p>> [!NOTE]</p>
+        <p>Sets seats for all users specified to "pending cancellation".</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -383,7 +383,7 @@
     <section id="get--orgs-org-copilot-coding-agent-permissions" class="endpoint">
         <h2>Get Copilot cloud agent permissions for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/coding-agent/permissions</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets information about which repositories in an organization have been enabled</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -393,7 +393,7 @@
     <section id="put--orgs-org-copilot-coding-agent-permissions" class="endpoint">
         <h2>Set Copilot cloud agent permissions for an organization</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/coding-agent/permissions</code></p>
-        <p>> [!NOTE]</p>
+        <p>Sets the policy for which repositories in an organization can use Copilot cloud agent.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -403,7 +403,7 @@
     <section id="get--orgs-org-copilot-coding-agent-permissions-repositories" class="endpoint">
         <h2>List repositories enabled for Copilot cloud agent in an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/coding-agent/permissions/repositories</code></p>
-        <p>> [!NOTE]</p>
+        <p>Lists the selected repositories that are enabled for Copilot cloud agent in an organization.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -413,7 +413,7 @@
     <section id="put--orgs-org-copilot-coding-agent-permissions-repositories" class="endpoint">
         <h2>Set selected repositories for Copilot cloud agent in an organization</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/coding-agent/permissions/repositories</code></p>
-        <p>> [!NOTE]</p>
+        <p>Replaces the list of selected repositories that are enabled for Copilot cloud</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -423,7 +423,7 @@
     <section id="put--orgs-org-copilot-coding-agent-permissions-repositories-repository_id" class="endpoint">
         <h2>Enable a repository for Copilot cloud agent in an organization</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Adds a repository to the list of selected repositories enabled for Copilot</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the repository.</td></tr></table></div>
         <h3>Responses</h3>
@@ -433,7 +433,7 @@
     <section id="delete--orgs-org-copilot-coding-agent-permissions-repositories-repository_id" class="endpoint">
         <h2>Disable a repository for Copilot cloud agent in an organization</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Removes a repository from the list of selected repositories enabled for Copilot</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the repository.</td></tr></table></div>
         <h3>Responses</h3>
@@ -443,7 +443,7 @@
     <section id="get--orgs-org-copilot-content_exclusion" class="endpoint">
         <h2>Get Copilot content exclusion rules for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/copilot/content_exclusion</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets information about an organization's Copilot content exclusion path rules.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -453,7 +453,7 @@
     <section id="put--orgs-org-copilot-content_exclusion" class="endpoint">
         <h2>Set Copilot content exclusion rules for an organization</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/copilot/content_exclusion</code></p>
-        <p>> [!NOTE]</p>
+        <p>Sets Copilot content exclusion path rules for an organization.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -513,7 +513,7 @@
     <section id="get--orgs-org-members-username-copilot" class="endpoint">
         <h2>Get Copilot seat assignment details for a user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/members/{username}/copilot</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets the GitHub Copilot seat details for a member of an organization who currently has access to GitHub Copilot.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
@@ -523,7 +523,7 @@
     <section id="get--repos-owner-repo-copilot-cloud-agent-configuration" class="endpoint">
         <h2>Get Copilot cloud agent configuration for a repository</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/copilot/cloud-agent/configuration</code></p>
-        <p>> [!NOTE]</p>
+        <p>Gets the Copilot cloud agent configuration for a repository, including MCP server</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>

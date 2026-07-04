@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -243,7 +243,7 @@
     <section id="get--orgs-org-private-registries" class="endpoint">
         <h2>List private registries for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/private-registries</code></p>
-        <p></p>
+        <p>Lists all private registry configurations available at the organization-level without revealing their encrypted</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
         <h3>Responses</h3>
@@ -253,7 +253,7 @@
     <section id="post--orgs-org-private-registries" class="endpoint">
         <h2>Create a private registry for an organization</h2>
         <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/private-registries</code></p>
-        <p></p>
+        <p>Creates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -263,7 +263,7 @@
     <section id="get--orgs-org-private-registries-public-key" class="endpoint">
         <h2>Get private registries public key for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/private-registries/public-key</code></p>
-        <p></p>
+        <p>Gets the org public key, which is needed to encrypt private registry secrets. You need to encrypt a secret before you can create or update secrets.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
@@ -273,7 +273,7 @@
     <section id="get--orgs-org-private-registries-secret_name" class="endpoint">
         <h2>Get a private registry for an organization</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/private-registries/{secret_name}</code></p>
-        <p></p>
+        <p>Get the configuration of a single private registry defined for an organization, omitting its encrypted value.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -283,7 +283,7 @@
     <section id="patch--orgs-org-private-registries-secret_name" class="endpoint">
         <h2>Update a private registry for an organization</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /orgs/{org}/private-registries/{secret_name}</code></p>
-        <p></p>
+        <p>Updates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -293,7 +293,7 @@
     <section id="delete--orgs-org-private-registries-secret_name" class="endpoint">
         <h2>Delete a private registry for an organization</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/private-registries/{secret_name}</code></p>
-        <p></p>
+        <p>Delete a private registry configuration at the organization-level.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>

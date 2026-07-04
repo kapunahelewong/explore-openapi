@@ -13,8 +13,8 @@
         --text: #1a1d24;
         --muted: #667085;
         --border: #e3e6ea;
-        --accent: #4f46e5;
-        --accent-soft: #eef0fe;
+        --accent: #00527b;
+        --accent-soft: #e6f2f7;
         --code-bg: #f6f7fb;
         --radius: 14px;
         --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
@@ -263,7 +263,7 @@
     <section id="delete--repos-owner-repo-comments-comment_id-reactions-reaction_id" class="endpoint">
         <h2>Delete a commit comment reaction</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Delete a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment).</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>comment_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the comment.</td></tr><tr><td><code>reaction_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the reaction.</td></tr></table></div>
         <h3>Responses</h3>
@@ -293,7 +293,7 @@
     <section id="delete--repos-owner-repo-issues-comments-comment_id-reactions-reaction_id" class="endpoint">
         <h2>Delete an issue comment reaction</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Delete a reaction to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment).</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>comment_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the comment.</td></tr><tr><td><code>reaction_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the reaction.</td></tr></table></div>
         <h3>Responses</h3>
@@ -323,7 +323,7 @@
     <section id="delete--repos-owner-repo-issues-issue_number-reactions-reaction_id" class="endpoint">
         <h2>Delete an issue reaction</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Delete a reaction to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue).</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>issue_number</code></td><td>path</td><td>yes</td><td>The number that identifies the issue.</td></tr><tr><td><code>reaction_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the reaction.</td></tr></table></div>
         <h3>Responses</h3>
@@ -353,7 +353,7 @@
     <section id="delete--repos-owner-repo-pulls-comments-comment_id-reactions-reaction_id" class="endpoint">
         <h2>Delete a pull request comment reaction</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Delete a reaction to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request).</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>comment_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the comment.</td></tr><tr><td><code>reaction_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the reaction.</td></tr></table></div>
         <h3>Responses</h3>
@@ -383,7 +383,7 @@
     <section id="delete--repos-owner-repo-releases-release_id-reactions-reaction_id" class="endpoint">
         <h2>Delete a release reaction</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/releases/{release_id}/reactions/{reaction_id}</code></p>
-        <p>> [!NOTE]</p>
+        <p>Delete a reaction to a [release](https://docs.github.com/rest/releases/releases#get-a-release).</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>release_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the release.</td></tr><tr><td><code>reaction_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the reaction.</td></tr></table></div>
         <h3>Responses</h3>
