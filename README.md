@@ -31,10 +31,9 @@ copy of the spec is stored or required.
 
 ## Keeping the site fresh
 
-[`.github/workflows/refresh-docs.yml`](.github/workflows/refresh-docs.yml)
-runs weekly (and can be triggered manually from the Actions tab), regenerates
-every page from the latest spec, and commits only if something actually
-changed. GitHub Pages then redeploys automatically from `main`.
+There's no automatic refresh — run `python3 generate_docs_site.py` locally
+whenever you want the site to reflect the latest published spec, then commit
+and push `docs/`. GitHub Pages redeploys automatically from `main`.
 
 ## A smaller, single-tag version
 
