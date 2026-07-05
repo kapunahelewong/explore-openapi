@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -264,7 +269,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/agents/secrets</code></p>
         <p>Lists all secrets available in an organization without revealing their</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -312,9 +317,9 @@
     <section id="get--orgs-org-agents-secrets-secret_name-repositories" class="endpoint">
         <h2>List selected repositories for an organization secret</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/agents/secrets/{secret_name}/repositories</code></p>
-        <p>Lists all repositories that have been selected when the `visibility`</p>
+        <p>Lists all repositories that have been selected when the <code>visibility</code></p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -322,7 +327,7 @@
     <section id="put--orgs-org-agents-secrets-secret_name-repositories" class="endpoint">
         <h2>Set selected repositories for an organization secret</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/agents/secrets/{secret_name}/repositories</code></p>
-        <p>Replaces all repositories for an organization secret when the `visibility`</p>
+        <p>Replaces all repositories for an organization secret when the <code>visibility</code></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -332,7 +337,7 @@
     <section id="put--orgs-org-agents-secrets-secret_name-repositories-repository_id" class="endpoint">
         <h2>Add selected repository to an organization secret</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}</code></p>
-        <p>Adds a repository to an organization secret when the `visibility` for</p>
+        <p>Adds a repository to an organization secret when the <code>visibility</code> for</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -342,7 +347,7 @@
     <section id="delete--orgs-org-agents-secrets-secret_name-repositories-repository_id" class="endpoint">
         <h2>Remove selected repository from an organization secret</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}</code></p>
-        <p>Removes a repository from an organization secret when the `visibility`</p>
+        <p>Removes a repository from an organization secret when the <code>visibility</code></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -354,7 +359,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/agents/variables</code></p>
         <p>Lists all agent variables available in an organization.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 30). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -404,9 +409,9 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/agents/variables/{name}/repositories</code></p>
         <p>Lists all repositories that can access an organization agent variable</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
-        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to `selected`</td><td>no</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to <code>selected</code></td><td>no</td></tr></table></div>
     </section>
     
     <section id="put--orgs-org-agents-variables-name-repositories" class="endpoint">
@@ -416,7 +421,7 @@
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
         <h3>Responses</h3>
-        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to `selected`</td><td>no</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to <code>selected</code></td><td>no</td></tr></table></div>
     </section>
     
     <section id="put--orgs-org-agents-variables-name-repositories-repository_id" class="endpoint">
@@ -426,7 +431,7 @@
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
-        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to `selected`</td><td>no</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to <code>selected</code></td><td>no</td></tr></table></div>
     </section>
     
     <section id="delete--orgs-org-agents-variables-name-repositories-repository_id" class="endpoint">
@@ -436,7 +441,7 @@
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
-        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to `selected`</td><td>no</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Response when the visibility of the variable is not set to <code>selected</code></td><td>no</td></tr></table></div>
     </section>
     
     <section id="get--repos-owner-repo-agents-organization-secrets" class="endpoint">
@@ -444,7 +449,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/organization-secrets</code></p>
         <p>Lists all organization secrets shared with a repository without revealing their encrypted</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -454,7 +459,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/organization-variables</code></p>
         <p>Lists all organization variables shared with a repository.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 30). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -464,7 +469,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/secrets</code></p>
         <p>Lists all secrets available in a repository without revealing their encrypted</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -474,7 +479,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/secrets/public-key</code></p>
         <p>Gets your public key, which you need to encrypt secrets. You need to</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -484,7 +489,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/secrets/{secret_name}</code></p>
         <p>Gets a single repository secret without revealing its encrypted value.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -494,7 +499,7 @@
         <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/agents/secrets/{secret_name}</code></p>
         <p>Creates or updates a repository secret with an encrypted value. Encrypt your secret using</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response when creating a secret</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response when updating a secret</td><td>no</td></tr></table></div>
     </section>
@@ -504,7 +509,7 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/agents/secrets/{secret_name}</code></p>
         <p>Deletes a secret in a repository using the secret name.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr></table></div>
     </section>
@@ -514,7 +519,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/variables</code></p>
         <p>Lists all repository variables.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 30). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -524,7 +529,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/agents/variables</code></p>
         <p>Creates a repository variable that you can reference in a GitHub Actions workflow.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -534,7 +539,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/agents/variables/{name}</code></p>
         <p>Gets a specific variable in a repository.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -544,7 +549,7 @@
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/agents/variables/{name}</code></p>
         <p>Updates a repository variable that you can reference in a GitHub Actions workflow.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr></table></div>
     </section>
@@ -554,7 +559,7 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/agents/variables/{name}</code></p>
         <p>Deletes a repository variable using the variable name.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>name</code></td><td>path</td><td>yes</td><td>The name of the variable.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr></table></div>
     </section>

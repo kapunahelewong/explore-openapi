@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -262,9 +267,9 @@
     <section id="get--licenses" class="endpoint">
         <h2>Get all commonly used licenses</h2>
         <p><code class="route"><span class="method method-get">GET</span> /licenses</code></p>
-        <p>Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."</p>
+        <p>Lists the most commonly used licenses on GitHub. For more information, see &quot;<a href="https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository" target="_blank" rel="noopener">Licensing a repository </a>.&quot;</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>featured</code></td><td>query</td><td>no</td><td></td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>featured</code></td><td>query</td><td>no</td><td></td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr></table></div>
     </section>
@@ -272,7 +277,7 @@
     <section id="get--licenses-license" class="endpoint">
         <h2>Get a license</h2>
         <p><code class="route"><span class="method method-get">GET</span> /licenses/{license}</code></p>
-        <p>Gets information about a specific license. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."</p>
+        <p>Gets information about a specific license. For more information, see &quot;<a href="https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository" target="_blank" rel="noopener">Licensing a repository </a>.&quot;</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>license</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -282,9 +287,9 @@
     <section id="get--repos-owner-repo-license" class="endpoint">
         <h2>Get the license for a repository</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/license</code></p>
-        <p>This method returns the contents of the repository's license file, if one is detected.</p>
+        <p>This method returns the contents of the repository&#x27;s license file, if one is detected.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The Git reference for the results you want to list. The <code>ref</code> for a branch can be formatted either as <code>refs/heads/&lt;branch name&gt;</code> or simply <code>&lt;branch name&gt;</code>. To reference a pull request use <code>refs/pull/&lt;number&gt;/merge</code>.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>

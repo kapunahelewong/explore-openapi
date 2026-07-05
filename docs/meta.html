@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -262,7 +267,7 @@
     <section id="get" class="endpoint">
         <h2>GitHub API Root</h2>
         <p><code class="route"><span class="method method-get">GET</span> /</code></p>
-        <p>Get Hypermedia links to resources accessible in GitHub's REST API</p>
+        <p>Get Hypermedia links to resources accessible in GitHub&#x27;s REST API</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -272,7 +277,7 @@
     <section id="get--meta" class="endpoint">
         <h2>Get GitHub meta information</h2>
         <p><code class="route"><span class="method method-get">GET</span> /meta</code></p>
-        <p>Returns meta information about GitHub, including a list of GitHub's IP addresses. For more information, see "[About GitHub's IP addresses](https://docs.github.com/articles/about-github-s-ip-addresses/)."</p>
+        <p>Returns meta information about GitHub, including a list of GitHub&#x27;s IP addresses. For more information, see &quot;<a href="https://docs.github.com/articles/about-github-s-ip-addresses/" target="_blank" rel="noopener">About GitHub&#x27;s IP addresses</a>.&quot;</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -284,7 +289,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /octocat</code></p>
         <p>Get the octocat as ASCII art</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>s</code></td><td>query</td><td>no</td><td>The words to show in Octocat's speech bubble</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>s</code></td><td>query</td><td>no</td><td>The words to show in Octocat&#x27;s speech bubble</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>no</td></tr></table></div>
     </section>

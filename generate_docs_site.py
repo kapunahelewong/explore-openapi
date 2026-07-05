@@ -14,8 +14,10 @@ Run it with: python3 generate_docs_site.py
 Then open docs/index.html in a browser.
 """
 
+import html
 import json
 import os
+import re
 import urllib.request
 
 # --- Config -----------------------------------------------------------
@@ -144,6 +146,47 @@ def first_description_line(description):
     return ""
 
 
+_MD_LINK_RE = re.compile(r"\[([^\]]+)\]\(([^\s)]+)\)")
+_MD_CODE_RE = re.compile(r"`([^`]+)`")
+_MD_BOLD_RE = re.compile(r"\*\*([^*]+)\*\*")
+
+
+def _resolve_doc_link(match):
+    """
+    GitHub's descriptions link to its own docs both with full URLs and
+    with paths relative to docs.github.com, e.g. "/rest/code-scanning/..."
+    or same-page anchors like "#create-a-check-suite". Since this text is
+    displayed on a different site than the one those relative links assume,
+    a bare "/rest/..." would resolve against *our* domain and 404 -- so
+    anything that isn't already an absolute URL gets docs.github.com
+    prepended, which is where the original text lives.
+    """
+    link_text, url = match.group(1), match.group(2)
+    if not url.startswith(("http://", "https://")):
+        url = "https://docs.github.com" + url
+    return f'<a href="{url}" target="_blank" rel="noopener">{link_text}</a>'
+
+
+def render_text(text):
+    """
+    Escape a piece of spec text for safe HTML embedding, then convert the
+    small subset of Markdown GitHub's descriptions actually use -- links,
+    inline code, and bold -- into real tags.
+
+    Escaping *before* converting matters twice over: it neutralizes any
+    literal '<'/'>'/'&' in the source text (the spec is a trusted source,
+    but this is the boundary where its content becomes HTML, so it's the
+    right place to be defensive), and it doesn't touch the '[', ']', '(',
+    ')', '`', or '*' characters the regexes below match on, so link/code/
+    bold conversion still works on the escaped string.
+    """
+    text = html.escape(text)
+    text = _MD_LINK_RE.sub(_resolve_doc_link, text)
+    text = _MD_CODE_RE.sub(r"<code>\1</code>", text)
+    text = _MD_BOLD_RE.sub(r"<strong>\1</strong>", text)
+    return text
+
+
 def render_parameters_table(spec, parameters):
     """Build an HTML <table> listing every parameter for one endpoint."""
     if not parameters:
@@ -153,10 +196,10 @@ def render_parameters_table(spec, parameters):
     for raw_param in parameters:
         # raw_param might be a $ref, so resolve it to the real parameter object first.
         param = resolve_if_ref(spec, raw_param)
-        name = param["name"]
-        location = param.get("in", "")  # e.g. "path", "query", "header"
+        name = html.escape(param["name"])
+        location = html.escape(param.get("in", ""))  # e.g. "path", "query", "header"
         required = "yes" if param.get("required") else "no"
-        description = first_description_line(param.get("description", ""))
+        description = render_text(first_description_line(param.get("description", "")))
         rows.append(
             f"<tr><td><code>{name}</code></td><td>{location}</td>"
             f"<td>{required}</td><td>{description}</td></tr>"
@@ -201,7 +244,7 @@ def render_responses_table(spec, responses):
     # responses is a dict keyed by status code, e.g. {"200": {...}, "404": {...}}
     for status_code, raw_response in responses.items():
         response = resolve_if_ref(spec, raw_response)
-        description = response.get("description", "")
+        description = render_text(response.get("description", ""))
 
         # not every response has a JSON body (e.g. a 204 No Content)
         content = response.get("content", {})
@@ -228,8 +271,8 @@ def render_endpoint_section(spec, method, path, endpoint):
     tables. This is the "detail" block that the nav links jump down to.
     """
     slug = slugify(method, path)  # used as this section's HTML id, matched by nav links
-    summary = endpoint.get("summary", "")
-    description = first_description_line(endpoint.get("description", ""))
+    summary = render_text(endpoint.get("summary", ""))
+    description = render_text(first_description_line(endpoint.get("description", "")))
     parameters_html = render_parameters_table(spec, endpoint.get("parameters", []))
     responses_html = render_responses_table(spec, endpoint.get("responses", {}))
 
@@ -238,7 +281,7 @@ def render_endpoint_section(spec, method, path, endpoint):
     return f"""
     <section id="{slug}" class="endpoint">
         <h2>{summary}</h2>
-        <p><code class="route"><span class="method method-{method}">{method.upper()}</span> {path}</code></p>
+        <p><code class="route"><span class="method method-{method}">{method.upper()}</span> {html.escape(path)}</code></p>
         <p>{description}</p>
         <h3>Parameters</h3>
         {parameters_html}
@@ -257,7 +300,7 @@ def render_nav(endpoints):
     items = []
     for method, path, endpoint in endpoints:
         slug = slugify(method, path)
-        summary = endpoint.get("summary", "")
+        summary = render_text(endpoint.get("summary", ""))
         items.append(
             f'<li><a href="#{slug}"><span class="method method-{method}">{method.upper()}</span> {summary}</a></li>'
         )
@@ -482,6 +525,11 @@ STYLE = """
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -550,6 +598,7 @@ def render_tag_page(tag, description, endpoints, sections_html):
     """
     nav_html = render_nav(endpoints)
     search_script = render_search_script("endpoint-search", "#endpoint-list li", "no-endpoint-results")
+    description = render_text(description)
 
     return f"""
     <html>
@@ -591,9 +640,9 @@ def render_index_page(tags_with_counts):
     for name, description, count in tags_with_counts:
         cards.append(f"""
         <li class="tag-card">
-            <a href="{name}.html"><strong>{name}</strong></a>
+            <a href="{name}.html"><strong>{html.escape(name)}</strong></a>
             <span class="tag-count">{count} endpoints</span>
-            <p>{description}</p>
+            <p>{render_text(description)}</p>
         </li>
         """)
     tags_html = '<ul class="tag-list" id="tag-list">' + "".join(cards) + "</ul>"

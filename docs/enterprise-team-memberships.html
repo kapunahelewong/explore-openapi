@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -264,7 +269,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/teams/{enterprise-team}/memberships</code></p>
         <p>Lists all team members in an enterprise team.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>enterprise-team</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise team name. You can also substitute this value with the enterprise team id.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>enterprise-team</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise team name. You can also substitute this value with the enterprise team id.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>

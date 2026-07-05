@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -264,7 +269,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/migrations</code></p>
         <p>Lists the most recent migrations, including both exports (which can be started through the REST API) and imports (which cannot be started using the REST API).</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td>Exclude attributes from the API response to improve performance</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td>Exclude attributes from the API response to improve performance</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -286,10 +291,10 @@
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td>Exclude attributes from the API response to improve performance</td></tr></table></div>
         <h3>Responses</h3>
-        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>*   `pending`, which means the migration hasn't started yet.
-*   `exporting`, which means the migration is in progress.
-*   `exported`, which means the migration finished successfully.
-*   `failed`, which means the migration failed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>*   <code>pending</code>, which means the migration hasn&#x27;t started yet.
+*   <code>exporting</code>, which means the migration is in progress.
+*   <code>exported</code>, which means the migration finished successfully.
+*   <code>failed</code>, which means the migration failed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
     
     <section id="get--orgs-org-migrations-migration_id-archive" class="endpoint">
@@ -315,7 +320,7 @@
     <section id="delete--orgs-org-migrations-migration_id-repos-repo_name-lock" class="endpoint">
         <h2>Unlock an organization repository</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock</code></p>
-        <p>Unlocks a repository that was locked for migration. You should unlock each migrated repository and [delete them](https://docs.github.com/rest/repos/repos#delete-a-repository) when the migration is complete and you no longer need the source data.</p>
+        <p>Unlocks a repository that was locked for migration. You should unlock each migrated repository and <a href="https://docs.github.com/rest/repos/repos#delete-a-repository" target="_blank" rel="noopener">delete them</a> when the migration is complete and you no longer need the source data.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>repo_name</code></td><td>path</td><td>yes</td><td>repo_name parameter</td></tr></table></div>
         <h3>Responses</h3>
@@ -327,7 +332,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/migrations/{migration_id}/repositories</code></p>
         <p>List all the repositories for this organization migration.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -337,7 +342,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/import</code></p>
         <p>View the progress of an import.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -347,7 +352,7 @@
         <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/import</code></p>
         <p>Start a source import to a GitHub repository using GitHub Importer.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -357,7 +362,7 @@
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/import</code></p>
         <p>An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -367,7 +372,7 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/import</code></p>
         <p>Stop an import for a repository.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -375,9 +380,9 @@
     <section id="get--repos-owner-repo-import-authors" class="endpoint">
         <h2>Get commit authors</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/import/authors</code></p>
-        <p>Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.</p>
+        <p>Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username <code>hubot</code> into something like <code>hubot &lt;hubot@12341234-abab-fefe-8787-fedcba987654&gt;</code>.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>A user ID. Only return users with an ID greater than this ID.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>A user ID. Only return users with an ID greater than this ID.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -385,9 +390,9 @@
     <section id="patch--repos-owner-repo-import-authors-author_id" class="endpoint">
         <h2>Map a commit author</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/import/authors/{author_id}</code></p>
-        <p>Update an author's identity for the import. Your application can continue updating authors any time before you push</p>
+        <p>Update an author&#x27;s identity for the import. Your application can continue updating authors any time before you push</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>author_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>author_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -397,7 +402,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/import/large_files</code></p>
         <p>List files larger than 100MB found during the import</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -407,7 +412,7 @@
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/import/lfs</code></p>
         <p>You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Unavailable due to service under maintenance.</td><td>yes</td></tr></table></div>
     </section>
@@ -417,7 +422,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/migrations</code></p>
         <p>Lists all migrations a user has started.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -435,7 +440,7 @@
     <section id="get--user-migrations-migration_id" class="endpoint">
         <h2>Get a user migration status</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/migrations/{migration_id}</code></p>
-        <p>Fetches a single user migration. The response includes the `state` of the migration, which can be one of the following values:</p>
+        <p>Fetches a single user migration. The response includes the <code>state</code> of the migration, which can be one of the following values:</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>exclude</code></td><td>query</td><td>no</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -445,7 +450,7 @@
     <section id="get--user-migrations-migration_id-archive" class="endpoint">
         <h2>Download a user migration archive</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/migrations/{migration_id}/archive</code></p>
-        <p>Fetches the URL to download the migration archive as a `tar.gz` file. Depending on the resources your repository uses, the migration archive can contain JSON files with data for these objects:</p>
+        <p>Fetches the URL to download the migration archive as a <code>tar.gz</code> file. Depending on the resources your repository uses, the migration archive can contain JSON files with data for these objects:</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr></table></div>
         <h3>Responses</h3>
@@ -455,7 +460,7 @@
     <section id="delete--user-migrations-migration_id-archive" class="endpoint">
         <h2>Delete a user migration archive</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/migrations/{migration_id}/archive</code></p>
-        <p>Deletes a previous migration archive. Downloadable migration archives are automatically deleted after seven days. Migration metadata, which is returned in the [List user migrations](https://docs.github.com/rest/migrations/users#list-user-migrations) and [Get a user migration status](https://docs.github.com/rest/migrations/users#get-a-user-migration-status) endpoints, will continue to be available even after an archive is deleted.</p>
+        <p>Deletes a previous migration archive. Downloadable migration archives are automatically deleted after seven days. Migration metadata, which is returned in the <a href="https://docs.github.com/rest/migrations/users#list-user-migrations" target="_blank" rel="noopener">List user migrations</a> and <a href="https://docs.github.com/rest/migrations/users#get-a-user-migration-status" target="_blank" rel="noopener">Get a user migration status</a> endpoints, will continue to be available even after an archive is deleted.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr></table></div>
         <h3>Responses</h3>
@@ -465,7 +470,7 @@
     <section id="delete--user-migrations-migration_id-repos-repo_name-lock" class="endpoint">
         <h2>Unlock a user repository</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/migrations/{migration_id}/repos/{repo_name}/lock</code></p>
-        <p>Unlocks a repository. You can lock repositories when you [start a user migration](https://docs.github.com/rest/migrations/users#start-a-user-migration). Once the migration is complete you can unlock each repository to begin using it again or [delete the repository](https://docs.github.com/rest/repos/repos#delete-a-repository) if you no longer need the source data. Returns a status of `404 Not Found` if the repository is not locked.</p>
+        <p>Unlocks a repository. You can lock repositories when you <a href="https://docs.github.com/rest/migrations/users#start-a-user-migration" target="_blank" rel="noopener">start a user migration</a>. Once the migration is complete you can unlock each repository to begin using it again or <a href="https://docs.github.com/rest/repos/repos#delete-a-repository" target="_blank" rel="noopener">delete the repository</a> if you no longer need the source data. Returns a status of <code>404 Not Found</code> if the repository is not locked.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>repo_name</code></td><td>path</td><td>yes</td><td>repo_name parameter</td></tr></table></div>
         <h3>Responses</h3>
@@ -477,7 +482,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/migrations/{migration_id}/repositories</code></p>
         <p>Lists all the repositories for this user migration.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>migration_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the migration.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>

@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -264,7 +269,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/git/blobs</code></p>
         <p></p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed</td><td>yes</td></tr></table></div>
     </section>
@@ -272,9 +277,9 @@
     <section id="get--repos-owner-repo-git-blobs-file_sha" class="endpoint">
         <h2>Get a blob</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/git/blobs/{file_sha}</code></p>
-        <p>The `content` in the response will always be Base64 encoded.</p>
+        <p>The <code>content</code> in the response will always be Base64 encoded.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>file_sha</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>file_sha</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -282,9 +287,9 @@
     <section id="post--repos-owner-repo-git-commits" class="endpoint">
         <h2>Create a commit</h2>
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/git/commits</code></p>
-        <p>Creates a new Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).</p>
+        <p>Creates a new Git <a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects" target="_blank" rel="noopener">commit object</a>.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -292,9 +297,9 @@
     <section id="get--repos-owner-repo-git-commits-commit_sha" class="endpoint">
         <h2>Get a commit object</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/git/commits/{commit_sha}</code></p>
-        <p>Gets a Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).</p>
+        <p>Gets a Git <a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects" target="_blank" rel="noopener">commit object</a>.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>commit_sha</code></td><td>path</td><td>yes</td><td>The SHA of the commit.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>commit_sha</code></td><td>path</td><td>yes</td><td>The SHA of the commit.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -302,9 +307,9 @@
     <section id="get--repos-owner-repo-git-matching-refs-ref" class="endpoint">
         <h2>List matching references</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/git/matching-refs/{ref}</code></p>
-        <p>Returns an array of references from your Git database that match the supplied name. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't exist in the repository, but existing refs start with `:ref`, they will be returned as an array.</p>
+        <p>Returns an array of references from your Git database that match the supplied name. The <code>:ref</code> in the URL must be formatted as <code>heads/&lt;branch name&gt;</code> for branches and <code>tags/&lt;tag name&gt;</code> for tags. If the <code>:ref</code> doesn&#x27;t exist in the repository, but existing refs start with <code>:ref</code>, they will be returned as an array.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see &quot;<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References" target="_blank" rel="noopener">Git References</a>&quot; in the Git documentation.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -312,9 +317,9 @@
     <section id="get--repos-owner-repo-git-ref-ref" class="endpoint">
         <h2>Get a reference</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/git/ref/{ref}</code></p>
-        <p>Returns a single reference from your Git database. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't match an existing ref, a `404` is returned.</p>
+        <p>Returns a single reference from your Git database. The <code>:ref</code> in the URL must be formatted as <code>heads/&lt;branch name&gt;</code> for branches and <code>tags/&lt;tag name&gt;</code> for tags. If the <code>:ref</code> doesn&#x27;t match an existing ref, a <code>404</code> is returned.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see &quot;<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References" target="_blank" rel="noopener">Git References</a>&quot; in the Git documentation.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -324,7 +329,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/git/refs</code></p>
         <p>Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -332,9 +337,9 @@
     <section id="patch--repos-owner-repo-git-refs-ref" class="endpoint">
         <h2>Update a reference</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /repos/{owner}/{repo}/git/refs/{ref}</code></p>
-        <p>Updates the provided reference to point to a new SHA. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</p>
+        <p>Updates the provided reference to point to a new SHA. For more information, see &quot;<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References" target="_blank" rel="noopener">Git References</a>&quot; in the Git documentation.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see &quot;<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References" target="_blank" rel="noopener">Git References</a>&quot; in the Git documentation.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -344,7 +349,7 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/git/refs/{ref}</code></p>
         <p>Deletes the provided reference.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>path</td><td>yes</td><td>The Git reference. For more information, see &quot;<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References" target="_blank" rel="noopener">Git References</a>&quot; in the Git documentation.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, an attempt was made to delete the default branch, or the endpoint has been spammed.</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -352,9 +357,9 @@
     <section id="post--repos-owner-repo-git-tags" class="endpoint">
         <h2>Create a tag object</h2>
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/git/tags</code></p>
-        <p>Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then [create](https://docs.github.com/rest/git/refs#create-a-reference) the `refs/tags/[tag]` reference. If you want to create a lightweight tag, you only have to [create](https://docs.github.com/rest/git/refs#create-a-reference) the tag reference - this call would be unnecessary.</p>
+        <p>Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then <a href="https://docs.github.com/rest/git/refs#create-a-reference" target="_blank" rel="noopener">create</a> the <code>refs/tags/[tag]</code> reference. If you want to create a lightweight tag, you only have to <a href="https://docs.github.com/rest/git/refs#create-a-reference" target="_blank" rel="noopener">create</a> the tag reference - this call would be unnecessary.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -362,9 +367,9 @@
     <section id="get--repos-owner-repo-git-tags-tag_sha" class="endpoint">
         <h2>Get a tag</h2>
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/git/tags/{tag_sha}</code></p>
-        <p>**Signature verification object**</p>
+        <p><strong>Signature verification object</strong></p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>tag_sha</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>tag_sha</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -374,7 +379,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/git/trees</code></p>
         <p>The tree creation API accepts nested entries. If you specify both a tree and a nested path modifying that tree, this endpoint will overwrite the contents of the tree with the new path contents, and create a new tree structure.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>
@@ -384,7 +389,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/git/trees/{tree_sha}</code></p>
         <p>Returns a single tree using the SHA1 value or ref name for that tree.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>tree_sha</code></td><td>path</td><td>yes</td><td>The SHA1 value or ref (branch or tag) name of the tree.</td></tr><tr><td><code>recursive</code></td><td>query</td><td>no</td><td>Setting this parameter to any value returns the objects or subtrees referenced by the tree specified in `:tree_sha`. For example, setting `recursive` to any of the following will enable returning objects or subtrees: `0`, `1`, `"true"`, and `"false"`. Omit this parameter to prevent recursively returning objects or subtrees.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>tree_sha</code></td><td>path</td><td>yes</td><td>The SHA1 value or ref (branch or tag) name of the tree.</td></tr><tr><td><code>recursive</code></td><td>query</td><td>no</td><td>Setting this parameter to any value returns the objects or subtrees referenced by the tree specified in <code>:tree_sha</code>. For example, setting <code>recursive</code> to any of the following will enable returning objects or subtrees: <code>0</code>, <code>1</code>, <code>&quot;true&quot;</code>, and <code>&quot;false&quot;</code>. Omit this parameter to prevent recursively returning objects or subtrees.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">409</span></td><td>Conflict</td><td>yes</td></tr></table></div>
     </section>

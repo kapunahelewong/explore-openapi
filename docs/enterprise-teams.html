@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -264,7 +269,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/teams</code></p>
         <p>List all teams in the enterprise for the authenticated user</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr></table></div>
     </section>
@@ -282,7 +287,7 @@
     <section id="get--enterprises-enterprise-teams-team_slug" class="endpoint">
         <h2>Get an enterprise team</h2>
         <p><code class="route"><span class="method method-get">GET</span> /enterprises/{enterprise}/teams/{team_slug}</code></p>
-        <p>Gets a team using the team's slug. To create the slug, GitHub replaces special characters in the name string, changes all words to lowercase, and replaces spaces with a `-` separator and adds the "ent:" prefix. For example, "My TEam Näme" would become `ent:my-team-name`.</p>
+        <p>Gets a team using the team&#x27;s slug. To create the slug, GitHub replaces special characters in the name string, changes all words to lowercase, and replaces spaces with a <code>-</code> separator and adds the &quot;ent:&quot; prefix. For example, &quot;My TEam Näme&quot; would become <code>ent:my-team-name</code>.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>enterprise</code></td><td>path</td><td>yes</td><td>The slug version of the enterprise name.</td></tr><tr><td><code>team_slug</code></td><td>path</td><td>yes</td><td>The slug of the team name.</td></tr></table></div>
         <h3>Responses</h3>

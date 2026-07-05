@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -262,7 +267,7 @@
     <section id="get--user" class="endpoint">
         <h2>Get the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user</code></p>
-        <p>OAuth app tokens and personal access tokens (classic) need the `user` scope in order for the response to include private profile information.</p>
+        <p>OAuth app tokens and personal access tokens (classic) need the <code>user</code> scope in order for the response to include private profile information.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -272,7 +277,7 @@
     <section id="patch--user" class="endpoint">
         <h2>Update the authenticated user</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /user</code></p>
-        <p>**Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.</p>
+        <p><strong>Note:</strong> If your email is set to private and you send an <code>email</code> parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -282,9 +287,9 @@
     <section id="get--user-blocks" class="endpoint">
         <h2>List users blocked by the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/blocks</code></p>
-        <p>List the users you've blocked on your personal account.</p>
+        <p>List the users you&#x27;ve blocked on your personal account.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -334,7 +339,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/emails</code></p>
         <p>Lists all of your email addresses, and specifies which one is visible</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -342,7 +347,7 @@
     <section id="post--user-emails" class="endpoint">
         <h2>Add an email address for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/emails</code></p>
-        <p>OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.</p>
+        <p>OAuth app tokens and personal access tokens (classic) need the <code>user</code> scope to use this endpoint.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -352,7 +357,7 @@
     <section id="delete--user-emails" class="endpoint">
         <h2>Delete an email address for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/emails</code></p>
-        <p>OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.</p>
+        <p>OAuth app tokens and personal access tokens (classic) need the <code>user</code> scope to use this endpoint.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -364,7 +369,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/followers</code></p>
         <p>Lists the people following the authenticated user.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -374,7 +379,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/following</code></p>
         <p>Lists the people who the authenticated user follows.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -392,7 +397,7 @@
     <section id="put--user-following-username" class="endpoint">
         <h2>Follow a user</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /user/following/{username}</code></p>
-        <p>Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."</p>
+        <p>Note that you&#x27;ll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see &quot;<a href="https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method" target="_blank" rel="noopener">HTTP verbs</a>.&quot;</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
@@ -402,7 +407,7 @@
     <section id="delete--user-following-username" class="endpoint">
         <h2>Unfollow a user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/following/{username}</code></p>
-        <p>OAuth app tokens and personal access tokens (classic) need the `user:follow` scope to use this endpoint.</p>
+        <p>OAuth app tokens and personal access tokens (classic) need the <code>user:follow</code> scope to use this endpoint.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
@@ -412,9 +417,9 @@
     <section id="get--user-gpg_keys" class="endpoint">
         <h2>List GPG keys for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/gpg_keys</code></p>
-        <p>Lists the current user's GPG keys.</p>
+        <p>Lists the current user&#x27;s GPG keys.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -422,7 +427,7 @@
     <section id="post--user-gpg_keys" class="endpoint">
         <h2>Create a GPG key for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/gpg_keys</code></p>
-        <p>Adds a GPG key to the authenticated user's GitHub account.</p>
+        <p>Adds a GPG key to the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -442,7 +447,7 @@
     <section id="delete--user-gpg_keys-gpg_key_id" class="endpoint">
         <h2>Delete a GPG key for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/gpg_keys/{gpg_key_id}</code></p>
-        <p>Removes a GPG key from the authenticated user's GitHub account.</p>
+        <p>Removes a GPG key from the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>gpg_key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the GPG key.</td></tr></table></div>
         <h3>Responses</h3>
@@ -452,9 +457,9 @@
     <section id="get--user-keys" class="endpoint">
         <h2>List public SSH keys for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/keys</code></p>
-        <p>Lists the public SSH keys for the authenticated user's GitHub account.</p>
+        <p>Lists the public SSH keys for the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -462,7 +467,7 @@
     <section id="post--user-keys" class="endpoint">
         <h2>Create a public SSH key for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/keys</code></p>
-        <p>Adds a public SSH key to the authenticated user's GitHub account.</p>
+        <p>Adds a public SSH key to the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -482,7 +487,7 @@
     <section id="delete--user-keys-key_id" class="endpoint">
         <h2>Delete a public SSH key for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/keys/{key_id}</code></p>
-        <p>Removes a public SSH key from the authenticated user's GitHub account.</p>
+        <p>Removes a public SSH key from the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the key.</td></tr></table></div>
         <h3>Responses</h3>
@@ -494,7 +499,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/public_emails</code></p>
         <p>Lists your publicly visible email address, which you can set with the</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -504,7 +509,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/social_accounts</code></p>
         <p>Lists all of your social accounts.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -512,7 +517,7 @@
     <section id="post--user-social_accounts" class="endpoint">
         <h2>Add social accounts for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/social_accounts</code></p>
-        <p>Add one or more social accounts to the authenticated user's profile.</p>
+        <p>Add one or more social accounts to the authenticated user&#x27;s profile.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -522,7 +527,7 @@
     <section id="delete--user-social_accounts" class="endpoint">
         <h2>Delete social accounts for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/social_accounts</code></p>
-        <p>Deletes one or more social accounts from the authenticated user's profile.</p>
+        <p>Deletes one or more social accounts from the authenticated user&#x27;s profile.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -532,9 +537,9 @@
     <section id="get--user-ssh_signing_keys" class="endpoint">
         <h2>List SSH signing keys for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/ssh_signing_keys</code></p>
-        <p>Lists the SSH signing keys for the authenticated user's GitHub account.</p>
+        <p>Lists the SSH signing keys for the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr></table></div>
     </section>
@@ -542,7 +547,7 @@
     <section id="post--user-ssh_signing_keys" class="endpoint">
         <h2>Create a SSH signing key for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/ssh_signing_keys</code></p>
-        <p>Creates an SSH signing key for the authenticated user's GitHub account.</p>
+        <p>Creates an SSH signing key for the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -562,7 +567,7 @@
     <section id="delete--user-ssh_signing_keys-ssh_signing_key_id" class="endpoint">
         <h2>Delete an SSH signing key for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/ssh_signing_keys/{ssh_signing_key_id}</code></p>
-        <p>Deletes an SSH signing key from the authenticated user's GitHub account.</p>
+        <p>Deletes an SSH signing key from the authenticated user&#x27;s GitHub account.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>ssh_signing_key_id</code></td><td>path</td><td>yes</td><td>The unique identifier of the SSH signing key.</td></tr></table></div>
         <h3>Responses</h3>
@@ -572,7 +577,7 @@
     <section id="get--user-account_id" class="endpoint">
         <h2>Get a user using their ID</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/{account_id}</code></p>
-        <p>Provides publicly available information about someone with a GitHub account. This method takes their durable user `ID` instead of their `login`, which can change over time.</p>
+        <p>Provides publicly available information about someone with a GitHub account. This method takes their durable user <code>ID</code> instead of their <code>login</code>, which can change over time.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>account_id</code></td><td>path</td><td>yes</td><td>account_id parameter</td></tr></table></div>
         <h3>Responses</h3>
@@ -584,7 +589,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users</code></p>
         <p>Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>A user ID. Only return users with an ID greater than this ID.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>since</code></td><td>query</td><td>no</td><td>A user ID. Only return users with an ID greater than this ID.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr></table></div>
     </section>
@@ -604,7 +609,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /users/{username}/attestations/bulk-list</code></p>
         <p>List a collection of artifact attestations associated with any entry in a list of subject digests owned by a user.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the <a href="https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers" target="_blank" rel="noopener">Link header</a>. If specified, the query only searches for results before this cursor. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the <a href="https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers" target="_blank" rel="noopener">Link header</a>. If specified, the query only searches for results after this cursor. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -644,7 +649,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/attestations/{subject_digest}</code></p>
         <p>List a collection of artifact attestations with a given subject digest that are associated with repositories owned by a user.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_digest</code></td><td>path</td><td>yes</td><td>Subject Digest</td></tr><tr><td><code>predicate_type</code></td><td>query</td><td>no</td><td>Optional filter for fetching attestations with a given predicate type.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>before</code></td><td>query</td><td>no</td><td>A cursor, as given in the <a href="https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers" target="_blank" rel="noopener">Link header</a>. If specified, the query only searches for results before this cursor. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>after</code></td><td>query</td><td>no</td><td>A cursor, as given in the <a href="https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers" target="_blank" rel="noopener">Link header</a>. If specified, the query only searches for results after this cursor. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_digest</code></td><td>path</td><td>yes</td><td>Subject Digest</td></tr><tr><td><code>predicate_type</code></td><td>query</td><td>no</td><td>Optional filter for fetching attestations with a given predicate type.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -654,7 +659,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/followers</code></p>
         <p>Lists the people following the specified user.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -664,7 +669,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/following</code></p>
         <p>Lists the people who the specified user follows.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -684,7 +689,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/gpg_keys</code></p>
         <p>Lists the GPG keys for a user. This information is accessible by anyone.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -694,7 +699,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/hovercard</code></p>
         <p>Provides hovercard information. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_type</code></td><td>query</td><td>no</td><td>Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.</td></tr><tr><td><code>subject_id</code></td><td>query</td><td>no</td><td>Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>subject_type</code></td><td>query</td><td>no</td><td>Identifies which additional information you&#x27;d like to receive about the person&#x27;s hovercard. Can be <code>organization</code>, <code>repository</code>, <code>issue</code>, <code>pull_request</code>. <strong>Required</strong> when using <code>subject_id</code>.</td></tr><tr><td><code>subject_id</code></td><td>query</td><td>no</td><td>Uses the ID for the <code>subject_type</code> you specified. <strong>Required</strong> when using <code>subject_type</code>.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr></table></div>
     </section>
@@ -704,7 +709,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/keys</code></p>
         <p>Lists the _verified_ public SSH keys for a user. This is accessible by anyone.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -714,7 +719,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/social_accounts</code></p>
         <p>Lists social media accounts for a user. This endpoint is accessible by anyone.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -724,7 +729,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /users/{username}/ssh_signing_keys</code></p>
         <p>Lists the SSH signing keys for a user. This operation is accessible by anyone.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>

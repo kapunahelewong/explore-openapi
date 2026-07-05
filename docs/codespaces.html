@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -264,7 +269,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces</code></p>
         <p>Lists the codespaces associated to a specified organization.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -304,7 +309,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces/secrets</code></p>
         <p>Lists all Codespaces development environment secrets available at the organization-level without revealing their encrypted</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -352,9 +357,9 @@
     <section id="get--orgs-org-codespaces-secrets-secret_name-repositories" class="endpoint">
         <h2>List selected repositories for an organization secret</h2>
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories</code></p>
-        <p>Lists all repositories that have been selected when the `visibility`</p>
+        <p>Lists all repositories that have been selected when the <code>visibility</code></p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -362,7 +367,7 @@
     <section id="put--orgs-org-codespaces-secrets-secret_name-repositories" class="endpoint">
         <h2>Set selected repositories for an organization secret</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories</code></p>
-        <p>Replaces all repositories for an organization development environment secret when the `visibility`</p>
+        <p>Replaces all repositories for an organization development environment secret when the <code>visibility</code></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -372,7 +377,7 @@
     <section id="put--orgs-org-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
         <h2>Add selected repository to an organization secret</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
-        <p>Adds a repository to an organization development environment secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret).</p>
+        <p>Adds a repository to an organization development environment secret when the <code>visibility</code> for repository access is set to <code>selected</code>. The visibility is set when you <a href="https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret" target="_blank" rel="noopener">Create or update an organization secret</a>.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -382,7 +387,7 @@
     <section id="delete--orgs-org-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
         <h2>Remove selected repository from an organization secret</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
-        <p>Removes a repository from an organization development environment secret when the `visibility`</p>
+        <p>Removes a repository from an organization development environment secret when the <code>visibility</code></p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -394,7 +399,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /orgs/{org}/members/{username}/codespaces</code></p>
         <p>Lists the codespaces that a member of an organization has for repositories in that organization.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -402,7 +407,7 @@
     <section id="delete--orgs-org-members-username-codespaces-codespace_name" class="endpoint">
         <h2>Delete a codespace from the organization</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /orgs/{org}/members/{username}/codespaces/{codespace_name}</code></p>
-        <p>Deletes a user's codespace.</p>
+        <p>Deletes a user&#x27;s codespace.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>
@@ -412,7 +417,7 @@
     <section id="post--orgs-org-members-username-codespaces-codespace_name-stop" class="endpoint">
         <h2>Stop a codespace for an organization user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /orgs/{org}/members/{username}/codespaces/{codespace_name}/stop</code></p>
-        <p>Stops a user's codespace.</p>
+        <p>Stops a user&#x27;s codespace.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>org</code></td><td>path</td><td>yes</td><td>The organization name. The name is not case sensitive.</td></tr><tr><td><code>username</code></td><td>path</td><td>yes</td><td>The handle for the GitHub user account.</td></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>
@@ -424,7 +429,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces</code></p>
         <p>Lists the codespaces associated to a specified repository and the authenticated user.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -434,7 +439,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/codespaces</code></p>
         <p>Creates a codespace owned by the authenticated user in the specified repository.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response when the codespace was successfully created</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">202</span></td><td>Response when the codespace creation partially failed but is being retried in the background</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
@@ -444,7 +449,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/devcontainers</code></p>
         <p>Lists the devcontainer.json files associated with a specified repository and the authenticated user. These files</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">400</span></td><td>Bad Request</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -454,7 +459,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/machines</code></p>
         <p>List the machine types available for a given repository based on its configuration.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>location</code></td><td>query</td><td>no</td><td>The location to check for available machines. Assigned by IP if not provided.</td></tr><tr><td><code>client_ip</code></td><td>query</td><td>no</td><td>IP for location auto-detection when proxying a request</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The branch or commit to check for prebuild availability and devcontainer restrictions.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>location</code></td><td>query</td><td>no</td><td>The location to check for available machines. Assigned by IP if not provided.</td></tr><tr><td><code>client_ip</code></td><td>query</td><td>no</td><td>IP for location auto-detection when proxying a request</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The branch or commit to check for prebuild availability and devcontainer restrictions.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -464,7 +469,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/new</code></p>
         <p>Gets the default attributes for codespaces created by the user with the repository.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The branch or commit to check for a default devcontainer path. If not specified, the default branch will be checked.</td></tr><tr><td><code>client_ip</code></td><td>query</td><td>no</td><td>An alternative IP for default location auto-detection, such as when proxying a request.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>no</td><td>The branch or commit to check for a default devcontainer path. If not specified, the default branch will be checked.</td></tr><tr><td><code>client_ip</code></td><td>query</td><td>no</td><td>An alternative IP for default location auto-detection, such as when proxying a request.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response when a user is able to create codespaces from the repository.</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -474,7 +479,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/permissions_check</code></p>
         <p>Checks whether the permissions defined by a given devcontainer configuration have been accepted by the authenticated user.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>yes</td><td>The git reference that points to the location of the devcontainer configuration to use for the permission check. The value of `ref` will typically be a branch name (`heads/BRANCH_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.</td></tr><tr><td><code>devcontainer_path</code></td><td>query</td><td>yes</td><td>Path to the devcontainer.json configuration to use for the permission check.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>ref</code></td><td>query</td><td>yes</td><td>The git reference that points to the location of the devcontainer configuration to use for the permission check. The value of <code>ref</code> will typically be a branch name (<code>heads/BRANCH_NAME</code>). For more information, see &quot;<a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References" target="_blank" rel="noopener">Git References</a>&quot; in the Git documentation.</td></tr><tr><td><code>devcontainer_path</code></td><td>query</td><td>yes</td><td>Path to the devcontainer.json configuration to use for the permission check.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response when the permission check is successful</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">422</span></td><td>Validation failed, or the endpoint has been spammed.</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
@@ -484,7 +489,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/secrets</code></p>
         <p>Lists all development environment secrets available in a repository without revealing their encrypted</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -494,7 +499,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/secrets/public-key</code></p>
         <p>Gets your public key, which you need to encrypt secrets. You need to</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -504,7 +509,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /repos/{owner}/{repo}/codespaces/secrets/{secret_name}</code></p>
         <p>Gets a single repository development environment secret without revealing its encrypted value.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -514,7 +519,7 @@
         <p><code class="route"><span class="method method-put">PUT</span> /repos/{owner}/{repo}/codespaces/secrets/{secret_name}</code></p>
         <p>Creates or updates a repository development environment secret with an encrypted value. Encrypt your secret using</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response when creating a secret</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response when updating a secret</td><td>no</td></tr></table></div>
     </section>
@@ -524,7 +529,7 @@
         <p><code class="route"><span class="method method-delete">DELETE</span> /repos/{owner}/{repo}/codespaces/secrets/{secret_name}</code></p>
         <p>Deletes a development environment secret in a repository using the secret name.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">204</span></td><td>Response</td><td>no</td></tr></table></div>
     </section>
@@ -534,7 +539,7 @@
         <p><code class="route"><span class="method method-post">POST</span> /repos/{owner}/{repo}/pulls/{pull_number}/codespaces</code></p>
         <p>Creates a codespace owned by the authenticated user for the specified pull request.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the `.git` extension. The name is not case sensitive.</td></tr><tr><td><code>pull_number</code></td><td>path</td><td>yes</td><td>The number that identifies the pull request.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>owner</code></td><td>path</td><td>yes</td><td>The account owner of the repository. The name is not case sensitive.</td></tr><tr><td><code>repo</code></td><td>path</td><td>yes</td><td>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</td></tr><tr><td><code>pull_number</code></td><td>path</td><td>yes</td><td>The number that identifies the pull request.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">201</span></td><td>Response when the codespace was successfully created</td><td>yes</td></tr><tr><td><span class="status-badge status-2xx">202</span></td><td>Response when the codespace creation partially failed but is being retried in the background</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr><tr><td><span class="status-badge status-5xx">503</span></td><td>Service unavailable</td><td>yes</td></tr></table></div>
     </section>
@@ -542,9 +547,9 @@
     <section id="get--user-codespaces" class="endpoint">
         <h2>List codespaces for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/codespaces</code></p>
-        <p>Lists the authenticated user's codespaces.</p>
+        <p>Lists the authenticated user&#x27;s codespaces.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>repository_id</code></td><td>query</td><td>no</td><td>ID of the Repository to filter on</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>repository_id</code></td><td>query</td><td>no</td><td>ID of the Repository to filter on</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-3xx">304</span></td><td>Not modified</td><td>no</td></tr><tr><td><span class="status-badge status-5xx">500</span></td><td>Internal Error</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">401</span></td><td>Requires authentication</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">403</span></td><td>Forbidden</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -562,9 +567,9 @@
     <section id="get--user-codespaces-secrets" class="endpoint">
         <h2>List secrets for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets</code></p>
-        <p>Lists all development environment secrets available for a user's codespaces without revealing their</p>
+        <p>Lists all development environment secrets available for a user&#x27;s codespaces without revealing their</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>per_page</code></td><td>query</td><td>no</td><td>The number of results per page (max 100). For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr><tr><td><code>page</code></td><td>query</td><td>no</td><td>The page number of the results to fetch. For more information, see &quot;<a href="https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api" target="_blank" rel="noopener">Using pagination in the REST API</a>.&quot;</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr></table></div>
     </section>
@@ -582,7 +587,7 @@
     <section id="get--user-codespaces-secrets-secret_name" class="endpoint">
         <h2>Get a secret for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets/{secret_name}</code></p>
-        <p>Gets a development environment secret available to a user's codespaces without revealing its encrypted value.</p>
+        <p>Gets a development environment secret available to a user&#x27;s codespaces without revealing its encrypted value.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -592,7 +597,7 @@
     <section id="put--user-codespaces-secrets-secret_name" class="endpoint">
         <h2>Create or update a secret for the authenticated user</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /user/codespaces/secrets/{secret_name}</code></p>
-        <p>Creates or updates a development environment secret for a user's codespace with an encrypted value. Encrypt your secret using</p>
+        <p>Creates or updates a development environment secret for a user&#x27;s codespace with an encrypted value. Encrypt your secret using</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -602,7 +607,7 @@
     <section id="delete--user-codespaces-secrets-secret_name" class="endpoint">
         <h2>Delete a secret for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/codespaces/secrets/{secret_name}</code></p>
-        <p>Deletes a development environment secret from a user's codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret.</p>
+        <p>Deletes a development environment secret from a user&#x27;s codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -612,7 +617,7 @@
     <section id="get--user-codespaces-secrets-secret_name-repositories" class="endpoint">
         <h2>List selected repositories for a user secret</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/secrets/{secret_name}/repositories</code></p>
-        <p>List the repositories that have been granted the ability to use a user's development environment secret.</p>
+        <p>List the repositories that have been granted the ability to use a user&#x27;s development environment secret.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -622,7 +627,7 @@
     <section id="put--user-codespaces-secrets-secret_name-repositories" class="endpoint">
         <h2>Set selected repositories for a user secret</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /user/codespaces/secrets/{secret_name}/repositories</code></p>
-        <p>Select the repositories that will use a user's development environment secret.</p>
+        <p>Select the repositories that will use a user&#x27;s development environment secret.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr></table></div>
         <h3>Responses</h3>
@@ -632,7 +637,7 @@
     <section id="put--user-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
         <h2>Add a selected repository to a user secret</h2>
         <p><code class="route"><span class="method method-put">PUT</span> /user/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
-        <p>Adds a repository to the selected repositories for a user's development environment secret.</p>
+        <p>Adds a repository to the selected repositories for a user&#x27;s development environment secret.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -642,7 +647,7 @@
     <section id="delete--user-codespaces-secrets-secret_name-repositories-repository_id" class="endpoint">
         <h2>Remove a selected repository from a user secret</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/codespaces/secrets/{secret_name}/repositories/{repository_id}</code></p>
-        <p>Removes a repository from the selected repositories for a user's development environment secret.</p>
+        <p>Removes a repository from the selected repositories for a user&#x27;s development environment secret.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>secret_name</code></td><td>path</td><td>yes</td><td>The name of the secret.</td></tr><tr><td><code>repository_id</code></td><td>path</td><td>yes</td><td></td></tr></table></div>
         <h3>Responses</h3>
@@ -652,7 +657,7 @@
     <section id="get--user-codespaces-codespace_name" class="endpoint">
         <h2>Get a codespace for the authenticated user</h2>
         <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/{codespace_name}</code></p>
-        <p>Gets information about a user's codespace.</p>
+        <p>Gets information about a user&#x27;s codespace.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>
@@ -662,7 +667,7 @@
     <section id="patch--user-codespaces-codespace_name" class="endpoint">
         <h2>Update a codespace for the authenticated user</h2>
         <p><code class="route"><span class="method method-patch">PATCH</span> /user/codespaces/{codespace_name}</code></p>
-        <p>Updates a codespace owned by the authenticated user. Currently only the codespace's machine type and recent folders can be modified using this endpoint.</p>
+        <p>Updates a codespace owned by the authenticated user. Currently only the codespace&#x27;s machine type and recent folders can be modified using this endpoint.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>
@@ -672,7 +677,7 @@
     <section id="delete--user-codespaces-codespace_name" class="endpoint">
         <h2>Delete a codespace for the authenticated user</h2>
         <p><code class="route"><span class="method method-delete">DELETE</span> /user/codespaces/{codespace_name}</code></p>
-        <p>Deletes a user's codespace.</p>
+        <p>Deletes a user&#x27;s codespace.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>
@@ -694,7 +699,7 @@
         <p><code class="route"><span class="method method-get">GET</span> /user/codespaces/{codespace_name}/exports/{export_id}</code></p>
         <p>Gets information about an export of a codespace.</p>
         <h3>Parameters</h3>
-        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr><tr><td><code>export_id</code></td><td>path</td><td>yes</td><td>The ID of the export operation, or `latest`. Currently only `latest` is currently supported.</td></tr></table></div>
+        <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr><tr><td><code>export_id</code></td><td>path</td><td>yes</td><td>The ID of the export operation, or <code>latest</code>. Currently only <code>latest</code> is currently supported.</td></tr></table></div>
         <h3>Responses</h3>
         <div class="table-wrap"><table><tr><th>Status</th><th>Description</th><th>Has JSON body</th></tr><tr><td><span class="status-badge status-2xx">200</span></td><td>Response</td><td>yes</td></tr><tr><td><span class="status-badge status-4xx">404</span></td><td>Resource not found</td><td>yes</td></tr></table></div>
     </section>
@@ -722,7 +727,7 @@
     <section id="post--user-codespaces-codespace_name-start" class="endpoint">
         <h2>Start a codespace for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/codespaces/{codespace_name}/start</code></p>
-        <p>Starts a user's codespace.</p>
+        <p>Starts a user&#x27;s codespace.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>
@@ -732,7 +737,7 @@
     <section id="post--user-codespaces-codespace_name-stop" class="endpoint">
         <h2>Stop a codespace for the authenticated user</h2>
         <p><code class="route"><span class="method method-post">POST</span> /user/codespaces/{codespace_name}/stop</code></p>
-        <p>Stops a user's codespace.</p>
+        <p>Stops a user&#x27;s codespace.</p>
         <h3>Parameters</h3>
         <div class="table-wrap"><table><tr><th>Name</th><th>In</th><th>Required</th><th>Description</th></tr><tr><td><code>codespace_name</code></td><td>path</td><td>yes</td><td>The name of the codespace.</td></tr></table></div>
         <h3>Responses</h3>

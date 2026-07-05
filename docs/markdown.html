@@ -186,6 +186,11 @@
        easier to scan across. */
     tr:nth-child(even) td { background: #fafbfd; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    /* Links converted from Markdown inside descriptions (see render_text)
+       -- everywhere except the nav/tag-card/back-link, which already set
+       their own link color and would otherwise be overridden by this. */
+    .intro a, .endpoint p a, td a { color: var(--accent); text-decoration: underline; }
+    .intro a:hover, .endpoint p a:hover, td a:hover { text-decoration: none; }
     /* Response status codes get the same color-coded-pill treatment as
        method badges: green for success, red for error, etc. -- a glance
        at the column tells you which rows are the "happy path". */
@@ -262,7 +267,7 @@
     <section id="post--markdown" class="endpoint">
         <h2>Render a Markdown document</h2>
         <p><code class="route"><span class="method method-post">POST</span> /markdown</code></p>
-        <p>Depending on what is rendered in the Markdown, you may need to provide additional token scopes for labels, such as `issues:read` or `pull_requests:read`.</p>
+        <p>Depending on what is rendered in the Markdown, you may need to provide additional token scopes for labels, such as <code>issues:read</code> or <code>pull_requests:read</code>.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
@@ -272,7 +277,7 @@
     <section id="post--markdown-raw" class="endpoint">
         <h2>Render a Markdown document in raw mode</h2>
         <p><code class="route"><span class="method method-post">POST</span> /markdown/raw</code></p>
-        <p>You must send Markdown as plain text (using a `Content-Type` header of `text/plain` or `text/x-markdown`) to this endpoint, rather than using JSON format. In raw mode, [GitHub Flavored Markdown](https://github.github.com/gfm/) is not supported and Markdown will be rendered in plain format like a README.md file. Markdown content must be 400 KB or less.</p>
+        <p>You must send Markdown as plain text (using a <code>Content-Type</code> header of <code>text/plain</code> or <code>text/x-markdown</code>) to this endpoint, rather than using JSON format. In raw mode, <a href="https://github.github.com/gfm/" target="_blank" rel="noopener">GitHub Flavored Markdown</a> is not supported and Markdown will be rendered in plain format like a README.md file. Markdown content must be 400 KB or less.</p>
         <h3>Parameters</h3>
         <p><em>No parameters.</em></p>
         <h3>Responses</h3>
