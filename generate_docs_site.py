@@ -432,11 +432,14 @@ STYLE = """
        obvious the page actually moved. */
     .endpoint:target { box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-sm); }
     code.route {
+        display: inline-block;
         background: var(--code-bg);
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 6px 10px;
         font-size: 0.95rem;
+        max-width: 100%;
+        overflow-wrap: anywhere;
     }
     /* Base look shared by every method badge; the specific background
        color for each HTTP verb is set by the .method-{verb} rules below. */
@@ -461,7 +464,7 @@ STYLE = """
     .table-wrap {
         border: 1px solid var(--border);
         border-radius: 10px;
-        overflow: hidden;
+        overflow-x: auto;
         margin: 8px 0 20px;
     }
     table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
@@ -521,6 +524,21 @@ STYLE = """
     .tag-card a { text-decoration: none; color: var(--accent); font-size: 1.05rem; font-weight: 700; }
     .tag-count { display: block; color: var(--muted); font-size: 0.78rem; margin: 4px 0; }
     .tag-card p { margin: 6px 0 0; font-size: 0.88rem; }
+    /* Below this width (roughly a phone in portrait), tighten spacing and
+       collapse the two-column layouts (nav, tag grid) down to one so
+       nothing gets squeezed or clipped on a narrow screen. */
+    @media (max-width: 640px) {
+        body { padding: 16px 12px; }
+        .page { padding: 22px 18px; border-radius: 12px; }
+        h1 { font-size: 1.6rem; }
+        .back-link { font-size: 0.8rem; padding: 5px 12px; }
+        nav { padding: 12px 14px; }
+        nav ul { columns: 1; }
+        .tag-list { grid-template-columns: 1fr; }
+        .endpoint { padding: 18px 16px; }
+        th, td { padding: 8px 10px; font-size: 0.85rem; }
+        input[type="search"] { max-width: none; }
+    }
 """
 
 
@@ -538,6 +556,7 @@ def render_tag_page(tag, description, endpoints, sections_html):
     <head>
         <title>{tag.title()} API Reference</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>{STYLE}</style>
     </head>
     <body>
@@ -585,6 +604,7 @@ def render_index_page(tags_with_counts):
     <head>
         <title>GitHub REST API Reference</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>{STYLE}</style>
     </head>
     <body>
